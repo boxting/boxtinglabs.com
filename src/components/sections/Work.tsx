@@ -7,6 +7,10 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Section } from '@/components/ui/Section';
 import { ui } from '@/i18n/ui';
+import AVAImage1 from '@assets/images/ava/AVA_iPhone_Image_1.png';
+import AVAImage2 from '@assets/images/ava/AVA_iPhone_Image_2.png';
+import AVAImage3 from '@assets/images/ava/AVA_iPhone_Image_3.png';
+import AVAImage4 from '@assets/images/ava/AVA_iPhone_Image_4.png';
 
 interface ProjectMetadata {
   images: string[];
@@ -25,9 +29,10 @@ const PROJECT_METADATA: ProjectMetadata[] = [
   {
     type: 'mobile',
     images: [
-      'https://images.unsplash.com/photo-1576696335217-482d57896658?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-      'https://images.unsplash.com/photo-1720962158883-b0f2021fb51e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-      'https://images.unsplash.com/photo-1728026462595-ae9e5884d612?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
+      AVAImage1.src,
+      AVAImage2.src,
+      AVAImage3.src,
+      AVAImage4.src,
     ],
   },
   {
@@ -71,22 +76,27 @@ function ProjectShowcase({ project, viewCaseStudyText }: ProjectShowcaseProps) {
 
       <div
         className={cn(
-          'grid gap-6',
-          isMobile ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'
+          'flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-brand-orange-500/30',
+          isMobile ? 'snap-x snap-mandatory' : ''
         )}
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(254, 93, 28, 0.3) transparent',
+        }}
       >
         {project.images.map((img, idx) => (
           <motion.div
             key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.1 }}
             className={cn(
-              'group relative overflow-hidden rounded-3xl border-4 shadow-2xl transition-transform duration-500 hover:-translate-y-2',
+              'group relative flex-shrink-0 overflow-hidden rounded-3xl border-4 shadow-2xl transition-transform duration-500 hover:-translate-y-2',
               'border-white bg-brand-navy-100 shadow-brand-navy-200',
               'dark:border-brand-navy-700 dark:bg-brand-navy-900 dark:shadow-black/40',
-              isMobile ? 'aspect-[9/19]' : 'aspect-[16/10]'
+              isMobile ? 'aspect-[9/19] w-[280px] snap-center md:w-[320px]' : 'aspect-[16/10] w-[600px] md:w-[700px]',
+              'snap-start'
             )}
           >
             <img
