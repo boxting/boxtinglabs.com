@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { BoxtingLogo } from '@/components/icons/BoxtingLogo';
 
 const meta = {
@@ -58,8 +58,10 @@ export const DarkColorScheme: Story = {
     variant: 'full',
     colorScheme: 'dark',
   },
-  parameters: {
-    backgrounds: { default: 'dark' },
+  globals: {
+    backgrounds: {
+      value: "dark"
+    }
   },
 };
 
