@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://boxtinglabs.com',
+  base: '/boxtinglabs.com',
   integrations: [
     react(),
     tailwind({
