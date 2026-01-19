@@ -5,18 +5,19 @@ import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import { BoxtingLogo } from '@/components/icons/BoxtingLogo';
 
+import { ui } from '@/i18n/ui';
+
 const FOOTER_LINKS = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms of Service', href: '/terms' },
   { label: 'Twitter', href: 'https://twitter.com/boxtinglabs' },
   { label: 'LinkedIn', href: 'https://linkedin.com/company/boxtinglabs' },
 ] as const;
 
 export interface FooterProps {
   className?: string;
+  translations: typeof ui.en.footer;
 }
 
-export function Footer({ className }: FooterProps) {
+export function Footer({ className, translations }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -33,6 +34,8 @@ export function Footer({ className }: FooterProps) {
           <BoxtingLogo variant="full" />
 
           <nav className="flex gap-8 text-sm text-muted-light dark:text-muted-dark">
+            <a href="/privacy" className="transition-colors hover:text-brand-orange-500">{translations.privacy}</a>
+            <a href="/terms" className="transition-colors hover:text-brand-orange-500">{translations.terms}</a>
             {FOOTER_LINKS.map((link) => (
               <a
                 key={link.href}
@@ -48,7 +51,7 @@ export function Footer({ className }: FooterProps) {
           </nav>
 
           <p className="text-sm text-brand-navy-400 dark:text-muted-dark">
-            &copy; {currentYear} Boxting Labs. All rights reserved.
+            &copy; {currentYear} Boxting Labs. {translations.rights}
           </p>
         </div>
       </Container>

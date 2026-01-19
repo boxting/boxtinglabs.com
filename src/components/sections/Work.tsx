@@ -7,21 +7,15 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Section } from '@/components/ui/Section';
+import { ui } from '@/i18n/ui';
 
-interface Project {
-  title: string;
-  category: string;
-  description: string;
+interface ProjectMetadata {
   images: string[];
   type: 'mobile' | 'web';
 }
 
-const PROJECTS: Project[] = [
+const PROJECT_METADATA: ProjectMetadata[] = [
   {
-    title: 'Jalhuca',
-    category: 'Mobile Application',
-    description:
-      'A revolutionary logistics platform connecting local drivers with instant delivery requests. Features real-time tracking, secure payments, and an intuitive driver interface.',
     type: 'mobile',
     images: [
       'https://images.unsplash.com/photo-1728026462595-ae9e5884d612?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
@@ -30,10 +24,6 @@ const PROJECTS: Project[] = [
     ],
   },
   {
-    title: 'Ava Cash',
-    category: 'Fintech Solution',
-    description:
-      'Next-generation personal finance management. Ava Cash empowers users to track expenses, invest in crypto, and manage savings goals with AI-driven insights.',
     type: 'mobile',
     images: [
       'https://images.unsplash.com/photo-1576696335217-482d57896658?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
@@ -42,10 +32,6 @@ const PROJECTS: Project[] = [
     ],
   },
   {
-    title: 'New Transport',
-    category: 'Web Platform',
-    description:
-      'A comprehensive fleet management dashboard for enterprise logistics. Real-time vehicle telemetry, route optimization, and driver performance analytics in one unified view.',
     type: 'web',
     images: [
       'https://images.unsplash.com/photo-1662135426498-72a27149a7dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
@@ -55,10 +41,11 @@ const PROJECTS: Project[] = [
 ];
 
 interface ProjectShowcaseProps {
-  project: Project;
+  project: (typeof ui.en.work.projects)[number] & ProjectMetadata;
+  viewCaseStudyText: string;
 }
 
-function ProjectShowcase({ project }: ProjectShowcaseProps) {
+function ProjectShowcase({ project, viewCaseStudyText }: ProjectShowcaseProps) {
   const isMobile = project.type === 'mobile';
 
   return (
@@ -79,7 +66,7 @@ function ProjectShowcase({ project }: ProjectShowcaseProps) {
           </p>
         </div>
         <Button variant="outline" className="shrink-0">
-          View Case Study <ArrowRight size={16} />
+          {viewCaseStudyText} <ArrowRight size={16} />
         </Button>
       </div>
 
@@ -119,23 +106,29 @@ function ProjectShowcase({ project }: ProjectShowcaseProps) {
 
 export interface WorkProps {
   className?: string;
+  translations: typeof ui.en.work;
 }
 
-export function Work({ className }: WorkProps) {
+export function Work({ className, translations }: WorkProps) {
   return (
     <Section id="work" className={className}>
       <div className="mb-20">
         <h2 className="mb-4 text-display-sm font-bold text-brand-navy-900 dark:text-brand-navy-50 lg:text-display-md">
-          Selected Work
+          {translations.title}
         </h2>
         <p className="text-xl text-muted-light dark:text-muted-dark">
-          A curated selection of our most impactful projects.
+          {translations.subtitle}
         </p>
       </div>
 
-      {PROJECTS.map((project) => (
-        <ProjectShowcase key={project.title} project={project} />
+      {translations.projects.map((project, idx) => (
+        <ProjectShowcase
+          key={project.title}
+          project={{ ...project, ...PROJECT_METADATA[idx] }}
+          viewCaseStudyText={translations.viewCaseStudy}
+        />
       ))}
     </Section>
   );
 }
+

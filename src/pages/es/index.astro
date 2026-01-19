@@ -8,11 +8,11 @@ import { Contact } from '@/components/sections/Contact';
 import { Footer } from '@/components/sections/Footer';
 import { ui } from '@/i18n/ui';
 
-const t = ui.en;
+const t = ui.es;
 ---
 
-<BaseLayout lang="en">
-  <Header client:load lang="en" translations={t.nav} />
+<BaseLayout lang="es" title="Boxting Labs | Socio de Ingeniería de Software Premium">
+  <Header client:load lang="es" translations={t.nav} />
   <main>
     <Hero client:load translations={t.hero} />
     <Services client:visible translations={t.services} />

@@ -8,19 +8,26 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { BoxtingLogo } from '@/components/icons/BoxtingLogo';
-
-const NAV_LINKS = [
-  { label: 'Work', href: '#work' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-] as const;
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 
 export interface HeaderProps {
   className?: string;
+  lang: 'en' | 'es';
+  translations: {
+    work: string;
+    services: string;
+    contact: string;
+  };
 }
 
-export function Header({ className }: HeaderProps) {
+export function Header({ className, lang, translations }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { label: translations.work, href: '#work' },
+    { label: translations.services, href: '#services' },
+  ];
 
   const scrollTo = (id: string) => {
     const element = document.querySelector(id);
@@ -44,13 +51,13 @@ export function Header({ className }: HeaderProps) {
       <Container>
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <a href="/" className="flex items-center">
+          <a href={lang === 'en' ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}es/`} className="flex items-center">
             <BoxtingLogo variant="full" />
           </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-8 md:flex">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => scrollTo(link.href)}
@@ -63,20 +70,27 @@ export function Header({ className }: HeaderProps) {
                 {link.label}
               </button>
             ))}
+            <div className="flex items-center gap-2 border-l border-border-light pl-6 dark:border-border-dark">
+              <ThemeToggle />
+              <LanguageSwitcher currentLang={lang} />
+            </div>
             <Button size="sm" onClick={() => scrollTo('#contact')}>
-              Let's Talk
+              {translations.contact}
             </Button>
           </nav>
 
           {/* Mobile Menu Toggle */}
-          <button
-            className="p-2 text-brand-navy-900 dark:text-brand-navy-50 md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isMenuOpen}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-4 md:hidden">
+            <ThemeToggle />
+            <button
+              className="p-2 text-brand-navy-900 dark:text-brand-navy-50"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </Container>
 
@@ -95,7 +109,7 @@ export function Header({ className }: HeaderProps) {
           >
             <Container>
               <div className="flex flex-col gap-4 py-6">
-                {NAV_LINKS.map((link) => (
+                {navLinks.map((link) => (
                   <button
                     key={link.href}
                     onClick={() => scrollTo(link.href)}
@@ -108,8 +122,14 @@ export function Header({ className }: HeaderProps) {
                     {link.label}
                   </button>
                 ))}
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm font-medium text-muted-light dark:text-muted-dark">
+                    Switch Language
+                  </span>
+                  <LanguageSwitcher currentLang={lang} />
+                </div>
                 <Button className="mt-2 w-full" onClick={() => scrollTo('#contact')}>
-                  Let's Talk
+                  {translations.contact}
                 </Button>
               </div>
             </Container>

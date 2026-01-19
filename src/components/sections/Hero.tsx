@@ -9,15 +9,13 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Container } from '@/components/ui/Container';
 import { BoxtingLogo } from '@/components/icons/BoxtingLogo';
+import { ui } from '@/i18n/ui';
 
-const TYPEWRITER_WORDS = [
-  'generative AI.',
-  'automation workflows.',
-  'web platforms.',
-  'mobile apps.',
-];
+interface TypewriterTextProps {
+  words: readonly string[];
+}
 
-function TypewriterText() {
+function TypewriterText({ words }: TypewriterTextProps) {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [reverse, setReverse] = useState(false);
@@ -31,14 +29,14 @@ function TypewriterText() {
   }, [blink]);
 
   useEffect(() => {
-    if (subIndex === TYPEWRITER_WORDS[index].length + 1 && !reverse) {
+    if (subIndex === words[index].length + 1 && !reverse) {
       setTimeout(() => setReverse(true), 2000);
       return;
     }
 
     if (subIndex === 0 && reverse) {
       setReverse(false);
-      setIndex((prev) => (prev + 1) % TYPEWRITER_WORDS.length);
+      setIndex((prev) => (prev + 1) % words.length);
       return;
     }
 
@@ -47,18 +45,18 @@ function TypewriterText() {
         setSubIndex((prev) => prev + (reverse ? -1 : 1));
       },
       Math.max(
-        reverse ? 50 : subIndex === TYPEWRITER_WORDS[index].length ? 1000 : 100,
+        reverse ? 50 : subIndex === words[index].length ? 1000 : 100,
         Math.random() * 50 + 50
       )
     );
 
     return () => clearTimeout(timeout);
-  }, [subIndex, index, reverse]);
+  }, [subIndex, index, reverse, words]);
 
   return (
     <span className="inline-flex items-center">
       <span className="min-h-[1.1em] bg-gradient-to-r from-brand-orange-500 to-brand-orange-400 bg-clip-text text-transparent">
-        {TYPEWRITER_WORDS[index].substring(0, subIndex)}
+        {words[index].substring(0, subIndex)}
       </span>
       <span
         className={cn(
@@ -72,9 +70,10 @@ function TypewriterText() {
 
 export interface HeroProps {
   className?: string;
+  translations: typeof ui.en.hero;
 }
 
-export function Hero({ className }: HeroProps) {
+export function Hero({ className, translations }: HeroProps) {
   const scrollTo = (id: string) => {
     const element = document.querySelector(id);
     if (element) {
@@ -106,25 +105,24 @@ export function Hero({ className }: HeroProps) {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-orange-500 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-orange-500" />
               </span>
-              Accepting new clients for Q1 2025
+              {translations.badge}
             </Badge>
 
             <h1 className="mb-8 text-display-lg font-bold leading-[1.1] tracking-tight text-brand-navy-900 dark:text-brand-navy-50 lg:text-display-2xl">
-              We craft <br />
-              <TypewriterText />
+              {translations.title} <br />
+              <TypewriterText words={translations.typewriter} />
             </h1>
 
             <p className="mb-10 max-w-lg text-body-lg leading-relaxed text-muted-light dark:text-muted-dark lg:text-xl">
-              Boxting Labs is the premium engineering partner for visionary companies. We
-              translate complex requirements into elegant, scalable software.
+              {translations.subtitle}
             </p>
 
             <div className="flex flex-wrap gap-4">
               <Button size="lg" onClick={() => scrollTo('#contact')}>
-                Start a Project <ArrowRight size={20} />
+                {translations.cta.primary} <ArrowRight size={20} />
               </Button>
               <Button size="lg" variant="outline" onClick={() => scrollTo('#work')}>
-                View Case Studies
+                {translations.cta.secondary}
               </Button>
             </div>
           </motion.div>
