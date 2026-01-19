@@ -38,7 +38,7 @@ export function BoxtingLogo({
         )}
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        boxting<span className="text-brand-orange-500">labs</span>
+        boxting <span className="text-brand-orange-500">labs</span>
       </span>
     );
   }
@@ -55,7 +55,7 @@ export function BoxtingLogo({
         )}
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        boxting<span className="text-brand-orange-500">labs</span>
+        boxting <span className="text-brand-orange-500">labs</span>
       </span>
     </div>
   );

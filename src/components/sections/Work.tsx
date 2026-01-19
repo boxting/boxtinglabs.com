@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Smartphone, Monitor } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -95,6 +94,9 @@ function ProjectShowcase({ project, viewCaseStudyText }: ProjectShowcaseProps) {
               alt={`${project.title} screenshot ${idx + 1}`}
               className="h-full w-full object-cover"
               loading="lazy"
+              decoding="async"
+              width={isMobile ? 400 : 800}
+              height={isMobile ? 844 : 500}
             />
             <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
           </motion.div>

@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.boxtinglabs.com/sitemap-index.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Block specific crawlers if needed (uncomment to use)
+# User-agent: BadBot
+# Disallow: /

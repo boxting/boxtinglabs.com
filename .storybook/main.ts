@@ -21,6 +21,14 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     return mergeConfig(config, {
       plugins: [tsconfigPaths()],
+      resolve: {
+        alias: {
+          '@': '/src',
+          '@assets': '/src/assets',
+          '@components': '/src/components',
+          '@lib': '/src/lib',
+        },
+      },
     });
   },
 };
