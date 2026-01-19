@@ -97,5 +97,80 @@ const spanishKeywords =
         }
       })();
     </script>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Boxting Labs",
+        "description": "Premium software engineering partner for visionary companies",
+        "url": "https://www.boxtinglabs.com",
+        "logo": "https://www.boxtinglabs.com/og-image.png",
+        "sameAs": ["https://twitter.com/boxtinglabs", "https://linkedin.com/company/boxtinglabs"],
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "addressLocality": "Lima",
+            "addressCountry": "PE"
+          },
+          {
+            "@type": "PostalAddress",
+            "addressCountry": "US"
+          }
+        ],
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "Peru"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          },
+          {
+            "@type": "Place",
+            "name": "Latin America"
+          }
+        ],
+        "knowsAbout": [
+          "Software Development",
+          "Cloud Native Architecture",
+          "Artificial Intelligence Integration",
+          "Mobile Application Development",
+          "Web Application Development",
+          "Enterprise Software Solutions",
+          "Custom Software Engineering"
+        ],
+        "makesOffer": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Cloud Native Development",
+              "description": "Scalable and resilient applications on leading cloud platforms"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "AI Integration",
+              "description": "Intelligent features powered by the latest in machine learning"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Rapid Deployment",
+              "description": "Ideas to production in weeks, not months, without sacrificing quality"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
+  <body class="min-h-screen bg-background-light font-sans antialiased dark:bg-background-dark">
+    <slot />
+  </body>
 </html>
