@@ -4,8 +4,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://boxtinglabs.com',
-  base: '/boxtinglabs.com',
+  site: 'https://www.boxtinglabs.com',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'es'],
