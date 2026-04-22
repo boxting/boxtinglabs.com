@@ -31,12 +31,11 @@ export function BoxtingLogo({
     return (
       <span
         className={cn(
-          'font-bold text-2xl tracking-tight',
+          'font-heading text-2xl tracking-tighter uppercase',
           colorScheme === 'dark' && 'text-white',
-          colorScheme === 'light' && 'text-brand-navy-900',
+          colorScheme === 'light' && 'text-slate-900',
           className
         )}
-        style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         boxting <span className="text-brand-orange-500">labs</span>
       </span>
@@ -46,14 +45,15 @@ export function BoxtingLogo({
   // Full logo
   return (
     <div className={cn('flex items-center gap-3', className)}>
-      <BoxtingLogoImage className="h-10 w-auto" />
+      <div className="h-10 w-10 border-2 border-slate-900 bg-brand-orange-500 p-1.5 dark:border-white">
+        <BoxtingLogoImage className="h-full w-full text-white" />
+      </div>
       <span
         className={cn(
-          'font-bold text-xl tracking-tight',
+          'font-heading text-xl tracking-tighter uppercase',
           colorScheme === 'dark' && 'text-white',
-          colorScheme === 'light' && 'text-brand-navy-900'
+          colorScheme === 'light' && 'text-slate-900'
         )}
-        style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         boxting <span className="text-brand-orange-500">labs</span>
       </span>

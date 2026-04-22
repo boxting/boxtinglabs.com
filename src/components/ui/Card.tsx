@@ -11,19 +11,17 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          'rounded-2xl border',
-          'bg-card-light dark:bg-card-dark',
-          'border-border-light dark:border-border-dark',
-          variant === 'default' && 'shadow-soft',
+          'rounded-none border-2 border-slate-900 bg-white dark:bg-slate-900 dark:border-white',
+          variant === 'default' && 'shadow-[4px_4px_0px_0px_theme(colors.slate.900)] dark:shadow-[4px_4px_0px_0px_white]',
           variant === 'interactive' && [
-            'shadow-soft',
-            'transition-all duration-300',
-            'hover:-translate-y-1 hover:shadow-soft-lg',
-            'dark:hover:shadow-glow-orange',
+            'shadow-[4px_4px_0px_0px_theme(colors.slate.900)] dark:shadow-[4px_4px_0px_0px_white]',
+            'transition-all duration-150',
+            'hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_theme(colors.slate.900)] dark:hover:shadow-[8px_8px_0px_0px_white]',
+            'active:translate-x-0 active:translate-y-0 active:shadow-none',
           ],
           variant === 'glass' && [
-            'backdrop-blur-md',
-            'bg-white/80 dark:bg-brand-navy-900/80',
+            'backdrop-blur-md border-slate-900 dark:border-white',
+            'bg-white/80 dark:bg-slate-900/80',
           ],
           className
         )}
@@ -40,7 +38,7 @@ const CardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('flex flex-col space-y-1.5 p-6', className)}
+    className={cn('flex flex-col space-y-1.5 p-6 border-b-2 border-slate-900 dark:border-white', className)}
     {...props}
   />
 ));
@@ -53,8 +51,8 @@ const CardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      'text-xl font-bold leading-none tracking-tight',
-      'text-brand-navy-900 dark:text-brand-navy-50',
+      'text-xl font-heading font-bold leading-none tracking-tight uppercase',
+      'text-slate-900 dark:text-white',
       className
     )}
     {...props}
@@ -69,8 +67,8 @@ const CardDescription = React.forwardRef<
   <p
     ref={ref}
     className={cn(
-      'text-body-md leading-relaxed',
-      'text-muted-light dark:text-muted-dark',
+      'text-sm font-mono leading-relaxed',
+      'text-slate-600 dark:text-slate-400',
       className
     )}
     {...props}

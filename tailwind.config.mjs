@@ -7,6 +7,18 @@ export default {
       colors: {
         // Brand Colors
         brand: {
+          fuchsia: {
+            50: '#FDF4FF',
+            100: '#FAE8FF',
+            200: '#F5D0FE',
+            300: '#F0ABFB',
+            400: '#E879F9',
+            500: '#D946EF', // New Accent
+            600: '#C026D3',
+            700: '#A21CAF',
+            800: '#86198F',
+            900: '#701A75',
+          },
           orange: {
             50: '#FFF7ED',
             100: '#FFEDD5',
@@ -57,6 +69,8 @@ export default {
       },
       fontFamily: {
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        heading: ['Syncopate', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
       },
       fontSize: {
         // Type scale based on 1.25 ratio (major third)

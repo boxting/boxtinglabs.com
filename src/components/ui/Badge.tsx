@@ -5,32 +5,31 @@ import { cn } from '@/lib/utils';
 const badgeVariants = cva(
   [
     'inline-flex items-center gap-1.5',
-    'rounded-full px-3 py-1',
-    'text-sm font-medium',
-    'transition-colors',
+    'rounded-none px-3 py-1',
+    'text-xs font-heading uppercase tracking-widest',
+    'transition-all border-2 border-slate-900 dark:border-white',
   ],
   {
     variants: {
       variant: {
         default: [
-          'bg-brand-navy-100 text-brand-navy-800',
-          'dark:bg-brand-navy-800 dark:text-brand-navy-100',
+          'bg-white text-slate-900',
+          'dark:bg-slate-900 dark:text-white',
         ],
         primary: [
-          'bg-brand-orange-100 text-brand-orange-700',
-          'dark:bg-brand-orange-900/30 dark:text-brand-orange-400',
+          'bg-brand-orange-500 text-white',
+        ],
+        accent: [
+          'bg-brand-fuchsia-500 text-white',
         ],
         success: [
-          'bg-green-100 text-green-700',
-          'dark:bg-green-900/30 dark:text-green-400',
+          'bg-green-500 text-white',
         ],
         warning: [
-          'bg-amber-100 text-amber-700',
-          'dark:bg-amber-900/30 dark:text-amber-400',
+          'bg-amber-500 text-white',
         ],
         outline: [
-          'border border-current',
-          'text-brand-navy-600 dark:text-brand-navy-400',
+          'bg-transparent text-slate-900 dark:text-white',
         ],
       },
     },
