@@ -13,19 +13,18 @@ export const ui = {
             contact: "Let's Talk",
         },
         hero: {
-            badge: 'Accepting new clients for Q1 2025',
-            title: 'We craft',
+            badge: 'Q1 2025 • OPEN FOR PROJECTS',
+            title: 'ENGINEERING',
             typewriter: [
-                'generative AI.',
-                'automation workflows.',
-                'web platforms.',
-                'mobile apps.',
+                'premium.',
+                'scalable.',
+                'visionary.',
             ],
             subtitle:
-                'Boxting Labs is the premium engineering partner for visionary companies. We translate complex requirements into elegant, scalable software.',
+                'We build the core software systems that scale the worlds most ambitious companies.',
             cta: {
-                primary: 'Start a Project',
-                secondary: 'View Case Studies',
+                primary: 'Work with us',
+                secondary: 'Our Proof',
             },
         },
         services: {
@@ -99,19 +98,18 @@ export const ui = {
             contact: 'Hablemos',
         },
         hero: {
-            badge: 'Aceptando nuevos clientes para Q1 2025',
-            title: 'Creamos',
+            badge: 'Q1 2025 • PROYECTOS ABIERTOS',
+            title: 'INGENIERÍA',
             typewriter: [
-                'IA generativa.',
-                'automatización.',
-                'plataformas web.',
-                'apps móviles.',
+                'premium.',
+                'escalable.',
+                'visionaria.',
             ],
             subtitle:
-                'Boxting Labs es el socio de ingeniería premium para empresas visionarias. Transformamos requisitos complejos en software elegante y escalable.',
+                'Construimos los sistemas de software centrales que escalan las empresas más ambiciosas del mundo.',
             cta: {
-                primary: 'Iniciar Proyecto',
-                secondary: 'Ver Casos de Estudio',
+                primary: 'Hablemos',
+                secondary: 'Nuestro Trabajo',
             },
         },
         services: {

@@ -94,12 +94,10 @@ const spanishKeywords =
       window.addEventListener('load', () => {
         const loader = document.getElementById('global-loader');
         if (loader) {
+          loader.style.opacity = '0';
           setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-              loader.style.display = 'none';
-            }, 500);
-          }, 1500); // Show for at least 1.5s for branding
+            loader.style.display = 'none';
+          }, 800);
         }
       });
     </script>
@@ -177,17 +175,18 @@ const spanishKeywords =
     </script>
   </head>
   <body class="min-h-screen bg-slate-50 font-mono antialiased dark:bg-slate-950">
-    <div id="global-loader">
-      <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-50 dark:bg-slate-950 transition-opacity duration-500">
-        <div class="flex flex-col items-center">
-          <div class="flex gap-2">
-            <div class="h-12 w-12 border-4 border-slate-900 bg-brand-orange-500 animate-bounce"></div>
-            <div class="h-12 w-12 border-4 border-slate-900 bg-brand-fuchsia-500 animate-bounce [animation-delay:0.2s]"></div>
-            <div class="h-12 w-12 border-4 border-slate-900 bg-brand-orange-500 animate-bounce [animation-delay:0.4s]"></div>
+    <div id="global-loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-50 dark:bg-slate-950 transition-opacity duration-700 ease-in-out">
+      <div class="relative flex flex-col items-center">
+        <div class="relative h-32 w-32">
+          <!-- Outer rotating frame -->
+          <div class="absolute inset-0 border-4 border-slate-900 dark:border-white animate-[spin_4s_linear_infinite]"></div>
+          <!-- Inner pulsing logo image -->
+          <div class="absolute inset-0 flex items-center justify-center animate-pulse p-6">
+            <img src="/favicon.svg" alt="Boxting Logo" class="h-full w-full object-contain" />
           </div>
-          <div class="mt-8 font-heading text-lg font-bold tracking-widest text-slate-900 dark:text-white">
-            BOXTING LABS
-          </div>
+        </div>
+        <div class="mt-10 font-heading text-xs font-bold tracking-[0.5em] text-slate-900 dark:text-white uppercase">
+          Factory Initializing
         </div>
       </div>
     </div>
