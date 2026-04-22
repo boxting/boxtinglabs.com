@@ -1,138 +1,125 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Box } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
-import { Container } from '@/components/ui/Container';
 import { BoxtingLogo } from '@/components/icons/BoxtingLogo';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { ui, type NavTranslations } from '@/i18n/ui';
 
 export interface HeaderProps {
-  className?: string;
   lang: 'en' | 'es';
-  translations: {
-    work: string;
-    services: string;
-    contact: string;
-  };
+  translations: NavTranslations;
 }
 
-export function Header({ className, lang, translations }: HeaderProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export function Header({ lang, translations }: HeaderProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
-    { label: translations.work, href: '#work' },
-    { label: translations.services, href: '#services' },
+    { name: translations.work, href: '#work' },
+    { name: translations.services, href: '#services' },
   ];
-
-  const scrollTo = (id: string) => {
-    const element = document.querySelector(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMenuOpen(false);
-  };
 
   return (
     <header
       className={cn(
-        'sticky top-0 z-50',
-        'backdrop-blur-md',
-        'bg-background-light/90 dark:bg-background-dark/90',
-        'border-b border-border-light dark:border-border-dark',
-        'transition-colors duration-300',
-        className
+        'fixed top-0 z-50 w-full transition-all duration-300 px-4 py-4 sm:px-6 lg:px-8',
+        isScrolled ? 'py-2' : 'py-6'
       )}
     >
-      <Container>
-        <div className="flex h-20 items-center justify-between">
-          {/* Logo */}
-          <a href={lang === 'en' ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}es/`} className="flex items-center">
-            <BoxtingLogo variant="full" />
+      <div className="mx-auto max-w-7xl">
+        <nav className="brutalist-box flex items-center justify-between bg-white/90 px-6 py-3 backdrop-blur-md dark:bg-slate-900/90 shadow-[4px_4px_0px_0px_theme(colors.slate.900)] dark:shadow-[4px_4px_0px_0px_white]">
+          <a href="/" className="flex items-center gap-3 group">
+            <div className="h-10 w-10 border-2 border-slate-900 bg-brand-orange-500 p-1.5 transition-transform group-hover:rotate-90 dark:border-white">
+              <BoxtingLogo variant="icon" className="h-full w-full text-white" />
+            </div>
+            <span className="font-heading text-lg font-bold tracking-tighter uppercase">
+              Boxting Labs
+            </span>
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-8 md:flex">
+          {/* Desktop Nav */}
+          <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => scrollTo(link.href)}
-                className={cn(
-                  'text-sm font-medium tracking-wide',
-                  'text-brand-navy-900 dark:text-brand-navy-50',
-                  'transition-colors hover:text-brand-orange-500'
-                )}
+              <a
+                key={link.name}
+                href={link.href}
+                className="font-heading text-xs font-bold uppercase tracking-widest text-slate-600 transition-colors hover:text-brand-orange-500 dark:text-slate-400 dark:hover:text-brand-orange-500"
               >
-                {link.label}
-              </button>
+                {link.name}
+              </a>
             ))}
-            <div className="flex items-center gap-2 border-l border-border-light pl-6 dark:border-border-dark">
-              <ThemeToggle />
+            <div className="h-6 w-[2px] bg-slate-200 dark:bg-slate-700" />
+            <div className="flex items-center gap-4">
               <LanguageSwitcher currentLang={lang} />
+              <ThemeToggle />
+              <a
+                href="#contact"
+                className="brutalist-btn-primary py-2 px-6 text-[10px]"
+              >
+                {translations.contact}
+              </a>
             </div>
-            <Button size="sm" onClick={() => scrollTo('#contact')}>
-              {translations.contact}
-            </Button>
-          </nav>
+          </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="flex items-center gap-4 md:hidden">
-            <ThemeToggle />
-            <button
-              className="p-2 text-brand-navy-900 dark:text-brand-navy-50"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={isMenuOpen}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </Container>
+          <button
+            className="md:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
+          </button>
+        </nav>
+      </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {isMenuOpen && (
+        {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className={cn(
-              'overflow-hidden border-t md:hidden',
-              'bg-white dark:bg-brand-navy-800',
-              'border-border-light dark:border-border-dark'
-            )}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute left-4 right-4 top-24 z-40 md:hidden"
           >
-            <Container>
-              <div className="flex flex-col gap-4 py-6">
+            <div className="brutalist-box-heavy bg-white dark:bg-slate-900">
+              <div className="flex flex-col gap-6">
                 {navLinks.map((link) => (
-                  <button
-                    key={link.href}
-                    onClick={() => scrollTo(link.href)}
-                    className={cn(
-                      'text-left text-base font-medium',
-                      'text-brand-navy-900 dark:text-brand-navy-50',
-                      'transition-colors hover:text-brand-orange-500'
-                    )}
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="font-heading text-2xl font-bold uppercase tracking-tighter text-slate-900 dark:text-white"
                   >
-                    {link.label}
-                  </button>
+                    {link.name}
+                  </a>
                 ))}
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm font-medium text-muted-light dark:text-muted-dark">
-                    Switch Language
-                  </span>
-                  <LanguageSwitcher currentLang={lang} />
+                <div className="border-t-2 border-slate-100 py-6 dark:border-slate-800">
+                  <div className="flex items-center justify-between">
+                    <LanguageSwitcher currentLang={lang} />
+                    <ThemeToggle />
+                  </div>
+                  <a
+                    href="#contact"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="brutalist-btn-primary mt-6 w-full"
+                  >
+                    {translations.contact}
+                  </a>
                 </div>
-                <Button className="mt-2 w-full" onClick={() => scrollTo('#contact')}>
-                  {translations.contact}
-                </Button>
               </div>
-            </Container>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

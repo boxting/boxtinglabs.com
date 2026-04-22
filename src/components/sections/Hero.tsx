@@ -3,13 +3,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Bot, Workflow } from 'lucide-react';
+import { ArrowRight, Bot, Workflow, Box } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
-import { Container } from '@/components/ui/Container';
 import { BoxtingLogo } from '@/components/icons/BoxtingLogo';
-import { ui } from '@/i18n/ui';
+import { ui, type HeroTranslations } from '@/i18n/ui';
 
 interface TypewriterTextProps {
   words: readonly string[];
@@ -19,14 +16,6 @@ function TypewriterText({ words }: TypewriterTextProps) {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [reverse, setReverse] = useState(false);
-  const [blink, setBlink] = useState(true);
-
-  useEffect(() => {
-    const blinkTimeout = setTimeout(() => {
-      setBlink((prev) => !prev);
-    }, 500);
-    return () => clearTimeout(blinkTimeout);
-  }, [blink]);
 
   useEffect(() => {
     if (subIndex === words[index].length + 1 && !reverse) {
@@ -44,33 +33,22 @@ function TypewriterText({ words }: TypewriterTextProps) {
       () => {
         setSubIndex((prev) => prev + (reverse ? -1 : 1));
       },
-      Math.max(
-        reverse ? 50 : subIndex === words[index].length ? 1000 : 100,
-        Math.random() * 50 + 50
-      )
+      reverse ? 50 : 100
     );
 
     return () => clearTimeout(timeout);
   }, [subIndex, index, reverse, words]);
 
   return (
-    <span className="inline-flex items-center">
-      <span className="min-h-[1.1em] bg-gradient-to-r from-brand-orange-500 to-brand-orange-400 bg-clip-text text-transparent">
-        {words[index].substring(0, subIndex)}
-      </span>
-      <span
-        className={cn(
-          'ml-1 h-[1em] w-[3px] bg-brand-orange-500',
-          blink ? 'opacity-100' : 'opacity-0'
-        )}
-      />
+    <span className="inline-block bg-slate-900 px-4 py-1 text-white dark:bg-white dark:text-slate-900">
+      {words[index].substring(0, subIndex)}
     </span>
   );
 }
 
 export interface HeroProps {
   className?: string;
-  translations: typeof ui.en.hero;
+  translations: HeroTranslations;
 }
 
 export function Hero({ className, translations }: HeroProps) {
@@ -82,100 +60,127 @@ export function Hero({ className, translations }: HeroProps) {
   };
 
   return (
-    <section className={cn('relative overflow-hidden px-6 pb-32 pt-20 lg:pb-48 lg:pt-32', className)}>
-      {/* Background Elements */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-dot-pattern text-brand-navy-900/5 dark:text-white/5"
-        />
-        <div className="absolute right-[-10%] top-[-20%] h-[800px] w-[800px] rounded-full bg-blue-100 opacity-30 blur-[120px] dark:bg-blue-900/20" />
-        <div className="absolute bottom-[-20%] left-[-10%] h-[600px] w-[600px] rounded-full bg-orange-100 opacity-20 blur-[100px] dark:bg-orange-900/20" />
-      </div>
-
-      <Container>
-        <div className="relative z-10 grid items-center gap-16 lg:grid-cols-2">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
-            <Badge variant="primary" className="mb-8">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-orange-500 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-orange-500" />
-              </span>
-              {translations.badge}
-            </Badge>
-
-            <h1 className="mb-8 text-display-lg font-bold leading-[1.1] tracking-tight text-brand-navy-900 dark:text-brand-navy-50 lg:text-display-2xl">
-              {translations.title} <br />
-              <TypewriterText words={translations.typewriter} />
-            </h1>
-
-            <p className="mb-10 max-w-lg text-body-lg leading-relaxed text-muted-light dark:text-muted-dark lg:text-xl">
-              {translations.subtitle}
-            </p>
-
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" onClick={() => scrollTo('#contact')}>
-                {translations.cta.primary} <ArrowRight size={20} />
-              </Button>
-              <Button size="lg" variant="outline" onClick={() => scrollTo('#work')}>
-                {translations.cta.secondary}
-              </Button>
-            </div>
-          </motion.div>
-
-          {/* Visual */}
-          <div className="relative flex h-[400px] w-full items-center justify-center lg:h-[500px] lg:justify-end">
+    <section className={cn('relative min-h-screen overflow-hidden bg-grid-slate-900 pt-32 pb-20', className)}>
+      <div className="brutalist-container relative z-10">
+        <div className="grid gap-12 lg:grid-cols-12">
+          {/* Main Content */}
+          <div className="lg:col-span-8">
             <motion.div
-              className={cn(
-                'relative flex h-64 w-64 items-center justify-center rounded-[40px] border shadow-2xl backdrop-blur-xl lg:h-80 lg:w-80',
-                'border-white/80 bg-white/40 shadow-brand-orange-500/10',
-                'dark:border-white/20 dark:bg-brand-navy-800/40 dark:shadow-brand-orange-500/20'
-              )}
-              animate={{
-                y: [-15, 15, -15],
-                rotateY: [-5, 5, -5],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ type: 'spring', damping: 12 }}
+              className="inline-block border-2 border-slate-900 bg-brand-fuchsia-500 px-4 py-2 font-heading text-xs font-bold text-white shadow-[4px_4px_0px_0px_theme(colors.slate.900)] dark:border-white dark:shadow-[4px_4px_0px_0px_white]"
             >
-              <div className="relative z-10 h-24 w-24 lg:h-32 lg:w-32">
-                <BoxtingLogo variant="icon" className="h-full w-full" />
-              </div>
-
-              {/* Decorative elements */}
-              <motion.div
-                className="absolute -right-6 -top-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-orange-500 text-white shadow-lg"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-              >
-                <Bot size={24} />
-              </motion.div>
-
-              <motion.div
-                className={cn(
-                  'absolute -bottom-6 -left-6 flex h-16 w-16 items-center justify-center rounded-full border shadow-lg',
-                  'border-gray-100 bg-white text-brand-navy-900',
-                  'dark:border-brand-navy-700 dark:bg-brand-navy-800 dark:text-white'
-                )}
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              >
-                <Workflow size={24} />
-              </motion.div>
+              {translations.badge}
             </motion.div>
 
-            {/* Orbit ring */}
-            <div className="absolute -z-10 h-[500px] w-[500px] rounded-full border border-brand-orange-300 opacity-20 dark:border-brand-orange-500" />
+            <motion.h1
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, type: 'spring' }}
+              className="mt-8 mb-8 font-heading text-4xl font-bold leading-none tracking-tighter text-slate-900 dark:text-white sm:text-6xl lg:text-8xl"
+            >
+              {translations.title} <br />
+              <TypewriterText words={translations.typewriter} />
+            </motion.h1>
+
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="brutalist-box-heavy relative mb-12 max-w-2xl"
+            >
+              <p className="font-mono text-lg leading-relaxed lg:text-xl">
+                {translations.subtitle}
+              </p>
+              <div className="absolute -right-4 -top-4 bg-brand-orange-500 p-2 text-white border-2 border-slate-900 shadow-[2px_2px_0px_0px_theme(colors.slate.900)] dark:border-white dark:shadow-[2px_2px_0px_0px_white]">
+                <Box size={24} />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-wrap gap-6"
+            >
+              <button
+                onClick={() => scrollTo('#contact')}
+                className="brutalist-btn-primary group"
+              >
+                {translations.cta.primary}
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+              </button>
+              <button
+                onClick={() => scrollTo('#work')}
+                className="brutalist-btn-outline"
+              >
+                {translations.cta.secondary}
+              </button>
+            </motion.div>
+          </div>
+
+          {/* Side Boxes / Factory Elements */}
+          <div className="hidden lg:col-span-4 lg:block">
+            <div className="relative h-full">
+              <motion.div
+                animate={{ 
+                  y: [0, -20, 0],
+                  rotate: [0, 5, 0]
+                }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                className="brutalist-box-heavy absolute top-0 right-0 h-64 w-64 bg-white dark:bg-slate-800"
+              >
+                <div className="flex h-full flex-col items-center justify-center gap-4">
+                  <div className="h-24 w-24">
+                    <BoxtingLogo variant="icon" className="h-full w-full" />
+                  </div>
+                  <div className="font-heading text-sm font-bold uppercase tracking-widest">
+                    Boxting Labs
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                animate={{ 
+                  x: [0, 20, 0],
+                  rotate: [0, -5, 0]
+                }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                className="brutalist-box absolute top-48 -left-12 h-40 w-40 bg-brand-orange-500 text-white"
+              >
+                <div className="flex h-full items-center justify-center">
+                  <Workflow size={48} />
+                </div>
+              </motion.div>
+
+              <motion.div
+                animate={{ 
+                  y: [0, 20, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                className="brutalist-box absolute bottom-12 right-12 h-32 w-32 bg-brand-fuchsia-500 text-white"
+              >
+                <div className="flex h-full items-center justify-center">
+                  <Bot size={48} />
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
-      </Container>
+      </div>
+
+      {/* Marquee Background */}
+      <div className="absolute bottom-0 left-0 right-0 border-t-4 border-slate-900 bg-white py-4 dark:border-white dark:bg-slate-900 overflow-hidden select-none">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...Array(10)].map((_, i) => (
+            <span key={i} className="mx-8 font-heading text-2xl font-bold tracking-widest text-slate-900 dark:text-white">
+              SOFTWARE FACTORY • BOXTING LABS • CUSTOM ENGINEERING • AI INTEGRATION • 
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

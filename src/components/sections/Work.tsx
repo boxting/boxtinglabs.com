@@ -1,12 +1,10 @@
 'use client';
 
+import * as React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Smartphone, Monitor } from 'lucide-react';
+import { ArrowRight, Smartphone, Monitor, Box } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
-import { Section } from '@/components/ui/Section';
-import { ui } from '@/i18n/ui';
+import { ui, type WorkTranslations } from '@/i18n/ui';
 import AVAImage1 from '@assets/images/ava/AVA_iPhone_Image_1.png';
 import AVAImage2 from '@assets/images/ava/AVA_iPhone_Image_2.png';
 import AVAImage3 from '@assets/images/ava/AVA_iPhone_Image_3.png';
@@ -15,19 +13,21 @@ import AVAImage4 from '@assets/images/ava/AVA_iPhone_Image_4.png';
 interface ProjectMetadata {
   images: string[];
   type: 'mobile' | 'web';
+  color: string;
 }
 
 const PROJECT_METADATA: ProjectMetadata[] = [
   {
     type: 'mobile',
+    color: 'bg-blue-500',
     images: [
       'https://images.unsplash.com/photo-1728026462595-ae9e5884d612?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
       'https://images.unsplash.com/photo-1570894808314-677b57f25e45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-      'https://images.unsplash.com/photo-1720962158883-b0f2021fb51e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
     ],
   },
   {
     type: 'mobile',
+    color: 'bg-brand-orange-500',
     images: [
       AVAImage1.src,
       AVAImage2.src,
@@ -37,6 +37,7 @@ const PROJECT_METADATA: ProjectMetadata[] = [
   },
   {
     type: 'web',
+    color: 'bg-brand-fuchsia-500',
     images: [
       'https://images.unsplash.com/photo-1662135426498-72a27149a7dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
       'https://images.unsplash.com/photo-1603702607501-a0e27733e2e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
@@ -44,103 +45,117 @@ const PROJECT_METADATA: ProjectMetadata[] = [
   },
 ];
 
-interface ProjectShowcaseProps {
-  project: (typeof ui.en.work.projects)[number] & ProjectMetadata;
-  viewCaseStudyText: string;
-}
-
-function ProjectShowcase({ project, viewCaseStudyText }: ProjectShowcaseProps) {
-  const isMobile = project.type === 'mobile';
-
-  return (
-    <div className="mb-24 last:mb-0">
-      <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row">
-        <div>
-          <div className="mb-2 flex items-center gap-3">
-            <span className="rounded-lg bg-brand-navy-100 p-2 text-brand-navy-600 dark:bg-white/10 dark:text-brand-navy-300">
-              {isMobile ? <Smartphone size={20} /> : <Monitor size={20} />}
-            </span>
-            <Badge variant="primary">{project.category}</Badge>
-          </div>
-          <h3 className="mb-3 text-display-sm font-bold text-brand-navy-900 dark:text-brand-navy-50 md:text-display-md">
-            {project.title}
-          </h3>
-          <p className="max-w-xl text-body-lg leading-relaxed text-muted-light dark:text-muted-dark">
-            {project.description}
-          </p>
-        </div>
-        <Button variant="outline" className="shrink-0">
-          {viewCaseStudyText} <ArrowRight size={16} />
-        </Button>
-      </div>
-
-      <div
-        className={cn(
-          'flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-brand-orange-500/30',
-          isMobile ? 'snap-x snap-mandatory' : ''
-        )}
-        style={{
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(254, 93, 28, 0.3) transparent',
-        }}
-      >
-        {project.images.map((img, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
-            className={cn(
-              'group relative flex-shrink-0 overflow-hidden rounded-3xl border-4 shadow-2xl transition-transform duration-500 hover:-translate-y-2',
-              'border-white bg-brand-navy-100 shadow-brand-navy-200',
-              'dark:border-brand-navy-700 dark:bg-brand-navy-900 dark:shadow-black/40',
-              isMobile ? 'aspect-[9/19] w-[280px] snap-center md:w-[320px]' : 'aspect-[16/10] w-[600px] md:w-[700px]',
-              'snap-start'
-            )}
-          >
-            <img
-              src={img}
-              alt={`${project.title} screenshot ${idx + 1}`}
-              className="h-full w-full object-cover"
-              loading="lazy"
-              decoding="async"
-              width={isMobile ? 400 : 800}
-              height={isMobile ? 844 : 500}
-            />
-            <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export interface WorkProps {
   className?: string;
-  translations: typeof ui.en.work;
+  translations: WorkTranslations;
 }
 
 export function Work({ className, translations }: WorkProps) {
   return (
-    <Section id="work" className={className}>
-      <div className="mb-20">
-        <h2 className="mb-4 text-display-sm font-bold text-brand-navy-900 dark:text-brand-navy-50 lg:text-display-md">
-          {translations.title}
-        </h2>
-        <p className="text-xl text-muted-light dark:text-muted-dark">
-          {translations.subtitle}
-        </p>
-      </div>
+    <section id="work" className={cn('relative py-24 bg-slate-50 dark:bg-slate-950 border-t-4 border-slate-900 dark:border-white', className)}>
+      <div className="brutalist-container">
+        <div className="mb-20">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block bg-brand-fuchsia-500 px-4 py-1 font-heading text-xs font-bold text-white uppercase tracking-widest border-2 border-slate-900 shadow-[2px_2px_0px_0px_theme(colors.slate.900)] dark:border-white dark:shadow-[2px_2px_0px_0px_white]"
+          >
+            Portfolio
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl font-bold lg:text-7xl"
+          >
+            {translations.title}
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-6 max-w-2xl font-mono text-xl text-slate-600 dark:text-slate-400"
+          >
+            {translations.subtitle}
+          </motion.p>
+        </div>
 
-      {translations.projects.map((project, idx) => (
-        <ProjectShowcase
-          key={project.title}
-          project={{ ...project, ...PROJECT_METADATA[idx] }}
-          viewCaseStudyText={translations.viewCaseStudy}
-        />
-      ))}
-    </Section>
+        <div className="space-y-32">
+          {translations.projects.map((project, index) => {
+            const metadata = PROJECT_METADATA[index];
+            const isEven = index % 2 === 0;
+
+            return (
+              <div
+                key={project.title}
+                className={cn(
+                  "flex flex-col gap-12 lg:items-center",
+                  isEven ? "lg:flex-row" : "lg:flex-row-reverse"
+                )}
+              >
+                {/* Project Info */}
+                <motion.div
+                  initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="flex-1"
+                >
+                  <div className="brutalist-box-heavy relative bg-white dark:bg-slate-800">
+                    <div className="mb-4 flex items-center gap-3">
+                      {metadata.type === 'mobile' ? <Smartphone /> : <Monitor />}
+                      <span className="font-heading text-xs font-bold uppercase tracking-widest text-brand-orange-500">
+                        {project.category}
+                      </span>
+                    </div>
+                    <h3 className="mb-6 text-4xl font-bold lg:text-5xl">{project.title}</h3>
+                    <p className="mb-8 font-mono text-lg text-slate-600 dark:text-slate-400">
+                      {project.description}
+                    </p>
+                    <button className="brutalist-btn-outline w-full group">
+                      {translations.viewCaseStudy}
+                      <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                    </button>
+                    
+                    {/* Decorative Corner */}
+                    <div className={cn(
+                      "absolute -bottom-4 -right-4 h-12 w-12 border-2 border-slate-900 shadow-[2px_2px_0px_0px_theme(colors.slate.900)] dark:border-white dark:shadow-[2px_2px_0px_0px_white]",
+                      metadata.color
+                    )} />
+                  </div>
+                </motion.div>
+
+                {/* Project Images */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  className="flex-1"
+                >
+                  <div className="grid grid-cols-2 gap-4">
+                    {metadata.images.slice(0, 4).map((img, i) => (
+                      <div
+                        key={i}
+                        className={cn(
+                          "brutalist-box p-0 overflow-hidden",
+                          i === 0 && "aspect-video col-span-2",
+                          i > 0 && "aspect-square"
+                        )}
+                      >
+                        <img
+                          src={img}
+                          alt={`${project.title} screen ${i + 1}`}
+                          className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
-

@@ -179,3 +179,12 @@ export const ui = {
         },
     },
 } as const;
+
+export type UI = typeof ui;
+export type Language = keyof UI;
+export type NavTranslations = UI[Language]['nav'];
+export type HeroTranslations = UI[Language]['hero'];
+export type ServicesTranslations = UI[Language]['services'];
+export type WorkTranslations = UI[Language]['work'];
+export type ContactTranslations = UI[Language]['contact'];
+export type FooterTranslations = UI[Language]['footer'];

@@ -1,45 +1,91 @@
 'use client';
 
 import * as React from 'react';
+import { motion } from 'framer-motion';
+import { Send, Mail, MapPin, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Section } from '@/components/ui/Section';
-
-import { ui } from '@/i18n/ui';
+import { ui, type ContactTranslations } from '@/i18n/ui';
 
 export interface ContactProps {
   className?: string;
-  translations: typeof ui.en.contact;
+  translations: ContactTranslations;
 }
 
 export function Contact({ className, translations }: ContactProps) {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-  };
-
   return (
-    <Section id="contact" className={cn('relative overflow-hidden', className)}>
-      <div className="absolute inset-0 -z-10 bg-brand-navy-200/30 dark:bg-brand-navy-800/30" />
+    <section id="contact" className={cn('relative py-24 bg-brand-orange-500 overflow-hidden', className)}>
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-grid-slate-900 opacity-20" />
+      
+      <div className="brutalist-container relative z-10">
+        <div className="grid gap-16 lg:grid-cols-2">
+          {/* Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-8 font-heading text-4xl font-bold leading-none text-white sm:text-6xl lg:text-7xl">
+              {translations.title} <br />
+              <span className="text-slate-900">{translations.highlight}</span>
+            </h2>
+            <p className="mb-12 max-w-lg font-mono text-xl text-white/90">
+              {translations.subtitle}
+            </p>
 
-      <div className="mx-auto max-w-3xl text-center">
-        <h2 className="mb-6 text-display-md font-bold text-brand-navy-900 dark:text-brand-navy-50 lg:text-display-lg">
-          {translations.title}{' '}
-          <span className="text-brand-orange-500">{translations.highlight}</span>
-        </h2>
-        <p className="mb-12 text-xl text-muted-light dark:text-muted-dark">
-          {translations.subtitle}
-        </p>
+            <div className="space-y-6">
+              <div className="brutalist-box flex items-center gap-4 bg-white/10 text-white backdrop-blur-sm border-white shadow-[4px_4px_0px_0px_white]">
+                <div className="flex h-12 w-12 items-center justify-center bg-white text-brand-orange-500">
+                  <Mail size={24} />
+                </div>
+                <span className="font-mono font-bold">hello@boxtinglabs.com</span>
+              </div>
+              <div className="brutalist-box flex items-center gap-4 bg-white/10 text-white backdrop-blur-sm border-white shadow-[4px_4px_0px_0px_white]">
+                <div className="flex h-12 w-12 items-center justify-center bg-white text-brand-orange-500">
+                  <MapPin size={24} />
+                </div>
+                <span className="font-mono font-bold">Delaware, US • Lima, PE</span>
+              </div>
+            </div>
+          </motion.div>
 
-        <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-4 text-left">
-          <Input label={translations.form.name} placeholder="Jane Doe" required />
-          <Input label={translations.form.email} type="email" placeholder="jane@example.com" required />
-          <Button type="submit" className="mt-6 w-full justify-center">
-            {translations.form.submit}
-          </Button>
-        </form>
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <form className="brutalist-box-heavy space-y-8 bg-white dark:bg-slate-800" onSubmit={(e) => e.preventDefault()}>
+              <div className="space-y-2">
+                <label className="font-heading text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                  {translations.form.name}
+                </label>
+                <input
+                  type="text"
+                  className="w-full border-b-4 border-slate-900 bg-transparent py-4 font-mono text-xl outline-none focus:border-brand-fuchsia-500 dark:border-white dark:focus:border-brand-fuchsia-500 transition-colors"
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-heading text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                  {translations.form.email}
+                </label>
+                <input
+                  type="email"
+                  className="w-full border-b-4 border-slate-900 bg-transparent py-4 font-mono text-xl outline-none focus:border-brand-fuchsia-500 dark:border-white dark:focus:border-brand-fuchsia-500 transition-colors"
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <button className="brutalist-btn-primary w-full group">
+                {translations.form.submit}
+                <Send className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </button>
+            </form>
+          </motion.div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
