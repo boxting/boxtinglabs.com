@@ -1,0 +1,60 @@
+---
+import type { ui } from '@/i18n/ui';
+
+interface Props {
+  t: typeof ui.es.capabilities;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="capabilities" class="relative bg-ink text-cream py-10 md:py-10 overflow-hidden">
+  <!-- Inverse iso pattern (white over ink) -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 opacity-[0.06]"
+    style="background-image: url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='64' viewBox='0 0 56 64'><g fill='none' stroke='%23F8F3EB' stroke-width='1'><path d='M28 4 L52 18 L52 46 L28 60 L4 46 L4 18 Z'/><path d='M28 4 L28 32 M28 32 L52 18 M28 32 L4 18'/></g></svg>&quot;); background-size: 56px 64px;"
+  ></div>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange/60 to-transparent"></div>
+
+  <div class="page relative" data-stagger="100">
+    <div class="grid grid-cols-12 gap-6 items-end">
+      <div class="col-span-12 md:col-span-7">
+        <p class="eyebrow reveal" style="color: #FF8D5C;">{t.eyebrow}</p>
+        <h2
+          class="reveal mt-4 text-cream"
+          style="font-size: clamp(36px, 5vw, 56px); line-height: 1.04; letter-spacing: -0.04em; font-weight: 700;"
+        >
+          {t.heading}
+        </h2>
+      </div>
+      <div class="col-span-12 md:col-span-5">
+        <p class="reveal text-body max-w-prose" style="color: rgba(248,243,235,0.78);">
+          {t.lede}
+        </p>
+      </div>
+    </div>
+
+    <ul class="mt-9 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6" data-stagger="120">
+      {t.items.map((item) => (
+        <li class="reveal">
+          <div
+            class="glass-dark group h-full p-6 md:p-7 transition-all duration-base ease-brand hover:-translate-y-0.5"
+            style="border-radius: 18px;"
+          >
+            <div class="flex items-start gap-5">
+              <span
+                class="mono text-caption pt-1 transition-transform duration-base ease-brand group-hover:-translate-y-0.5"
+                style="color: #FF8D5C; min-width: 28px;"
+              >{item.n}</span>
+              <div class="flex-1">
+                <h3 class="text-h3 text-cream font-semibold transition-colors duration-base ease-brand group-hover:text-orange-300">{item.title}</h3>
+                <p class="mt-2 text-body" style="color: rgba(248,243,235,0.74);">{item.body}</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

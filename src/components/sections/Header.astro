@@ -1,0 +1,139 @@
+---
+import type { ui } from '@/i18n/ui';
+
+interface Props {
+  lang: 'en' | 'es';
+  t: typeof ui.es.nav;
+}
+
+const { lang, t } = Astro.props;
+const otherLangHref = lang === 'es' ? '/en/' : '/';
+const otherLangLabel = lang === 'es' ? 'EN' : 'ES';
+const otherLangAria = lang === 'es' ? 'Switch to English' : 'Cambiar a Español';
+---
+
+<!--
+  Floating glass pill nav. Always visible, top-center.
+  On wide screens: icon + text. On narrow screens: icon-only.
+-->
+<div id="floating-nav" class="floating-nav" data-floating-nav>
+  <div class="floating-nav-inner glass-strong">
+    <a href="#studio" data-nav title={t.manifesto}>
+      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 2.5 L13 5.5 L13 10.5 L8 13.5 L3 10.5 L3 5.5 Z" />
+        <path d="M8 2.5 L8 8 M8 8 L13 5.5 M8 8 L3 5.5" />
+      </svg>
+      <span class="nav-label">{t.manifesto}</span>
+    </a>
+    <a href="#work" data-nav title={t.work}>
+      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="3.5" width="12" height="9" rx="1.5" />
+        <path d="M2 6.5 H14" />
+      </svg>
+      <span class="nav-label">{t.work}</span>
+    </a>
+    <a href="#capabilities" data-nav title={t.capabilities}>
+      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="5" height="5" rx="0.75" />
+        <rect x="9" y="2" width="5" height="5" rx="0.75" />
+        <rect x="2" y="9" width="5" height="5" rx="0.75" />
+        <rect x="9" y="9" width="5" height="5" rx="0.75" />
+      </svg>
+      <span class="nav-label">{t.capabilities}</span>
+    </a>
+    <a href={otherLangHref} class="lang" aria-label={otherLangAria} title={otherLangLabel}>
+      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="8" cy="8" r="6" />
+        <path d="M2 8 H14 M8 2 C 10 4 10 12 8 14 C 6 12 6 4 8 2" />
+      </svg>
+      <span class="nav-label lang-label">{otherLangLabel}</span>
+    </a>
+    <a href="#contact" class="cta">
+      <span class="nav-label">{t.contact}</span>
+      <svg class="nav-icon cta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 7 H12 M12 7 L7.5 2.5 M12 7 L7.5 11.5" />
+      </svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  .floating-nav {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-12px);
+    z-index: 50;
+    opacity: 0;
+    transition:
+      opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .floating-nav.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .floating-nav-inner {
+    display: flex; align-items: center; gap: 2px;
+    padding: 4px;
+    border-radius: 999px;
+  }
+  .floating-nav-inner a {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13.5px; font-weight: 500;
+    letter-spacing: -0.005em; color: #0F1B2D;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: background 0.18s, color 0.18s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .floating-nav-inner a:hover { background: rgba(15,27,45,0.06); }
+  .floating-nav-inner .nav-icon { flex-shrink: 0; }
+  .floating-nav-inner .lang {
+    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px; letter-spacing: 0.1em;
+    color: #8A92A1;
+  }
+  .floating-nav-inner .lang:hover { color: #0F1B2D; background: transparent; }
+  .floating-nav-inner .cta {
+    background: #0F1B2D; color: #FFFDF9;
+  }
+  .floating-nav-inner .cta:hover { background: #FE5D1C; color: white; }
+  .floating-nav-inner .cta-icon { transition: transform 0.2s ease; }
+  .floating-nav-inner .cta:hover .cta-icon { transform: translateX(2px); }
+
+  /* Tablet: drop text labels on the 3 nav items + drop lang text — icons only */
+  @media (max-width: 880px) {
+    .floating-nav-inner a[data-nav] .nav-label { display: none; }
+    .floating-nav-inner a[data-nav] { padding: 9px 11px; }
+    .floating-nav-inner .lang-label { display: none; }
+    .floating-nav-inner .lang { padding: 9px 10px; }
+  }
+
+  /* Mobile: even CTA collapses label to icon */
+  @media (max-width: 480px) {
+    .floating-nav-inner .cta .nav-label { display: none; }
+    .floating-nav-inner .cta { padding: 9px 11px; }
+    .floating-nav-inner { gap: 0; }
+  }
+
+  /* Very small phones: trim padding further */
+  @media (max-width: 360px) {
+    .floating-nav { top: 10px; }
+    .floating-nav-inner { padding: 3px; }
+    .floating-nav-inner a[data-nav], .floating-nav-inner .lang, .floating-nav-inner .cta {
+      padding: 8px 10px;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const nav = document.getElementById('floating-nav');
+    if (!nav) return;
+    // Always visible: just trigger the entrance transition after first paint.
+    requestAnimationFrame(() => requestAnimationFrame(() => nav.classList.add('is-visible')));
+  })();
+</script>

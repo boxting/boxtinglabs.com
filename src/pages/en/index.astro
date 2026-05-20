@@ -10,22 +10,22 @@ import Contact from '@/components/sections/Contact.astro';
 import Footer from '@/components/sections/Footer.astro';
 import { ui } from '@/i18n/ui';
 
-const t = ui.es;
+const t = ui.en;
 ---
 
 <BaseLayout
-  lang="es"
-  title="Boxting Labs — Estudio de software e inteligencia artificial."
-  description="Boxting Labs es un estudio boutique de ingeniería de software e IA con base en Lima. Diseñamos y construimos producto digital para equipos que envían."
+  lang="en"
+  title="Boxting Labs — Software and AI engineering studio."
+  description="Boxting Labs is a boutique software and AI engineering studio based in Lima. We design and build digital product for teams that ship."
 >
-  <Header lang="es" t={t.nav} />
+  <Header lang="en" t={t.nav} />
   <main>
-    <Hero t={t.hero} nav={t.nav} lang="es" />
+    <Hero t={t.hero} nav={t.nav} lang="en" />
     <Partners t={t.partners} />
     <Manifesto t={t.manifesto} />
     <Work t={t.work} />
     <Capabilities t={t.capabilities} />
     <Contact t={t.contact} />
   </main>
-  <Footer lang="es" t={t.footer} hero={t.hero} />
+  <Footer lang="en" t={t.footer} hero={t.hero} />
 </BaseLayout>
