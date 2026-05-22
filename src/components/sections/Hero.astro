@@ -21,39 +21,8 @@ const startLabel = lang === 'es' ? 'Iniciar un proyecto' : 'Start a project';
   <!-- Layer 1: warm paper tint -->
   <div class="hero-tint" aria-hidden="true"></div>
 
-  <!-- Layer 2: pattern (drifting cube field) -->
-  <div class="pattern-layer" aria-hidden="true" data-parallax="0.6">
-    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <symbol id="boxting-cube" viewBox="0 0 144 159">
-          <path d="M67.0003 0.0578601C72.5113 -0.23714 77.8443 0.59586 83.0003 2.55786C98.0003 10.8909 113 19.2249 128 27.5579C135.709 31.5999 140.876 37.7669 143.5 46.0579C144.167 68.0579 144.167 90.0579 143.5 112.058C141.262 119.63 136.762 125.463 130 129.558C113.129 139.16 96.1292 148.493 79.0003 157.558C72.4463 158.639 66.1123 157.972 60.0003 155.558C43.5042 146.478 27.1712 137.144 11.0002 127.558C5.40525 122.967 1.90525 117.134 0.50025 110.058C-0.16675 89.0579 -0.16675 68.0579 0.50025 47.0579C3.80125 38.0889 9.63425 31.2549 18.0002 26.5579C34.1393 17.1589 50.4733 8.32486 67.0003 0.0578601Z" />
-        </symbol>
-        <pattern id="cubePattern" x="0" y="0" width="240" height="270" patternUnits="userSpaceOnUse">
-          <use href="#boxting-cube" x="0"   y="0"   width="144" height="159" fill="#FE5D1C" opacity="0.12" />
-          <use href="#boxting-cube" x="170" y="45"  width="86"  height="95"  fill="#0F1B2D" opacity="0.10" />
-          <use href="#boxting-cube" x="40"  y="165" width="110" height="121" fill="#FE5D1C" opacity="0.07" />
-          <use href="#boxting-cube" x="180" y="180" width="64"  height="71"  fill="#0F1B2D" opacity="0.14" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#cubePattern)" />
-    </svg>
-  </div>
-
-  <!-- Layer 2b: featured cubes — individually animated (parallax depth) -->
-  <div class="featured-cubes" aria-hidden="true" data-parallax="1.6">
-    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <!-- Big slow rotator -->
-      <use href="#boxting-cube" x="1180" y="120" width="260" height="287" fill="#FE5D1C" opacity="0.16" class="cube-spin-slow" />
-      <!-- Mid floating ink -->
-      <use href="#boxting-cube" x="160"  y="180" width="170" height="188" fill="#0F1B2D" opacity="0.10" class="cube-float-a" />
-      <!-- Small pulser -->
-      <use href="#boxting-cube" x="900"  y="540" width="130" height="143" fill="#FE5D1C" opacity="0.18" class="cube-pulse" />
-      <!-- Sliver counter-rotator -->
-      <use href="#boxting-cube" x="500"  y="640" width="96"  height="106" fill="#0F1B2D" opacity="0.12" class="cube-spin-rev" />
-      <!-- Edge accent (top-right peek) -->
-      <use href="#boxting-cube" x="1480" y="-60" width="220" height="243" fill="#FE5D1C" opacity="0.09" class="cube-float-b" />
-    </svg>
-  </div>
+  <!-- Layer 2: pattern (smoothly drifting cube tile, covers full viewport) -->
+  <div class="pattern-layer" aria-hidden="true" data-parallax="0.4"></div>
 
   <!-- Layer 3: hero image slot (drop a file at /src/assets/images/boxting/hero.* then uncomment + import) -->
   <!-- <img id="hero-image" alt="" src="..." /> -->
@@ -107,8 +76,6 @@ const startLabel = lang === 'es' ? 'Iniciar un proyecto' : 'Start a project';
       <a href="#work" class="btn-ghost glass reveal" data-reveal-delay="280">{t.secondaryCta}</a>
     </div>
   </div>
-
-  <div class="footnote reveal" data-reveal-delay="380">{t.footnote}</div>
 </section>
 
 <style>
@@ -129,70 +96,24 @@ const startLabel = lang === 'es' ? 'Iniciar un proyecto' : 'Start a project';
       #FFFDF9;
   }
 
-  /* Layer 2: pattern (slow drift + mouse parallax) */
-  .pattern-layer, .featured-cubes {
-    position: absolute; inset: -10%;
+  /* Layer 2: pattern — covers the entire viewport, drifts smoothly,
+     loops seamlessly at tile boundaries (no scaling, no ease bumps) */
+  .pattern-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
     pointer-events: none;
-    will-change: transform;
+    will-change: background-position, transform;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='270' viewBox='0 0 240 270'><defs><symbol id='c' viewBox='0 0 144 159'><path d='M67 0.06C72.5-0.24 77.8 0.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13 0.5 110.06C-0.17 89.06 -0.17 68.06 0.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 0.06Z'/></symbol></defs><use href='%23c' x='0' y='0' width='144' height='159' fill='%23FE5D1C' fill-opacity='0.12'/><use href='%23c' x='170' y='45' width='86' height='95' fill='%230F1B2D' fill-opacity='0.10'/><use href='%23c' x='40' y='165' width='110' height='121' fill='%23FE5D1C' fill-opacity='0.07'/><use href='%23c' x='180' y='180' width='64' height='71' fill='%230F1B2D' fill-opacity='0.14'/></svg>");
+    background-repeat: repeat;
+    background-size: 240px 270px;
+    background-position: 0 0;
+    animation: hero-pattern-drift 80s linear infinite;
     transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
   }
-  .pattern-layer { z-index: 2; }
-  .featured-cubes { z-index: 3; }
-  .pattern-layer svg, .featured-cubes svg { width: 100%; height: 100%; }
-
-  /* Bigger drift + soft mask so the corners breathe */
-  .pattern-layer {
-    animation: hero-drift 32s ease-in-out infinite alternate;
-    -webkit-mask-image: radial-gradient(120% 100% at 50% 50%, #000 35%, rgba(0,0,0,0.55) 70%, transparent 100%);
-            mask-image: radial-gradient(120% 100% at 50% 50%, #000 35%, rgba(0,0,0,0.55) 70%, transparent 100%);
-  }
-  @keyframes hero-drift {
-    0%   { transform: translate3d(calc(-2% + var(--mx, 0px)), calc(-1% + var(--my, 0px)), 0) scale(1.02); }
-    50%  { transform: translate3d(calc(0% + var(--mx, 0px)),  calc(0% + var(--my, 0px)),  0) scale(1.05); }
-    100% { transform: translate3d(calc(2% + var(--mx, 0px)),  calc(1.4% + var(--my, 0px)), 0) scale(1.02); }
-  }
-
-  /* Individual featured cube animations */
-  .cube-spin-slow {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: cube-spin 64s linear infinite;
-  }
-  .cube-spin-rev {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: cube-spin 96s linear infinite reverse;
-  }
-  @keyframes cube-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  .cube-pulse {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: cube-pulse 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  }
-  @keyframes cube-pulse {
-    0%, 100% { transform: scale(1); opacity: 0.16; }
-    50%      { transform: scale(1.08); opacity: 0.28; }
-  }
-  .cube-float-a {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: cube-float-a 12s ease-in-out infinite;
-  }
-  @keyframes cube-float-a {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50%      { transform: translate(14px, -22px) rotate(-3deg); }
-  }
-  .cube-float-b {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: cube-float-b 18s ease-in-out infinite;
-  }
-  @keyframes cube-float-b {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50%      { transform: translate(-22px, 28px) rotate(4deg); }
+  @keyframes hero-pattern-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 240px 270px; }
   }
 
   /* Layer 3: optional hero image */
@@ -204,7 +125,6 @@ const startLabel = lang === 'es' ? 'Iniciar un proyecto' : 'Start a project';
   }
   .hero:has(#hero-image[src]:not([src=""])) .hero-tint { opacity: 0.3; }
   .hero:has(#hero-image[src]:not([src=""])) .pattern-layer { opacity: 0.2; }
-  .hero:has(#hero-image[src]:not([src=""])) .featured-cubes { opacity: 0.3; }
   .hero:has(#hero-image[src]:not([src=""])) .grain { opacity: 0.3; }
 
   /* Layer 4: grain */
@@ -335,33 +255,10 @@ const startLabel = lang === 'es' ? 'Iniciar un proyecto' : 'Start a project';
     .hero-coords { display: none; }
   }
 
-  /* Footnote pinned bottom-center */
-  .footnote {
-    position: absolute;
-    left: 50%;
-    bottom: calc(var(--pad-y) + 6px);
-    transform: translateX(-50%);
-    z-index: 9;
-    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #4A5468;
-    opacity: 0.55;
-    pointer-events: none;
-    white-space: nowrap;
-  }
-  @media (max-width: 1100px) { .footnote { display: none; } }
-
   @media (prefers-reduced-motion: reduce) {
     .pattern-layer,
     .hero-coords .pulse,
-    .eyebrow-chip .eyebrow-dot,
-    .cube-spin-slow,
-    .cube-spin-rev,
-    .cube-pulse,
-    .cube-float-a,
-    .cube-float-b {
+    .eyebrow-chip .eyebrow-dot {
       animation: none !important;
     }
   }
