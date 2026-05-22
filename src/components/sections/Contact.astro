@@ -1,0 +1,287 @@
+---
+import type { ui } from '@/i18n/ui';
+
+interface Props {
+  t: typeof ui.es.contact;
+}
+
+const { t } = Astro.props;
+const mailto = `mailto:${t.email}`;
+---
+
+<section id="contact" class="contact-section" data-track-section="contact">
+  <div class="page">
+    <div class="contact-card reveal">
+      <!-- Background layers -->
+      <div class="cc-bg-base" aria-hidden="true"></div>
+      <div class="cc-bg-pattern" aria-hidden="true">
+        <svg viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <symbol id="cc-cube" viewBox="0 0 144 159">
+              <path d="M67.0003 0.0578601C72.5113 -0.23714 77.8443 0.59586 83.0003 2.55786C98.0003 10.8909 113 19.2249 128 27.5579C135.709 31.5999 140.876 37.7669 143.5 46.0579C144.167 68.0579 144.167 90.0579 143.5 112.058C141.262 119.63 136.762 125.463 130 129.558C113.129 139.16 96.1292 148.493 79.0003 157.558C72.4463 158.639 66.1123 157.972 60.0003 155.558C43.5042 146.478 27.1712 137.144 11.0002 127.558C5.40525 122.967 1.90525 117.134 0.50025 110.058C-0.16675 89.0579 -0.16675 68.0579 0.50025 47.0579C3.80125 38.0889 9.63425 31.2549 18.0002 26.5579C34.1393 17.1589 50.4733 8.32486 67.0003 0.0578601Z" />
+            </symbol>
+            <pattern id="cc-pattern" x="0" y="0" width="240" height="270" patternUnits="userSpaceOnUse">
+              <use href="#cc-cube" x="0"   y="0"   width="144" height="159" fill="#FE5D1C" opacity="0.18" />
+              <use href="#cc-cube" x="170" y="45"  width="86"  height="95"  fill="#F8F3EB" opacity="0.08" />
+              <use href="#cc-cube" x="40"  y="165" width="110" height="121" fill="#FE5D1C" opacity="0.10" />
+              <use href="#cc-cube" x="180" y="180" width="64"  height="71"  fill="#F8F3EB" opacity="0.12" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#cc-pattern)" />
+        </svg>
+      </div>
+      <div class="cc-glow" aria-hidden="true"></div>
+      <div class="cc-grain" aria-hidden="true"></div>
+      <div class="cc-vignette" aria-hidden="true"></div>
+
+      <!-- Content -->
+      <div class="cc-content">
+        <p class="cc-eyebrow">
+          <span class="cc-dot" aria-hidden="true"></span>
+          <span>{t.eyebrow}</span>
+        </p>
+
+        <h2 class="cc-heading">{t.heading}</h2>
+
+        <p class="cc-body">{t.body}</p>
+
+        <form class="cc-form" action={mailto} method="get" aria-label={t.heading}>
+          <a href={mailto} class="cc-input glass-soft" aria-label={t.email} tabindex="-1" data-track-cta="contact-email">
+            <svg class="cc-input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3.5" width="12" height="9" rx="1.5" />
+              <path d="M2.5 4.5 L8 9 L13.5 4.5" />
+            </svg>
+            <span class="cc-input-text">{t.email}</span>
+          </a>
+
+          <a href={mailto} class="cc-send" data-magnetic data-track-cta="contact-send">
+            <span>{t.ctaSend}</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7H12M12 7L7.5 2.5M12 7L7.5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </form>
+
+        <p class="cc-footnote">
+          <span>{t.location}</span>
+          <span class="cc-dot-sm" aria-hidden="true"></span>
+          <span>{t.footnote}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    padding: 40px 0 32px;
+  }
+  @media (min-width: 768px) {
+    .contact-section { padding: 56px 0 40px; }
+  }
+
+  .contact-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 28px;
+    padding: 44px 28px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(15,27,45,0.08);
+    box-shadow:
+      0 40px 80px -32px rgba(15,27,45,0.40),
+      0 8px 24px -12px rgba(15,27,45,0.20);
+  }
+  @media (min-width: 768px) {
+    .contact-card { padding: 64px 64px 56px; border-radius: 32px; }
+  }
+
+  /* ===== Layer 1: deep base (the "photograph") ===== */
+  .cc-bg-base {
+    position: absolute; inset: 0; z-index: -5;
+    background:
+      radial-gradient(80% 60% at 80% 30%, #1a2638 0%, #0f1b2d 60%),
+      radial-gradient(60% 50% at 12% 90%, #1f2a3f 0%, #0f1b2d 70%),
+      #0f1b2d;
+  }
+  /* ===== Layer 2: cube pattern ===== */
+  .cc-bg-pattern {
+    position: absolute; inset: -8%; z-index: -4;
+    pointer-events: none;
+    animation: cc-drift 44s ease-in-out infinite alternate;
+    -webkit-mask-image: radial-gradient(120% 100% at 50% 50%, #000 30%, rgba(0,0,0,0.55) 70%, transparent 100%);
+            mask-image: radial-gradient(120% 100% at 50% 50%, #000 30%, rgba(0,0,0,0.55) 70%, transparent 100%);
+  }
+  .cc-bg-pattern svg { width: 100%; height: 100%; }
+  @keyframes cc-drift {
+    0%   { transform: translate3d(-1%, 0.5%, 0) scale(1.02); }
+    100% { transform: translate3d(1.5%, -0.8%, 0) scale(1.05); }
+  }
+  /* ===== Layer 3: orange ambient glow ===== */
+  .cc-glow {
+    position: absolute; inset: 0; z-index: -3;
+    background:
+      radial-gradient(40% 30% at 80% 78%, rgba(254,93,28,0.40), transparent 60%),
+      radial-gradient(50% 40% at 16% 22%, rgba(254,93,28,0.18), transparent 65%);
+    pointer-events: none;
+  }
+  /* ===== Layer 4: grain ===== */
+  .cc-grain {
+    position: absolute; inset: 0; z-index: -2;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.10 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  /* ===== Layer 5: vignette so center copy stays crisp ===== */
+  .cc-vignette {
+    position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(70% 60% at 50% 50%, transparent 0%, transparent 50%, rgba(15,27,45,0.45) 100%);
+    pointer-events: none;
+  }
+
+  /* ===== Content ===== */
+  .cc-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #FFFDF9;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .cc-eyebrow {
+    display: inline-flex;
+    align-items: center; gap: 10px;
+    margin: 0 auto;
+    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,253,249,0.72);
+  }
+  .cc-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #FE5D1C;
+    box-shadow: 0 0 0 0 rgba(254,93,28, 0.6);
+    animation: cc-pulse 2.4s ease-out infinite;
+  }
+  @keyframes cc-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(254,93,28, 0.6); }
+    70%  { box-shadow: 0 0 0 9px rgba(254,93,28, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(254,93,28, 0); }
+  }
+
+  .cc-heading {
+    margin: 18px 0 0;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 700;
+    color: #FFFDF9;
+    font-size: clamp(32px, 5.4vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .cc-body {
+    margin: 18px auto 0;
+    max-width: 56ch;
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.55;
+    color: rgba(255,253,249,0.74);
+  }
+
+  .cc-form {
+    margin: 28px auto 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 560px;
+    container-type: inline-size;
+  }
+  .cc-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    padding: 0 18px;
+    border-radius: 999px;
+    color: rgba(255,253,249,0.85);
+    background: rgba(255,253,249,0.06) !important;
+    border-color: rgba(255,253,249,0.12) !important;
+    text-decoration: none;
+    overflow: hidden;
+  }
+  .cc-input:hover {
+    background: rgba(255,253,249,0.10) !important;
+    border-color: rgba(255,253,249,0.20) !important;
+  }
+  .cc-input-icon {
+    flex-shrink: 0;
+    color: rgba(255,253,249,0.55);
+  }
+  .cc-input-text {
+    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
+    font-size: clamp(13px, 3cqi, 16px);
+    letter-spacing: -0.005em;
+    color: rgba(255,253,249,0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    min-width: 0;
+  }
+  .cc-send {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 52px;
+    padding: 0 22px;
+    border-radius: 999px;
+    background: #FFFDF9;
+    color: #0F1B2D;
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.18s, color 0.18s, transform 0.12s;
+    box-shadow: 0 12px 28px -10px rgba(0,0,0,0.4);
+  }
+  .cc-send:hover { background: #FE5D1C; color: #FFFDF9; }
+  .cc-send:active { transform: translateY(1px); }
+
+  @media (max-width: 560px) {
+    .cc-form { flex-direction: column; align-items: stretch; }
+    .cc-input { width: 100%; }
+    .cc-send { justify-content: center; width: 100%; }
+  }
+
+  .cc-footnote {
+    margin: 26px auto 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,253,249,0.50);
+  }
+  .cc-dot-sm {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: rgba(255,253,249,0.40);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cc-bg-pattern, .cc-dot { animation: none !important; }
+  }
+</style>

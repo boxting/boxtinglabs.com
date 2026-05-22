@@ -1,112 +1,91 @@
+/**
+ * Tailwind config — Boxting Labs · DESIGN.md v1.0
+ * Tokens are the source of truth. If a value isn't here, it isn't brand.
+ */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Brand Colors
-        brand: {
-          orange: {
-            50: '#FFF7ED',
-            100: '#FFEDD5',
-            200: '#FED7AA',
-            300: '#FDBA74',
-            400: '#FB923C',
-            500: '#F97316', // Primary brand orange
-            600: '#EA580C',
-            700: '#C2410C',
-            800: '#9A3412',
-            900: '#7C2D12',
-          },
-          navy: {
-            50: '#F8FAFC',
-            100: '#F1F5F9',
-            200: '#E2E8F0',
-            300: '#CBD5E1',
-            400: '#94A3B8',
-            500: '#64748B',
-            600: '#475569',
-            700: '#334155',
-            800: '#1E293B',
-            900: '#0F172A', // Primary dark background
-            950: '#020617',
-          },
+        // §3.1 primary
+        orange: {
+          DEFAULT: '#FE5D1C',
+          100: '#FFDCC8',
+          300: '#FF8D5C',
+          500: '#FE5D1C',
+          700: '#D63F00',
         },
-        // Semantic Colors
-        background: {
-          light: '#F8FAFC',
-          dark: '#0F172A',
-        },
-        foreground: {
-          light: '#1A202C',
-          dark: '#F8FAFC',
-        },
-        muted: {
-          light: '#64748B',
-          dark: '#94A3B8',
-        },
-        border: {
-          light: '#E2E8F0',
-          dark: '#334155',
-        },
-        card: {
-          light: '#FFFFFF',
-          dark: '#1E293B',
-        },
+        ink: '#0F1B2D',
+        cream: '#F8F3EB',
+        // §3.3 neutrals
+        paper: '#FFFDF9',
+        sand: '#ECE5D5',
+        steel: '#4A5468',
+        fog: '#8A92A1',
+        // §3.2 accents
+        sky: '#2B5CE6',
+        mint: '#4FA98A',
+        plum: '#6E2F66',
+        // §3.5 semantic
+        danger: '#C03030',
       },
       fontFamily: {
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        mono: ['"DM Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
       },
+      // §4.3 type scale
       fontSize: {
-        // Type scale based on 1.25 ratio (major third)
-        'display-2xl': ['4.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-        'display-xl': ['3.75rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-        'display-lg': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-        'display-md': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
-        'display-sm': ['1.875rem', { lineHeight: '1.3' }],
-        'heading-lg': ['1.5rem', { lineHeight: '1.4' }],
-        'heading-md': ['1.25rem', { lineHeight: '1.4' }],
-        'heading-sm': ['1.125rem', { lineHeight: '1.5' }],
-        'body-lg': ['1.125rem', { lineHeight: '1.6' }],
-        'body-md': ['1rem', { lineHeight: '1.6' }],
-        'body-sm': ['0.875rem', { lineHeight: '1.5' }],
-        'caption': ['0.75rem', { lineHeight: '1.5' }],
+        display: ['80px', { lineHeight: '80px', letterSpacing: '-0.045em', fontWeight: '700' }],
+        h1: ['48px', { lineHeight: '52px', letterSpacing: '-0.035em', fontWeight: '700' }],
+        h2: ['32px', { lineHeight: '40px', letterSpacing: '-0.025em', fontWeight: '600' }],
+        h3: ['22px', { lineHeight: '30px', letterSpacing: '-0.020em', fontWeight: '600' }],
+        body: ['17px', { lineHeight: '26px', letterSpacing: '-0.005em' }],
+        small: ['14px', { lineHeight: '20px' }],
+        caption: ['13px', { lineHeight: '18px', letterSpacing: '0.06em' }],
+        code: ['14px', { lineHeight: '22px' }],
       },
+      // §5.1 spacing (8 px base)
       spacing: {
-        // 8px base grid system
-        '4.5': '1.125rem',
-        '13': '3.25rem',
-        '15': '3.75rem',
-        '18': '4.5rem',
-        '22': '5.5rem',
-        '26': '6.5rem',
-        '30': '7.5rem',
+        1: '4px',
+        2: '8px',
+        3: '12px',
+        4: '16px',
+        5: '24px',
+        6: '32px',
+        7: '48px',
+        8: '64px',
+        9: '96px',
+        10: '128px',
       },
+      // §5.2 radius
       borderRadius: {
-        '4xl': '2rem',
-        '5xl': '2.5rem',
+        sm: '6px',
+        md: '10px',
+        lg: '18px',
+        xl: '28px',
+        full: '9999px',
       },
+      // §5.3 shadow
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'soft-lg': '0 10px 40px -10px rgba(0, 0, 0, 0.1), 0 2px 10px -2px rgba(0, 0, 0, 0.04)',
-        'glow-orange': '0 0 40px -10px rgba(249, 115, 22, 0.3)',
-        'glow-orange-lg': '0 0 60px -10px rgba(249, 115, 22, 0.4)',
+        1: '0 1px 2px rgba(15,27,45,0.06)',
+        2: '0 4px 12px rgba(15,27,45,0.08)',
+        3: '0 20px 40px rgba(15,27,45,0.12), 0 2px 6px rgba(15,27,45,0.06)',
+        orange: '0 8px 24px rgba(254,93,28,0.30)',
       },
-      animation: {
-        'float': 'float 6s ease-in-out infinite',
-        'float-delayed': 'float 6s ease-in-out 2s infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'spin-slow': 'spin 20s linear infinite',
+      // §5.4 motion
+      transitionTimingFunction: {
+        brand: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        entrance: 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
+      transitionDuration: {
+        quick: '120ms',
+        base: '220ms',
+        entrance: '360ms',
       },
-      backdropBlur: {
-        xs: '2px',
+      maxWidth: {
+        prose: '64ch',
+        page: '1200px',
       },
     },
   },

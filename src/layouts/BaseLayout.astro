@@ -1,5 +1,7 @@
 ---
 import '@/styles/globals.css';
+import { ClientRouter } from 'astro:transitions';
+import ConsentBanner from '@/components/ConsentBanner.astro';
 
 interface Props {
   title?: string;
@@ -8,24 +10,22 @@ interface Props {
 }
 
 const {
-  title = 'Boxting Labs | Premium Software Engineering Partner',
-  description = 'Boxting Labs is the premium engineering partner for visionary companies. We translate complex requirements into elegant, scalable software.',
-  lang = 'en',
+  title = 'Boxting Labs — Estudio de software e inteligencia artificial.',
+  description = 'Boxting Labs es un estudio boutique de ingeniería de software e IA con base en Lima. Trabajamos con pocas compañías al año en producto, infraestructura y sistemas que importan.',
+  lang = 'es',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL('/og-image.jpg', Astro.site);
 
-// Alternate language URLs for i18n
-const alternateURL =
-  lang === 'en'
-    ? new URL('/es' + Astro.url.pathname, Astro.site)
-    : new URL(Astro.url.pathname.replace('/es', ''), Astro.site);
+// ES at /, EN at /en/. Compute alternates for hreflang.
+const alternateESURL = new URL('/', Astro.site);
+const alternateENURL = new URL('/en/', Astro.site);
 
 const englishKeywords =
-  'software development, custom software, cloud native, AI integration, software engineering, LATAM software, Peru developers, US software company, enterprise software, mobile apps, web applications';
+  'software studio, AI studio, engineering studio Lima, boutique software, product engineering, mobile apps, web platforms, infrastructure, applied AI';
 const spanishKeywords =
-  'desarrollo de software, software a medida, arquitectura cloud native, integración de IA, ingeniería de software, software LATAM, desarrolladores Perú, empresa de software EEUU, aplicaciones móviles, aplicaciones web, soluciones empresariales';
+  'estudio de software, estudio de IA, ingeniería de software Lima, software boutique, ingeniería de producto, aplicaciones móviles, plataformas web, infraestructura, IA aplicada';
 ---
 
 <!doctype html>
@@ -34,8 +34,8 @@ const spanishKeywords =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#FFFDF9" />
 
-    <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
@@ -43,134 +43,437 @@ const spanishKeywords =
     <meta name="keywords" content={lang === 'en' ? englishKeywords : spanishKeywords} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Language & Regional -->
-    <link rel="alternate" hreflang={lang === 'en' ? 'en-US' : 'es-PE'} href={canonicalURL} />
-    <link rel="alternate" hreflang={lang === 'en' ? 'es-PE' : 'en-US'} href={alternateURL} />
-    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site)} />
-    <meta name="geo.region" content={lang === 'en' ? 'US' : 'PE-LIM'} />
-    <meta name="geo.placename" content={lang === 'en' ? 'United States' : 'Lima, Peru'} />
+    <link rel="alternate" hreflang="es-PE" href={alternateESURL} />
+    <link rel="alternate" hreflang="en-US" href={alternateENURL} />
+    <link rel="alternate" hreflang="x-default" href={alternateESURL} />
+    <meta name="geo.region" content="PE-LIM" />
+    <meta name="geo.placename" content="Lima, Peru" />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL} />
-    <meta property="og:image:alt" content="Boxting Labs Logo" />
+    <meta property="og:image:alt" content="Boxting Labs" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_PE'} />
     <meta property="og:site_name" content="Boxting Labs" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
-    <meta name="twitter:image:alt" content="Boxting Labs Logo" />
+    <meta name="twitter:image:alt" content="Boxting Labs" />
     <meta name="twitter:site" content="@boxtinglabs" />
     <meta name="twitter:creator" content="@boxtinglabs" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Theme Script -->
-    <script is:inline>
-      (function () {
-        const theme = localStorage.getItem('theme');
-        const isDark =
-          theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        if (isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      })();
-    </script>
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" is:inline>
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Boxting Labs",
-        "description": "Premium software engineering partner for visionary companies",
-        "url": "https://www.boxtinglabs.com",
-        "logo": "https://www.boxtinglabs.com/og-image.jpg",
-        "sameAs": ["https://twitter.com/boxtinglabs", "https://linkedin.com/company/boxtinglabs"],
-        "address": [
-          {
-            "@type": "PostalAddress",
-            "addressLocality": "Lima",
-            "addressCountry": "PE"
-          },
-          {
-            "@type": "PostalAddress",
-            "addressCountry": "US"
-          }
-        ],
-        "areaServed": [
-          {
-            "@type": "Country",
-            "name": "Peru"
-          },
-          {
-            "@type": "Country",
-            "name": "United States"
-          },
-          {
-            "@type": "Place",
-            "name": "Latin America"
-          }
-        ],
-        "knowsAbout": [
-          "Software Development",
-          "Cloud Native Architecture",
-          "Artificial Intelligence Integration",
-          "Mobile Application Development",
-          "Web Application Development",
-          "Enterprise Software Solutions",
-          "Custom Software Engineering"
-        ],
-        "makesOffer": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Cloud Native Development",
-              "description": "Scalable and resilient applications on leading cloud platforms"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "AI Integration",
-              "description": "Intelligent features powered by the latest in machine learning"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Rapid Deployment",
-              "description": "Ideas to production in weeks, not months, without sacrificing quality"
-            }
-          }
-        ]
-      }
-    </script>
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Boxting Labs',
+      description: 'Boutique software and AI engineering studio.',
+      url: 'https://www.boxtinglabs.com',
+      logo: 'https://www.boxtinglabs.com/og-image.jpg',
+      foundingDate: '2018',
+      address: { '@type': 'PostalAddress', addressLocality: 'Lima', addressCountry: 'PE' },
+      areaServed: [
+        { '@type': 'Country', name: 'Peru' },
+        { '@type': 'Country', name: 'United States' },
+        { '@type': 'Place', name: 'Latin America' },
+      ],
+      knowsAbout: [
+        'Software Engineering',
+        'Applied AI',
+        'Product Design',
+        'Cloud Infrastructure',
+        'Mobile Applications',
+        'Web Platforms',
+      ],
+    })} />
+
+    <ClientRouter fallback="animate" />
   </head>
-  <body class="min-h-screen bg-background-light font-sans antialiased dark:bg-background-dark">
+  <body class="min-h-screen bg-paper font-sans text-ink antialiased" transition:animate="fade">
     <slot />
+    <ConsentBanner lang={lang === 'en' ? 'en' : 'es'} />
+
+    <script>
+      import {
+        initAnalytics,
+        grantConsent,
+        denyConsent,
+        getConsent,
+        hasConsent,
+        track,
+        setSuperProps,
+      } from '@/lib/analytics';
+
+      type SectionState = {
+        name: string;
+        firstSeenAt: number | null;
+        dwellMs: number;
+        emitted: boolean;
+      };
+
+      const sectionStates = new Map<Element, SectionState>();
+      const scrollMilestones = new Set<number>();
+      let pageEnterAt = performance.now();
+      let maxScrollDepth = 0;
+      let lastVisibleSince = pageEnterAt;
+      let hiddenAccumMs = 0;
+      let engagedFired = false;
+
+      function currentPageProps() {
+        const path = window.location.pathname;
+        const params = new URLSearchParams(window.location.search);
+        const search: Record<string, string> = {};
+        params.forEach((v, k) => {
+          if (!k.startsWith('utm_')) search[k] = v;
+        });
+        return {
+          path,
+          title: document.title,
+          locale: document.documentElement.lang || 'unknown',
+          search: Object.keys(search).length ? search : null,
+        };
+      }
+
+      function emitSection(state: SectionState) {
+        if (state.emitted || state.dwellMs < 600) return;
+        state.emitted = true;
+        track('section_viewed', {
+          section: state.name,
+          dwell_ms: Math.round(state.dwellMs),
+          ...currentPageProps(),
+        });
+      }
+
+      function flushPageExit(reason: 'unload' | 'navigate') {
+        const now = performance.now();
+        if (document.visibilityState === 'visible') {
+          hiddenAccumMs += 0;
+        }
+        const totalMs = now - pageEnterAt;
+        const activeMs = totalMs - hiddenAccumMs;
+        sectionStates.forEach((s) => {
+          if (s.firstSeenAt != null) {
+            s.dwellMs += now - s.firstSeenAt;
+            s.firstSeenAt = null;
+          }
+          emitSection(s);
+        });
+        track('page_exited', {
+          reason,
+          time_on_page_ms: Math.round(totalMs),
+          active_time_ms: Math.round(Math.max(activeMs, 0)),
+          max_scroll_depth: maxScrollDepth,
+          ...currentPageProps(),
+        });
+      }
+
+      function bindScrollDepth() {
+        const onScroll = () => {
+          const scrolled = window.scrollY + window.innerHeight;
+          const total = document.documentElement.scrollHeight;
+          if (total <= 0) return;
+          const pct = Math.min(100, Math.round((scrolled / total) * 100));
+          if (pct > maxScrollDepth) maxScrollDepth = pct;
+          for (const m of [25, 50, 75, 100]) {
+            if (pct >= m && !scrollMilestones.has(m)) {
+              scrollMilestones.add(m);
+              track('scroll_depth_reached', { depth: m, ...currentPageProps() });
+            }
+          }
+          if (
+            !engagedFired &&
+            performance.now() - pageEnterAt > 30000 &&
+            maxScrollDepth >= 25
+          ) {
+            engagedFired = true;
+            track('engaged_session', {
+              max_scroll_depth: maxScrollDepth,
+              ...currentPageProps(),
+            });
+          }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+      }
+
+      function bindSectionObserver() {
+        const targets = document.querySelectorAll<HTMLElement>('[data-track-section]');
+        if (!targets.length || !('IntersectionObserver' in window)) return () => {};
+        targets.forEach((el) => {
+          const name = el.dataset.trackSection || el.id || 'unknown';
+          sectionStates.set(el, {
+            name,
+            firstSeenAt: null,
+            dwellMs: 0,
+            emitted: false,
+          });
+        });
+        const io = new IntersectionObserver(
+          (entries) => {
+            const now = performance.now();
+            entries.forEach((e) => {
+              const s = sectionStates.get(e.target);
+              if (!s) return;
+              if (e.isIntersecting && e.intersectionRatio >= 0.35) {
+                if (s.firstSeenAt == null) s.firstSeenAt = now;
+              } else if (s.firstSeenAt != null) {
+                s.dwellMs += now - s.firstSeenAt;
+                s.firstSeenAt = null;
+                emitSection(s);
+              }
+            });
+          },
+          { threshold: [0, 0.35, 0.6] }
+        );
+        targets.forEach((el) => io.observe(el));
+        return () => io.disconnect();
+      }
+
+      function ctaContext(el: HTMLElement) {
+        const section = el.closest<HTMLElement>('[data-track-section]');
+        return {
+          label: el.dataset.trackCta || el.getAttribute('aria-label') || el.textContent?.trim() || '',
+          section: section?.dataset.trackSection || null,
+        };
+      }
+
+      function bindClickDelegation() {
+        const onClick = (ev: MouseEvent) => {
+          const t = ev.target as HTMLElement | null;
+          if (!t) return;
+          const cta = t.closest<HTMLElement>('[data-track-cta]');
+          if (cta) {
+            const ctx = ctaContext(cta);
+            const href = cta.getAttribute('href');
+            track('cta_clicked', {
+              ...ctx,
+              destination: href,
+              modifier_key: ev.metaKey || ev.ctrlKey ? 'meta' : ev.shiftKey ? 'shift' : null,
+              ...currentPageProps(),
+            });
+            if (cta.dataset.trackCta === 'language-switch') {
+              track('language_switched', {
+                from: document.documentElement.lang,
+                to: href?.includes('/en') ? 'en' : 'es',
+              });
+            }
+            if (href?.startsWith('mailto:')) {
+              track('contact_intent', {
+                method: cta.dataset.trackCta || 'email_click',
+                section: ctx.section,
+              });
+            }
+          }
+          const anchor = t.closest<HTMLAnchorElement>('a[href]');
+          if (anchor && !cta) {
+            const href = anchor.getAttribute('href') || '';
+            if (/^https?:\/\//.test(href)) {
+              try {
+                const url = new URL(href);
+                if (url.host !== window.location.host) {
+                  const section = anchor.closest<HTMLElement>('[data-track-section]');
+                  track('outbound_link_clicked', {
+                    href,
+                    host: url.host,
+                    section: section?.dataset.trackSection || null,
+                  });
+                }
+              } catch {
+                /* invalid url */
+              }
+            } else if (href.startsWith('mailto:')) {
+              const section = anchor.closest<HTMLElement>('[data-track-section]');
+              track('contact_intent', {
+                method: 'email_click',
+                section: section?.dataset.trackSection || null,
+              });
+            }
+          }
+        };
+        document.addEventListener('click', onClick, true);
+        return () => document.removeEventListener('click', onClick, true);
+      }
+
+      function bindVisibility() {
+        const onVisibility = () => {
+          const now = performance.now();
+          if (document.visibilityState === 'hidden') {
+            hiddenAccumMs += now - lastVisibleSince;
+            sectionStates.forEach((s) => {
+              if (s.firstSeenAt != null) {
+                s.dwellMs += now - s.firstSeenAt;
+                s.firstSeenAt = null;
+              }
+            });
+            track('page_hidden', { active_time_ms: Math.round(now - pageEnterAt - hiddenAccumMs) });
+          } else {
+            lastVisibleSince = now;
+            sectionStates.forEach((s, el) => {
+              const rect = (el as HTMLElement).getBoundingClientRect();
+              const vh = window.innerHeight;
+              const visibleRatio =
+                Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0)) / vh;
+              if (visibleRatio >= 0.35 && !s.emitted) s.firstSeenAt = now;
+            });
+            track('page_visible');
+          }
+        };
+        document.addEventListener('visibilitychange', onVisibility);
+        return () => document.removeEventListener('visibilitychange', onVisibility);
+      }
+
+      function bindConsentBanner() {
+        const banner = document.getElementById('consent-banner');
+        if (!banner) return;
+        const consent = getConsent();
+        if (consent === 'unset') {
+          banner.hidden = false;
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => banner.classList.add('is-visible'))
+          );
+        }
+        const onClick = (ev: Event) => {
+          const btn = (ev.target as HTMLElement)?.closest<HTMLButtonElement>('[data-consent]');
+          if (!btn) return;
+          if (btn.dataset.consent === 'grant') {
+            grantConsent();
+            track('consent_granted');
+            track('page_viewed', currentPageProps());
+          } else {
+            denyConsent();
+          }
+          banner.classList.remove('is-visible');
+          window.setTimeout(() => {
+            banner.hidden = true;
+          }, 320);
+        };
+        banner.addEventListener('click', onClick);
+      }
+
+      let cleanups: Array<() => void> = [];
+
+      function startTrackingForPage() {
+        pageEnterAt = performance.now();
+        maxScrollDepth = 0;
+        hiddenAccumMs = 0;
+        lastVisibleSince = pageEnterAt;
+        engagedFired = false;
+        scrollMilestones.clear();
+        sectionStates.clear();
+
+        setSuperProps({
+          viewport_width: window.innerWidth,
+          viewport_height: window.innerHeight,
+        });
+
+        if (hasConsent()) {
+          track('page_viewed', currentPageProps());
+        }
+
+        cleanups.push(bindScrollDepth());
+        cleanups.push(bindSectionObserver());
+        cleanups.push(bindClickDelegation());
+        cleanups.push(bindVisibility());
+      }
+
+      function stopTrackingForPage(reason: 'unload' | 'navigate') {
+        flushPageExit(reason);
+        cleanups.forEach((fn) => fn());
+        cleanups = [];
+      }
+
+      function boot() {
+        initAnalytics();
+        bindConsentBanner();
+        startTrackingForPage();
+      }
+
+      if (document.readyState !== 'loading') boot();
+      else document.addEventListener('DOMContentLoaded', boot);
+
+      document.addEventListener('astro:before-swap', () => stopTrackingForPage('navigate'));
+      document.addEventListener('astro:page-load', () => {
+        if (cleanups.length === 0) startTrackingForPage();
+      });
+      window.addEventListener('pagehide', () => flushPageExit('unload'), { once: false });
+    </script>
+
+    <script>
+      function bindReveals() {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const els = document.querySelectorAll('.reveal:not(.is-in)');
+        if (reduced || !('IntersectionObserver' in window)) {
+          els.forEach((el) => el.classList.add('is-in'));
+        } else {
+          // Stagger reveals within the same group
+          document.querySelectorAll('[data-stagger]').forEach((group) => {
+            const step = Number(group.getAttribute('data-stagger')) || 60;
+            group.querySelectorAll<HTMLElement>('.reveal').forEach((el, i) => {
+              if (!el.style.getPropertyValue('--reveal-delay')) {
+                el.style.setProperty('--reveal-delay', `${i * step}ms`);
+              }
+            });
+          });
+          document.querySelectorAll<HTMLElement>('[data-reveal-delay]').forEach((el) => {
+            el.style.setProperty('--reveal-delay', `${el.dataset.revealDelay}ms`);
+          });
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((e) => {
+                if (e.isIntersecting) {
+                  (e.target as HTMLElement).classList.add('is-in');
+                  io.unobserve(e.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+          );
+          els.forEach((el) => io.observe(el));
+        }
+
+        // Magnetic CTAs — global
+        if (!reduced) {
+          document.querySelectorAll<HTMLElement>('[data-magnetic]:not([data-magnetic-bound])').forEach((el) => {
+            el.setAttribute('data-magnetic-bound', '1');
+            const strength = 0.22;
+            const max = 8;
+            const onMove = (e: PointerEvent) => {
+              const r = el.getBoundingClientRect();
+              const dx = (e.clientX - (r.left + r.width / 2)) * strength;
+              const dy = (e.clientY - (r.top + r.height / 2)) * strength;
+              el.style.setProperty('--mx', `${Math.max(-max, Math.min(max, dx)).toFixed(2)}px`);
+              el.style.setProperty('--my', `${Math.max(-max, Math.min(max, dy)).toFixed(2)}px`);
+            };
+            const reset = () => {
+              el.style.setProperty('--mx', '0px');
+              el.style.setProperty('--my', '0px');
+            };
+            el.addEventListener('pointermove', onMove);
+            el.addEventListener('pointerleave', reset);
+            el.addEventListener('blur', reset);
+          });
+        }
+      }
+
+      document.addEventListener('astro:page-load', bindReveals);
+      if (document.readyState !== 'loading') bindReveals();
+      else document.addEventListener('DOMContentLoaded', bindReveals);
+    </script>
   </body>
 </html>

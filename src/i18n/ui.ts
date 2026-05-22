@@ -1,181 +1,285 @@
 export const languages = {
-    en: 'English',
     es: 'Español',
+    en: 'English',
 };
 
-export const defaultLang = 'en';
+export const defaultLang = 'es';
 
 export const ui = {
+    es: {
+        nav: {
+            work: 'Trabajo',
+            manifesto: 'Estudio',
+            capabilities: 'Práctica',
+            contact: 'Contacto',
+        },
+        hero: {
+            coords: 'Lima · 12.04°S',
+            eyebrow: 'Ingeniería de software & IA · desde 2018',
+            tagline: 'Un estudio boutique que empaca\ngrandes ideas en cajas pequeñas.',
+            primaryCta: 'Iniciar un proyecto',
+            secondaryCta: 'Ver el trabajo',
+            email: 'hello@boxtinglabs.com',
+            footnote: '// 001 · El cubo plegado — una marca construida en 3 dimensiones',
+            pillars: ['Diseñamos.', 'Construimos.', 'Desplegamos.'],
+            aboutHeading: 'Software de producto, IA aplicada y operación cuidada.',
+            aboutBody: 'Un equipo pequeño y consistente que acompaña tu producto desde la idea hasta la operación en producción.',
+            services: [
+                { label: 'Mobile', body: 'iOS y Android' },
+                { label: 'Web', body: 'Apps y plataformas' },
+                { label: 'Automatización', body: 'Agentes e IA' },
+                { label: 'Consultoría', body: 'Equipos y arquitectura' },
+            ],
+            scrollHint: 'Desplazar',
+            meta: [
+                { label: 'Estudio', value: 'Lima, PE' },
+                { label: 'Fundado', value: '2018' },
+                { label: 'Práctica', value: 'Software · IA' },
+                { label: 'Estado', value: 'Tomando proyectos' },
+            ],
+        },
+        partners: {
+            eyebrow: 'Compañías que confiaron en nosotros',
+            note: 'Trabajamos en mediano y largo plazo · clientes activos',
+        },
+        manifesto: {
+            eyebrow: 'El estudio',
+            heading: 'Pocos clientes, mucho cuidado.',
+            body: 'Somos un equipo reducido por diseño. Tomamos pocos proyectos al año para poder involucrarnos en la decisión, en el detalle y en lo que pasa después del lanzamiento. Nuestra forma de trabajar es directa, escrita y orientada a entregar.',
+            principles: [
+                {
+                    n: '01',
+                    title: 'Criterio.',
+                    body: 'Decimos no a más de lo que aceptamos. Tomamos los proyectos en los que podemos hacer la mejor versión de nuestro trabajo.',
+                },
+                {
+                    n: '02',
+                    title: 'Cuidado.',
+                    body: 'El producto se cuida antes, durante y después. Nos quedamos cerca del equipo, del usuario y del código en producción.',
+                },
+                {
+                    n: '03',
+                    title: 'Claridad.',
+                    body: 'Comunicamos en una página, no en una presentación. Lo que decimos coincide con lo que hacemos.',
+                },
+            ],
+        },
+        work: {
+            eyebrow: 'Trabajo reciente',
+            heading: 'Nuestros últimos proyectos.',
+            cta: 'Leer caso',
+            statusBadge: 'EN PRODUCCIÓN · 2025 — 2026',
+            metaLabels: { industry: 'Industria', role: 'Rol' },
+            featured: {
+                title: 'Ava Cash',
+                client: 'Ava Financial',
+                industry: 'Fintech · finanzas personales',
+                role: 'Diseño y desarrollo de producto · iOS y Android',
+                year: '2025',
+                outcome: 'Llevamos Ava de prototipo a una aplicación pública en App Store y Google Play. Acompañamos al equipo en la definición de producto, el lanzamiento, los primeros ciclos de iteración con usuarios y la operación en producción.',
+            },
+            projects: [
+                {
+                    title: 'Jalhuca',
+                    client: 'Jalhuca SAC',
+                    industry: 'Logística y movilidad urbana',
+                    role: 'Producto móvil · conductores y operaciones',
+                    year: '2025',
+                    outcome: 'Construimos la operación de entregas on-demand para ciudades peruanas, desde la primera versión para conductores hasta la consola interna de soporte. El servicio sostiene la operación diaria del cliente.',
+                    accent: 'plum',
+                },
+                {
+                    title: 'New Transport',
+                    client: 'New Transport',
+                    industry: 'Transporte y gestión de flotas',
+                    role: 'Plataforma web · control y telemetría',
+                    year: '2026',
+                    outcome: 'Diseñamos la consola que el equipo de operaciones usa para coordinar flotas, seguir vehículos y reportar a clientes corporativos. Reemplazó una mezcla de hojas de cálculo y herramientas dispersas.',
+                    accent: 'sky',
+                },
+            ],
+        },
+        capabilities: {
+            eyebrow: 'Práctica',
+            heading: 'Áreas en las que trabajamos.',
+            lede: 'Cuatro frentes de trabajo, todos atendidos directamente por el estudio.',
+            items: [
+                {
+                    n: '01',
+                    title: 'Ingeniería de software a medida',
+                    body: 'Desarrollamos aplicaciones web y móviles end-to-end: arquitectura, diseño de producto, implementación y puesta en producción. Construimos software pensado para durar.',
+                },
+                {
+                    n: '02',
+                    title: 'Automatización con inteligencia artificial',
+                    body: 'Integramos modelos de lenguaje y agentes a tus procesos de negocio: automatización de operaciones, asistentes internos, búsqueda inteligente y flujos de trabajo medibles.',
+                },
+                {
+                    n: '03',
+                    title: 'Infraestructura cloud para producto',
+                    body: 'Diseñamos y operamos la infraestructura que sostiene tu software: arquitectura en AWS o GCP, despliegue continuo, observabilidad y costos bajo control.',
+                },
+                {
+                    n: '04',
+                    title: 'Consultoría y capacitación técnica',
+                    body: 'Acompañamos a equipos internos con revisión de arquitectura, definición de prácticas de ingeniería y capacitaciones a medida en desarrollo de software moderno.',
+                },
+            ],
+        },
+        contact: {
+            eyebrow: 'Contacto',
+            heading: 'Trabajemos juntos.',
+            body: 'Cuéntanos del proyecto en un párrafo. Leemos cada mensaje en persona y respondemos dentro de los próximos dos días hábiles.',
+            email: 'hello@boxtinglabs.com',
+            location: 'Lima, Perú · clientes en LATAM y Estados Unidos',
+            footnote: 'Sin formularios. Sin embudos. Conversación directa.',
+            ctaSend: 'Enviar mensaje',
+            inputPlaceholder: 'hello@boxtinglabs.com',
+        },
+        footer: {
+            tagline: 'Estudio de software e inteligencia artificial.',
+            location: 'Lima, Perú',
+            rights: 'Boxting Labs',
+            privacy: 'Privacidad',
+            terms: 'Términos',
+        },
+    },
     en: {
         nav: {
             work: 'Work',
-            services: 'Services',
-            contact: "Let's Talk",
+            manifesto: 'Studio',
+            capabilities: 'Practice',
+            contact: 'Contact',
         },
         hero: {
-            badge: 'Accepting new clients for Q1 2025',
-            title: 'We craft',
-            typewriter: [
-                'generative AI.',
-                'automation workflows.',
-                'web platforms.',
-                'mobile apps.',
+            coords: 'Lima · 12.04°S',
+            eyebrow: 'Software & AI engineering · est. 2018',
+            tagline: 'A boutique studio packing\nbig ideas into small boxes.',
+            primaryCta: 'Start a project',
+            secondaryCta: 'See selected work',
+            email: 'hello@boxtinglabs.com',
+            footnote: '// 001 · The folded cube — a brand built in three dimensions',
+            pillars: ['We design.', 'We build.', 'We ship.'],
+            aboutHeading: 'Product software, applied AI, and operations done with care.',
+            aboutBody: 'A small, consistent team that stays with your product from the first decision to running it in production.',
+            services: [
+                { label: 'Mobile', body: 'iOS and Android' },
+                { label: 'Web', body: 'Apps and platforms' },
+                { label: 'Automation', body: 'AI and agents' },
+                { label: 'Consulting', body: 'Teams and architecture' },
             ],
-            subtitle:
-                'Boxting Labs is the premium engineering partner for visionary companies. We translate complex requirements into elegant, scalable software.',
-            cta: {
-                primary: 'Start a Project',
-                secondary: 'View Case Studies',
-            },
+            scrollHint: 'Scroll',
+            meta: [
+                { label: 'Studio', value: 'Lima, PE' },
+                { label: 'Founded', value: '2018' },
+                { label: 'Practice', value: 'Software · AI' },
+                { label: 'Status', value: 'Taking projects' },
+            ],
         },
-        services: {
-            title: 'Our Expertise',
-            subtitle:
-                'We believe in clean code, user-centric design, and transparent communication.',
-            items: [
+        partners: {
+            eyebrow: 'Companies that have trusted us with their product',
+            note: 'Long-term engagements · active clients',
+        },
+        manifesto: {
+            eyebrow: 'The studio',
+            heading: 'Few clients, deep care.',
+            body: 'We are deliberately small. We take on a few projects a year so that we can be present in the decisions, in the detail, and in what happens after launch. Our way of working is direct, written, and built around delivery.',
+            principles: [
                 {
-                    title: 'Cloud Native',
-                    description:
-                        'Scalable infrastructure built on AWS/Azure/GCP with modern serverless patterns.',
+                    n: '01',
+                    title: 'Judgment.',
+                    body: 'We say no to more than we say yes to. We take on the work where we can do the best version of what we do.',
                 },
                 {
-                    title: 'AI Integration',
-                    description:
-                        'Leveraging LLMs and machine learning to build intelligent, automated workflows.',
+                    n: '02',
+                    title: 'Care.',
+                    body: 'Product is cared for before, during, and after. We stay close to the team, the user, and the code in production.',
                 },
                 {
-                    title: 'Rapid Deployment',
-                    description:
-                        'We value speed without compromising quality. CI/CD pipelines for instant feedback.',
+                    n: '03',
+                    title: 'Clarity.',
+                    body: 'We communicate on one page, not in a deck. What we say lines up with what we do.',
                 },
             ],
         },
         work: {
-            title: 'Selected Work',
-            subtitle: 'A curated selection of our most impactful projects.',
-            viewCaseStudy: 'View Case Study',
+            eyebrow: 'Recent work',
+            heading: 'Our latest projects.',
+            cta: 'Read case study',
+            statusBadge: 'IN PRODUCTION · 2025 — 2026',
+            metaLabels: { industry: 'Industry', role: 'Role' },
+            featured: {
+                title: 'Ava Cash',
+                client: 'Ava Financial',
+                industry: 'Fintech · personal finance',
+                role: 'Product design and engineering · iOS and Android',
+                year: '2025',
+                outcome: 'We took Ava from prototype to a live application on the App Store and Google Play. We supported the team through product definition, launch, the first iteration cycles with users, and ongoing production.',
+            },
             projects: [
                 {
                     title: 'Jalhuca',
-                    category: 'Mobile Application',
-                    description:
-                        'A revolutionary logistics platform connecting local drivers with instant delivery requests. Features real-time tracking, secure payments, and an intuitive driver interface.',
-                },
-                {
-                    title: 'Ava Cash',
-                    category: 'Fintech Solution',
-                    description:
-                        'Next-generation personal finance management. Ava Cash empowers users to track expenses, invest in crypto, and manage savings goals with AI-driven insights.',
+                    client: 'Jalhuca SAC',
+                    industry: 'Logistics and urban mobility',
+                    role: 'Mobile product · drivers and operations',
+                    year: '2025',
+                    outcome: 'We built the on-demand delivery operation for Peruvian cities — from the first driver-facing app to the internal support console. The service runs the client’s daily operation.',
+                    accent: 'plum',
                 },
                 {
                     title: 'New Transport',
-                    category: 'Web Platform',
-                    description:
-                        'A comprehensive fleet management dashboard for enterprise logistics. Real-time vehicle telemetry, route optimization, and driver performance analytics in one unified view.',
+                    client: 'New Transport',
+                    industry: 'Transportation and fleet management',
+                    role: 'Web platform · control and telemetry',
+                    year: '2026',
+                    outcome: 'We designed the console the operations team uses to coordinate fleets, track vehicles, and report to corporate clients. It replaced a patchwork of spreadsheets and scattered tools.',
+                    accent: 'sky',
                 },
             ],
         },
-        contact: {
-            title: 'Ready to build something',
-            highlight: 'amazing?',
-            subtitle:
-                "Let's discuss your project and how we can help you achieve your goals.",
-            form: {
-                name: 'Name',
-                email: 'Email',
-                submit: 'Send Message',
-            },
-        },
-        footer: {
-            privacy: 'Privacy Policy',
-            terms: 'Terms of Service',
-            rights: 'All rights reserved.',
-        },
-    },
-    es: {
-        nav: {
-            work: 'Proyectos',
-            services: 'Servicios',
-            contact: 'Hablemos',
-        },
-        hero: {
-            badge: 'Aceptando nuevos clientes para Q1 2025',
-            title: 'Creamos',
-            typewriter: [
-                'IA generativa.',
-                'automatización.',
-                'plataformas web.',
-                'apps móviles.',
-            ],
-            subtitle:
-                'Boxting Labs es el socio de ingeniería premium para empresas visionarias. Transformamos requisitos complejos en software elegante y escalable.',
-            cta: {
-                primary: 'Iniciar Proyecto',
-                secondary: 'Ver Casos de Estudio',
-            },
-        },
-        services: {
-            title: 'Nuestra Experiencia',
-            subtitle:
-                'Creemos en el código limpio, el diseño centrado en el usuario y la comunicación transparente.',
+        capabilities: {
+            eyebrow: 'Practice',
+            heading: 'Where we work.',
+            lede: 'Four areas of practice, all delivered directly by the studio.',
             items: [
                 {
-                    title: 'Nativa de Nube',
-                    description:
-                        'Infraestructura escalable construida en AWS/Azure/GCP con patrones serverless modernos.',
+                    n: '01',
+                    title: 'Custom software engineering',
+                    body: 'We build web and mobile applications end-to-end: architecture, product design, implementation, and production launch. Software built to last.',
                 },
                 {
-                    title: 'Integración de IA',
-                    description:
-                        'Aprovechando LLMs y aprendizaje automático para construir flujos de trabajo inteligentes y automatizados.',
+                    n: '02',
+                    title: 'AI-powered automation',
+                    body: 'We integrate language models and agents into your business processes — operations automation, internal assistants, intelligent search, and measurable workflows.',
                 },
                 {
-                    title: 'Despliegue Rápido',
-                    description:
-                        'Valoramos la velocidad sin comprometer la calidad. Pipelines CI/CD para retroalimentación instantánea.',
-                },
-            ],
-        },
-        work: {
-            title: 'Proyectos Destacados',
-            subtitle: 'Una selección curada de nuestros proyectos de mayor impacto.',
-            viewCaseStudy: 'Ver Caso de Estudio',
-            projects: [
-                {
-                    title: 'Jalhuca',
-                    category: 'Aplicación Móvil',
-                    description:
-                        'Una plataforma logística revolucionaria que conecta conductores locales con solicitudes de entrega instantáneas. Rastreo en tiempo real y pagos seguros.',
+                    n: '03',
+                    title: 'Cloud infrastructure for product',
+                    body: 'We design and operate the infrastructure that runs your software: AWS or GCP architecture, continuous deployment, observability, and cost under control.',
                 },
                 {
-                    title: 'Ava Cash',
-                    category: 'Solución Fintech',
-                    description:
-                        'Gestión de finanzas personales de próxima generación. Ava Cash permite a los usuarios rastrear gastos, invertir en cripto y gestionar metas de ahorro con IA.',
-                },
-                {
-                    title: 'New Transport',
-                    category: 'Plataforma Web',
-                    description:
-                        'Un panel integral de gestión de flotas para logística empresarial. Telemetría vehicular en tiempo real y análisis de rendimiento.',
+                    n: '04',
+                    title: 'Consulting and technical training',
+                    body: 'We work with internal teams on architecture review, engineering practice, and tailored training in modern software development.',
                 },
             ],
         },
         contact: {
-            title: '¿Listo para construir algo',
-            highlight: 'increíble?',
-            subtitle:
-                'Hablemos sobre tu proyecto y cómo podemos ayudarte a alcanzar tus objetivos.',
-            form: {
-                name: 'Nombre',
-                email: 'Correo',
-                submit: 'Enviar Mensaje',
-            },
+            eyebrow: 'Contact',
+            heading: 'Let’s work together.',
+            body: 'Tell us about the project in a paragraph. We read every message in person and reply within two business days.',
+            email: 'hello@boxtinglabs.com',
+            location: 'Lima, Peru · serving LATAM and the United States',
+            footnote: 'No forms. No funnels. Direct conversation.',
+            ctaSend: 'Send a message',
+            inputPlaceholder: 'hello@boxtinglabs.com',
         },
         footer: {
-            privacy: 'Política de Privacidad',
-            terms: 'Términos de Servicio',
-            rights: 'Todos los derechos reservados.',
+            tagline: 'Software and AI engineering studio.',
+            location: 'Lima, Peru',
+            rights: 'Boxting Labs',
+            privacy: 'Privacy',
+            terms: 'Terms',
         },
     },
-} as const;
+};

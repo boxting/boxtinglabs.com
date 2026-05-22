@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import ava from '@assets/images/partners/ava.png';
+import jalhuca from '@assets/images/partners/jalhuca.png';
+import newtransport from '@assets/images/partners/newtransport.png';
+import type { ui } from '@/i18n/ui';
+
+interface Props {
+  t: typeof ui.es.partners;
+}
+
+const { t } = Astro.props;
+
+const partners = [
+  { name: 'Ava Cash', src: ava, href: '#work' },
+  { name: 'Jalhuca', src: jalhuca, href: '#work' },
+  { name: 'New Transport', src: newtransport, href: '#work' },
+];
+
+// Duplicate for seamless mobile marquee
+const mobileTrack = [...partners, ...partners, ...partners];
+---
+
+<section
+  id="partners"
+  class="relative border-y hairline border-y bg-cream py-8 md:py-10 overflow-hidden"
+  aria-labelledby="partners-eyebrow"
+  data-track-section="partners"
+>
+  <!-- Faint iso wash -->
+  <div aria-hidden="true" class="iso-pattern pointer-events-none absolute inset-0 opacity-25"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-r from-cream via-cream/70 to-cream"></div>
+
+  <div class="page relative">
+    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 mb-7 md:mb-8">
+      <p id="partners-eyebrow" class="eyebrow text-ink reveal">{t.eyebrow}</p>
+      <p class="mono text-caption text-fog reveal">{t.note}</p>
+    </div>
+  </div>
+
+  <!-- DESKTOP / TABLET: static 3-column grid -->
+  <div class="hidden md:block page relative">
+    <ul
+      class="grid grid-cols-3 items-center"
+      data-partners-grid
+      data-stagger="140"
+    >
+      {partners.map((p, i) => (
+        <li
+          class={`reveal flex items-center justify-center py-3 md:py-5 ${i > 0 ? 'border-l hairline border-l' : ''}`}
+        >
+          <a
+            href={p.href}
+            class="group inline-flex items-center justify-center transition-transform duration-base ease-brand hover:-translate-y-0.5"
+            aria-label={p.name}
+          >
+            <Image
+              src={p.src}
+              alt={p.name}
+              widths={[160, 240, 320, 480]}
+              sizes="(min-width: 1024px) 320px, 240px"
+              class="h-12 md:h-14 lg:h-16 xl:h-20 w-auto select-none transition-[filter,opacity] duration-base ease-brand"
+              style="filter: grayscale(1) contrast(0.95); opacity: 0.55;"
+              loading="lazy"
+              draggable={false}
+              data-partner-logo
+            />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- MOBILE: very slow marquee so partners drift across center -->
+  <div class="md:hidden relative" data-marquee>
+    <!-- Edge fades -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-cream to-transparent z-10"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-cream to-transparent z-10"></div>
+
+    <div
+      class="marquee-track flex items-center gap-12 will-change-transform"
+      style="width: max-content;"
+    >
+      {mobileTrack.map((p, i) => (
+        <a
+          href={p.href}
+          class="shrink-0 inline-flex items-center justify-center h-14 px-2"
+          aria-label={p.name}
+          aria-hidden={i >= partners.length ? 'true' : 'false'}
+          tabindex={i >= partners.length ? -1 : 0}
+        >
+          <Image
+            src={p.src}
+            alt={i < partners.length ? p.name : ''}
+            widths={[160, 240]}
+            sizes="200px"
+            class="h-10 w-auto select-none"
+            style="filter: grayscale(1) contrast(0.95); opacity: 0.7;"
+            loading="lazy"
+            draggable={false}
+          />
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Desktop hover: full color */
+  [data-partners-grid] a:hover [data-partner-logo],
+  [data-partners-grid] a:focus-visible [data-partner-logo] {
+    filter: grayscale(0) contrast(1) !important;
+    opacity: 1 !important;
+  }
+
+  /* Mobile-only marquee, very slow */
+  @keyframes partners-drift {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(calc(-100% / 3), 0, 0); }
+  }
+  [data-marquee] .marquee-track {
+    animation: partners-drift 60s linear infinite;
+  }
+  [data-marquee]:hover .marquee-track,
+  [data-marquee]:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-marquee] .marquee-track { animation: none; transform: none; }
+  }
+</style>
