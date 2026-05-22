@@ -9,7 +9,7 @@ const { t } = Astro.props;
 const mailto = `mailto:${t.email}`;
 ---
 
-<section id="contact" class="contact-section">
+<section id="contact" class="contact-section" data-track-section="contact">
   <div class="page">
     <div class="contact-card reveal">
       <!-- Background layers -->
@@ -46,7 +46,7 @@ const mailto = `mailto:${t.email}`;
         <p class="cc-body">{t.body}</p>
 
         <form class="cc-form" action={mailto} method="get" aria-label={t.heading}>
-          <a href={mailto} class="cc-input glass-soft" aria-label={t.email} tabindex="-1">
+          <a href={mailto} class="cc-input glass-soft" aria-label={t.email} tabindex="-1" data-track-cta="contact-email">
             <svg class="cc-input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="2" y="3.5" width="12" height="9" rx="1.5" />
               <path d="M2.5 4.5 L8 9 L13.5 4.5" />
@@ -54,7 +54,7 @@ const mailto = `mailto:${t.email}`;
             <span class="cc-input-text">{t.email}</span>
           </a>
 
-          <a href={mailto} class="cc-send" data-magnetic>
+          <a href={mailto} class="cc-send" data-magnetic data-track-cta="contact-send">
             <span>{t.ctaSend}</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M2 7H12M12 7L7.5 2.5M12 7L7.5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
