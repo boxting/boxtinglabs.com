@@ -36,7 +36,7 @@ const studioLabel = lang === 'es' ? 'Estudio' : 'Studio';
       ))}
     </div>
 
-    <div class="mt-7 grid grid-cols-12 gap-6 items-start">
+    <div class="mt-7 grid grid-cols-12 gap-y-6 md:gap-x-6 items-start">
       <!-- Lockup + tagline -->
       <div class="col-span-12 md:col-span-5 reveal">
         <a href={homeHref} class="inline-block">
@@ -66,8 +66,8 @@ const studioLabel = lang === 'es' ? 'Estudio' : 'Studio';
         <p class="eyebrow text-fog">{studioLabel}</p>
         <ul class="mt-3 space-y-2 text-small">
           <li class="mono text-ink">{t.location}</li>
-          <li>
-            <a href="mailto:hello@boxtinglabs.com" class="mono text-ink hover:text-orange transition-colors duration-quick ease-brand" data-track-cta="footer-email">
+          <li class="min-w-0">
+            <a href="mailto:hello@boxtinglabs.com" class="mono text-ink hover:text-orange transition-colors duration-quick ease-brand break-all" data-track-cta="footer-email">
               hello@boxtinglabs.com
             </a>
           </li>

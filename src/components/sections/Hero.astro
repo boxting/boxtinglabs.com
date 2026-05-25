@@ -170,6 +170,14 @@ const { t } = Astro.props;
     --pad-x: clamp(24px, 4.5vw, 80px);
     --pad-y: clamp(22px, 3vw, 40px);
   }
+  /* On narrow viewports the content is taller than min-height, so let the
+     hero grow to fit instead of clipping/centering content out of view. */
+  @media (max-width: 960px) {
+    .hero {
+      height: auto;
+      min-height: 100svh;
+    }
+  }
 
   /* Hidden but reachable: shared svg defs */
   .hero-svg-defs {
@@ -294,8 +302,16 @@ const { t } = Astro.props;
     .hero-content {
       grid-template-columns: minmax(0, 1fr);
       gap: 40px;
-      align-content: center;
-      padding: clamp(108px, 18vh, 160px) var(--pad-x) clamp(108px, 14vh, 140px);
+      align-content: start;
+      padding: clamp(140px, 20vh, 180px) var(--pad-x) clamp(72px, 10vh, 96px);
+    }
+  }
+
+  /* On narrow screens the eyebrow pill wraps to 2 lines — give the pillar
+     words extra headroom so they don't collide with it. */
+  @media (max-width: 480px) {
+    .hero-content {
+      padding-top: clamp(168px, 26vh, 210px);
     }
   }
 
