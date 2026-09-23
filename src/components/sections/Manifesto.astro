@@ -8,7 +8,11 @@ interface Props {
 const { t } = Astro.props;
 ---
 
-<section id="studio" class="relative border-t hairline border-t bg-cream py-10 md:py-10 overflow-hidden" data-track-section="manifesto">
+<section
+  id="studio"
+  class="relative z-10 -mt-6 overflow-hidden rounded-t-[28px] bg-cream py-10 shadow-[0_-24px_60px_-24px_rgba(15,27,45,0.28)] md:-mt-10 md:rounded-t-[40px] md:py-10"
+  data-track-section="manifesto"
+>
   <!-- Faint pattern wash -->
   <div aria-hidden="true" class="iso-pattern pointer-events-none absolute inset-0 opacity-40"></div>
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-b from-cream via-cream/85 to-cream"></div>
