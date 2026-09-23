@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <!-- Ava Cash: a fill-up at an Ava station earns credit that flies into the app, the balance
+       grows, then the QR check-in, the nearest-station map and a Point promotion.
+       Loops every 8s. Placeholder until real app images are used again (see Work.astro). -->
+  <defs>
+    <linearGradient id="scr" x1="0" y1="0" x2=".3" y2="1">
+      <stop offset="0" stop-color="#3A1F4A"/>
+      <stop offset=".45" stop-color="#1A1222"/>
+      <stop offset="1" stop-color="#0D0B10"/>
+    </linearGradient>
+    <linearGradient id="fuel" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FE5D1C"/>
+      <stop offset="1" stop-color="#FF9E68"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FE5D1C" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#FE5D1C" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="screen"><rect x="330" y="44" width="164" height="352" rx="22"/></clipPath>
+    <clipPath id="gauge"><rect x="118" y="214" width="40" height="92" rx="6"/></clipPath>
+    <path id="arc" d="M168 200 C 220 120, 300 100, 372 128"/>
+  </defs>
+  <style>
+    .level { transform-box: fill-box; transform-origin: center bottom; animation: level 8s cubic-bezier(.65,0,.35,1) infinite; }
+    @keyframes level { 0% { transform: scaleY(.08); } 30%, 88% { transform: scaleY(1); } 100% { transform: scaleY(.08); } }
+    .drip { opacity: 0; animation: drip 8s linear infinite; }
+    @keyframes drip { 0%, 2% { opacity: 0; } 4%, 28% { opacity: 1; } 30%, 100% { opacity: 0; } }
+    .flow { stroke-dasharray: 3 7; animation: flow .7s linear infinite, flowop 8s steps(1) infinite; }
+    @keyframes flow { to { stroke-dashoffset: -20; } }
+    @keyframes flowop { 0%, 3% { opacity: 0; } 4%, 29% { opacity: 1; } 30%, 100% { opacity: 0; } }
+    .bal { transform-box: fill-box; transform-origin: left center; animation: bal 8s cubic-bezier(.16,1,.3,1) infinite; }
+    @keyframes bal { 0%, 30% { transform: scaleX(.42); } 36%, 88% { transform: scaleX(1); } 100% { transform: scaleX(.42); } }
+    .plus { opacity: 0; animation: plus 8s ease infinite; }
+    @keyframes plus { 0%, 31% { opacity: 0; transform: translateY(6px); } 35%, 46% { opacity: 1; transform: none; } 52%, 100% { opacity: 0; transform: translateY(-8px); } }
+    .glow { transform-box: fill-box; transform-origin: center; animation: glow 8s ease infinite; }
+    @keyframes glow { 0%, 30% { opacity: 0; transform: scale(.8); } 34% { opacity: .9; transform: scale(1.05); } 48%, 100% { opacity: 0; transform: scale(1.2); } }
+    .qr { opacity: 0; animation: qr 8s ease infinite; }
+    @keyframes qr { 0%, 46% { opacity: 0; } 50%, 70% { opacity: 1; } 74%, 100% { opacity: 0; } }
+    .scan { animation: scan 8s ease-in-out infinite; }
+    @keyframes scan { 0%, 50% { transform: translateY(0); } 60% { transform: translateY(72px); } 70%, 100% { transform: translateY(0); } }
+    .ok { opacity: 0; transform-box: fill-box; transform-origin: center; animation: ok 8s cubic-bezier(.34,1.56,.64,1) infinite; }
+    @keyframes ok { 0%, 62% { opacity: 0; transform: scale(.4); } 66%, 72% { opacity: 1; transform: scale(1); } 76%, 100% { opacity: 0; } }
+    .map { opacity: 1; animation: mapop 8s ease infinite; }
+    @keyframes mapop { 0%, 44% { opacity: 1; } 48%, 74% { opacity: 0; } 78%, 100% { opacity: 1; } }
+    .ping { transform-box: fill-box; transform-origin: center; animation: ping 1.6s ease-out infinite; }
+    @keyframes ping { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
+    .float { animation: float 6s ease-in-out infinite; }
+    .float2 { animation-delay: -3s; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .price { animation: price 2.2s ease-in-out infinite; }
+    @keyframes price { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+      .level, .bal { transform: none; } .qr, .ok, .plus, .glow, .drip { opacity: 0; } .flow { opacity: 0; }
+    }
+  </style>
+
+  <!-- forecourt -->
+  <rect x="0" y="330" width="640" height="150" fill="url(#ground)"/>
+  <path d="M0 330 H 640" stroke="#F8F3EB" stroke-opacity=".08"/>
+  <g stroke="#F8F3EB" stroke-opacity=".07"><path d="M60 400 H 140 M200 400 H 280 M470 420 H 560"/></g>
+
+  <!-- canopy + pump -->
+  <rect x="40" y="96" width="210" height="18" rx="4" fill="#1A1B20" stroke="#F8F3EB" stroke-opacity=".14"/>
+  <rect x="40" y="114" width="210" height="6" fill="#FE5D1C"/>
+  <rect x="140" y="120" width="10" height="210" fill="#15161A"/>
+  <rect x="100" y="178" width="76" height="152" rx="10" fill="#15161A" stroke="#F8F3EB" stroke-opacity=".16"/>
+  <rect x="110" y="190" width="56" height="18" rx="4" fill="#0B0C0F"/>
+  <rect class="price" x="116" y="196" width="30" height="6" rx="3" fill="#FF9E68"/>
+  <!-- fuel gauge -->
+  <rect x="118" y="214" width="40" height="92" rx="6" fill="#0B0C0F"/>
+  <g clip-path="url(#gauge)"><rect class="level" x="118" y="214" width="40" height="92" fill="url(#fuel)"/></g>
+  <path d="M118 237 h8 M118 260 h8 M118 283 h8" stroke="#08090B" stroke-opacity=".6"/>
+  <!-- hose + nozzle -->
+  <path d="M176 220 C 206 222, 210 262, 196 290" stroke="#2A2B31" stroke-width="5" stroke-linecap="round"/>
+  <path d="M190 286 l12 4 l-2 10 l-14 -6 Z" fill="#FE5D1C"/>
+  <circle class="drip" cx="200" cy="306" r="2.5" fill="#FF9E68"/>
+  <!-- Ava mark on the pump -->
+  <path d="M138 318 l6 -10 l6 10 Z" fill="#F8F3EB" fill-opacity=".5"/>
+
+  <!-- credit flying to the app -->
+  <use href="#arc" class="flow" stroke="#FF9E68" stroke-width="1.6"/>
+  <g>
+    <circle r="7" fill="#FE5D1C"/><circle r="3" fill="#FFDCC8"/>
+    <animateMotion dur="8s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.06;.3;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#arc"/></animateMotion>
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.05;.07;.29;.31;1"/>
+  </g>
+  <g>
+    <circle r="5" fill="#FF9E68"/>
+    <animateMotion dur="8s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.12;.3;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#arc"/></animateMotion>
+    <animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.11;.13;.29;.31;1"/>
+  </g>
+
+  <!-- floating: Point promotion -->
+  <g class="float">
+    <rect x="512" y="92" width="112" height="120" rx="14" fill="#15121A" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <rect x="522" y="102" width="92" height="56" rx="8" fill="#F28C28" fill-opacity=".85"/>
+    <rect x="532" y="118" width="46" height="14" rx="7" fill="#C63C22"/>
+    <rect x="584" y="112" width="20" height="36" rx="5" fill="#8C1D18"/>
+    <rect x="522" y="166" width="58" height="5" rx="2.5" fill="#F8F3EB" fill-opacity=".7"/>
+    <rect x="522" y="176" width="40" height="4" rx="2" fill="#F8F3EB" fill-opacity=".3"/>
+    <rect x="574" y="186" width="40" height="16" rx="8" fill="#FE5D1C"/>
+  </g>
+  <!-- floating: stations nearby -->
+  <g class="float float2">
+    <rect x="514" y="250" width="110" height="74" rx="14" fill="#15121A" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <circle cx="534" cy="272" r="7" fill="#6E2F66" fill-opacity=".6"/>
+    <path d="M531 272 l3 3 l5 -6" stroke="#F8F3EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="548" y="268" width="56" height="5" rx="2.5" fill="#F8F3EB" fill-opacity=".6"/>
+    <rect x="526" y="290" width="84" height="4" rx="2" fill="#F8F3EB" fill-opacity=".25"/>
+    <rect x="526" y="302" width="60" height="4" rx="2" fill="#F8F3EB" fill-opacity=".25"/>
+  </g>
+
+  <!-- phone -->
+  <rect x="320" y="34" width="184" height="372" rx="30" fill="#0A090C" stroke="#F8F3EB" stroke-opacity=".2"/>
+  <g clip-path="url(#screen)">
+    <rect x="330" y="44" width="164" height="352" fill="url(#scr)"/>
+    <rect x="392" y="50" width="40" height="8" rx="4" fill="#000"/>
+
+    <!-- balance card -->
+    <path d="M404 72 l8 -12 l8 12 Z" fill="#F8F3EB" fill-opacity=".85"/>
+    <rect x="344" y="84" width="60" height="5" rx="2.5" fill="#F8F3EB" fill-opacity=".45"/>
+    <rect x="344" y="96" width="136" height="54" rx="12" fill="#F8F3EB" fill-opacity=".08"/>
+    <circle class="glow" cx="412" cy="123" r="44" fill="#FE5D1C" fill-opacity=".25"/>
+    <rect x="356" y="106" width="36" height="4" rx="2" fill="#F8F3EB" fill-opacity=".45"/>
+    <rect class="bal" x="356" y="118" width="96" height="14" rx="5" fill="#F8F3EB"/>
+    <g class="plus">
+      <rect x="440" y="102" width="32" height="14" rx="7" fill="#4FA98A"/>
+      <path d="M449 109 h8 M453 105 v8" stroke="#0A090C" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+    <rect x="356" y="138" width="54" height="4" rx="2" fill="#F8F3EB" fill-opacity=".25"/>
+
+    <!-- nearest station map -->
+    <g class="map">
+      <rect x="344" y="162" width="136" height="150" rx="12" fill="#221A2B"/>
+      <g stroke="#F8F3EB" stroke-opacity=".08"><path d="M344 200 H 480 M344 240 H 480 M344 280 H 480 M380 162 V 312 M420 162 V 312 M460 162 V 312"/></g>
+      <path d="M352 300 C 380 270, 390 240, 420 226 S 462 196, 474 172" stroke="#F8F3EB" stroke-opacity=".2" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="372" cy="196" r="4" fill="#C77DBC"/>
+      <circle cx="456" cy="268" r="4" fill="#C77DBC"/>
+      <circle class="ping" cx="420" cy="226" r="7" fill="#FE5D1C" fill-opacity=".5"/>
+      <path d="M420 212 c -8 0 -12 6 -12 11 c 0 8 12 17 12 17 s 12 -9 12 -17 c 0 -5 -4 -11 -12 -11 Z" fill="#FE5D1C"/>
+      <circle cx="420" cy="223" r="4" fill="#F8F3EB"/>
+    </g>
+
+    <!-- QR check-in -->
+    <g class="qr">
+      <rect x="344" y="162" width="136" height="150" rx="12" fill="#F8F3EB"/>
+      <g fill="#0A090C">
+        <rect x="372" y="184" width="22" height="22" rx="3"/><rect x="430" y="184" width="22" height="22" rx="3"/><rect x="372" y="242" width="22" height="22" rx="3"/>
+        <rect x="377" y="189" width="12" height="12" rx="1.5" fill="#F8F3EB"/><rect x="435" y="189" width="12" height="12" rx="1.5" fill="#F8F3EB"/><rect x="377" y="247" width="12" height="12" rx="1.5" fill="#F8F3EB"/>
+        <rect x="402" y="186" width="6" height="6"/><rect x="414" y="194" width="6" height="6"/><rect x="402" y="206" width="6" height="6"/><rect x="420" y="214" width="6" height="6"/>
+        <rect x="438" y="222" width="6" height="6"/><rect x="408" y="226" width="6" height="6"/><rect x="398" y="244" width="6" height="6"/><rect x="414" y="250" width="6" height="6"/>
+        <rect x="432" y="240" width="6" height="6"/><rect x="444" y="254" width="6" height="6"/><rect x="426" y="258" width="6" height="6"/><rect x="376" y="222" width="6" height="6"/>
+      </g>
+      <g class="scan"><rect x="360" y="184" width="104" height="3" rx="1.5" fill="#FE5D1C"/></g>
+      <rect x="386" y="282" width="52" height="5" rx="2.5" fill="#0A090C" fill-opacity=".5"/>
+      <g class="ok">
+        <circle cx="412" cy="225" r="26" fill="#4FA98A"/>
+        <path d="M400 225 l8 8 l16 -16" stroke="#F8F3EB" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+
+    <!-- tab bar -->
+    <rect x="330" y="360" width="164" height="36" fill="#0A090C" fill-opacity=".85"/>
+    <g fill="#F8F3EB" fill-opacity=".3"><circle cx="356" cy="376" r="3"/><circle cx="386" cy="376" r="3"/><circle cx="438" cy="376" r="3"/><circle cx="468" cy="376" r="3"/></g>
+    <rect x="398" y="366" width="28" height="20" rx="10" fill="#FE5D1C"/>
+    <rect x="406" y="374" width="12" height="4" rx="2" fill="#0A090C"/>
+  </g>
+</svg>
