@@ -163,7 +163,6 @@ const spanishKeywords =
         grantConsent,
         denyConsent,
         getConsent,
-        hasConsent,
         track,
         setSuperProps,
       } from '@/lib/analytics';
@@ -179,8 +178,6 @@ const spanishKeywords =
       const scrollMilestones = new Set<number>();
       let pageEnterAt = performance.now();
       let maxScrollDepth = 0;
-      let lastVisibleSince = pageEnterAt;
-      let hiddenAccumMs = 0;
       let engagedFired = false;
 
       function currentPageProps() {
@@ -208,26 +205,16 @@ const spanishKeywords =
         });
       }
 
-      function flushPageExit(reason: 'unload' | 'navigate') {
+      // Time on page and max scroll ride on PostHog's native $pageleave;
+      // this only flushes pending section dwell times.
+      function flushSections() {
         const now = performance.now();
-        if (document.visibilityState === 'visible') {
-          hiddenAccumMs += 0;
-        }
-        const totalMs = now - pageEnterAt;
-        const activeMs = totalMs - hiddenAccumMs;
         sectionStates.forEach((s) => {
           if (s.firstSeenAt != null) {
             s.dwellMs += now - s.firstSeenAt;
             s.firstSeenAt = null;
           }
           emitSection(s);
-        });
-        track('page_exited', {
-          reason,
-          time_on_page_ms: Math.round(totalMs),
-          active_time_ms: Math.round(Math.max(activeMs, 0)),
-          max_scroll_depth: maxScrollDepth,
-          ...currentPageProps(),
         });
       }
 
@@ -305,6 +292,8 @@ const spanishKeywords =
         const onClick = (ev: MouseEvent) => {
           const t = ev.target as HTMLElement | null;
           if (!t) return;
+          // Clicks are PointerEvents in modern browsers: "touch" | "mouse" | "pen".
+          const pointerType = (ev as PointerEvent).pointerType || null;
           const cta = t.closest<HTMLElement>('[data-track-cta]');
           if (cta) {
             const ctx = ctaContext(cta);
@@ -312,6 +301,7 @@ const spanishKeywords =
             track('cta_clicked', {
               ...ctx,
               destination: href,
+              pointer_type: pointerType,
               modifier_key: ev.metaKey || ev.ctrlKey ? 'meta' : ev.shiftKey ? 'shift' : null,
               ...currentPageProps(),
             });
@@ -325,6 +315,7 @@ const spanishKeywords =
               track('contact_intent', {
                 method: cta.dataset.trackCta || 'email_click',
                 section: ctx.section,
+                pointer_type: pointerType,
               });
             }
           }
@@ -340,6 +331,7 @@ const spanishKeywords =
                     href,
                     host: url.host,
                     section: section?.dataset.trackSection || null,
+                    pointer_type: pointerType,
                   });
                 }
               } catch {
@@ -350,6 +342,7 @@ const spanishKeywords =
               track('contact_intent', {
                 method: 'email_click',
                 section: section?.dataset.trackSection || null,
+                pointer_type: pointerType,
               });
             }
           }
@@ -362,16 +355,13 @@ const spanishKeywords =
         const onVisibility = () => {
           const now = performance.now();
           if (document.visibilityState === 'hidden') {
-            hiddenAccumMs += now - lastVisibleSince;
             sectionStates.forEach((s) => {
               if (s.firstSeenAt != null) {
                 s.dwellMs += now - s.firstSeenAt;
                 s.firstSeenAt = null;
               }
             });
-            track('page_hidden', { active_time_ms: Math.round(now - pageEnterAt - hiddenAccumMs) });
           } else {
-            lastVisibleSince = now;
             sectionStates.forEach((s, el) => {
               const rect = (el as HTMLElement).getBoundingClientRect();
               const vh = window.innerHeight;
@@ -379,7 +369,6 @@ const spanishKeywords =
                 Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0)) / vh;
               if (visibleRatio >= 0.35 && !s.emitted) s.firstSeenAt = now;
             });
-            track('page_visible');
           }
         };
         document.addEventListener('visibilitychange', onVisibility);
@@ -402,7 +391,6 @@ const spanishKeywords =
           if (btn.dataset.consent === 'grant') {
             grantConsent();
             track('consent_granted');
-            track('page_viewed', currentPageProps());
           } else {
             denyConsent();
           }
@@ -419,8 +407,6 @@ const spanishKeywords =
       function startTrackingForPage() {
         pageEnterAt = performance.now();
         maxScrollDepth = 0;
-        hiddenAccumMs = 0;
-        lastVisibleSince = pageEnterAt;
         engagedFired = false;
         scrollMilestones.clear();
         sectionStates.clear();
@@ -430,18 +416,14 @@ const spanishKeywords =
           viewport_height: window.innerHeight,
         });
 
-        if (hasConsent()) {
-          track('page_viewed', currentPageProps());
-        }
-
         cleanups.push(bindScrollDepth());
         cleanups.push(bindSectionObserver());
         cleanups.push(bindClickDelegation());
         cleanups.push(bindVisibility());
       }
 
-      function stopTrackingForPage(reason: 'unload' | 'navigate') {
-        flushPageExit(reason);
+      function stopTrackingForPage() {
+        flushSections();
         cleanups.forEach((fn) => fn());
         cleanups = [];
       }
@@ -455,11 +437,11 @@ const spanishKeywords =
       if (document.readyState !== 'loading') boot();
       else document.addEventListener('DOMContentLoaded', boot);
 
-      document.addEventListener('astro:before-swap', () => stopTrackingForPage('navigate'));
+      document.addEventListener('astro:before-swap', stopTrackingForPage);
       document.addEventListener('astro:page-load', () => {
         if (cleanups.length === 0) startTrackingForPage();
       });
-      window.addEventListener('pagehide', () => flushPageExit('unload'), { once: false });
+      window.addEventListener('pagehide', flushSections);
     </script>
 
     <script>
