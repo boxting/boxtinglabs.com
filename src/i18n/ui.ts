@@ -36,7 +36,7 @@ export const ui = {
         partners: {
             eyebrow: 'Compañías que confiaron en nosotros',
             note: 'Trabajamos en mediano y largo plazo · clientes activos',
-            cta: 'Ver caso',
+            cta: 'Visitar sitio web (se abre en una pestaña nueva)',
             items: [
                 { id: 'ava', name: 'Ava Cash', built: 'App iOS y Android', industry: 'Fintech', year: '2025' },
                 { id: 'jalhuca', name: 'Jalhuca', built: 'Operación on-demand', industry: 'Logística', year: '2025' },
@@ -184,7 +184,7 @@ export const ui = {
         partners: {
             eyebrow: 'Companies that have trusted us with their product',
             note: 'Long-term engagements · active clients',
-            cta: 'See the case',
+            cta: 'Visit website (opens in a new tab)',
             items: [
                 { id: 'ava', name: 'Ava Cash', built: 'iOS and Android app', industry: 'Fintech', year: '2025' },
                 { id: 'jalhuca', name: 'Jalhuca', built: 'On-demand operations', industry: 'Logistics', year: '2025' },

@@ -38,7 +38,7 @@ const accentMap = {
     </div>
 
     <!-- Featured: Ava Cash -->
-    <article id="case-ava" class="featured reveal">
+    <article class="featured reveal">
       <div class="featured-gallery">
         <div class="ambient featured-glow" aria-hidden="true"></div>
         <div class="featured-meta">
@@ -92,7 +92,7 @@ const accentMap = {
         return (
           <li>
             <SpotlightCard client:visible rgb={accent.rgb} tint={accent.tint} tilt={3}>
-              <article id={`case-${p.title.toLowerCase().replace(/\s+/g, '')}`} class="project">
+              <article class="project">
                 <div class="project-meta">
                   <span class="mono" style={`color:${accent.label}`}>{p.client}</span>
                   <span class="mono text-cream/35">{p.year}</span>
@@ -159,10 +159,6 @@ const accentMap = {
     50% { opacity: 0.3; }
   }
 
-  .featured,
-  .project {
-    scroll-margin-top: 96px;
-  }
   .featured {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);

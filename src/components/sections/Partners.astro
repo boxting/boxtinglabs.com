@@ -11,10 +11,10 @@ interface Props {
 
 const { t } = Astro.props;
 
-const logos = {
-  ava: { src: ava, fit: 'cover' },
-  jalhuca: { src: jalhuca, fit: 'cover' },
-  newtransport: { src: newtransport, fit: 'contain' },
+const partners = {
+  ava: { src: ava, fit: 'cover', url: 'https://ava.pe/' },
+  jalhuca: { src: jalhuca, fit: 'cover', url: 'https://jalhuca.com/es/' },
+  newtransport: { src: newtransport, fit: 'contain', url: 'https://www.newtransport.net/' },
 } as const;
 ---
 
@@ -27,10 +27,16 @@ const logos = {
 
     <ul class="partners-row" data-rise="120">
       {t.items.map((p) => {
-        const logo = logos[p.id as keyof typeof logos];
+        const logo = partners[p.id as keyof typeof partners];
         return (
           <li>
-            <a href={`#case-${p.id}`} class="partner" data-track-cta={`partner-${p.id}`}>
+            <a
+              href={logo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="partner"
+              data-track-cta={`partner-${p.id}`}
+            >
               <span class="partner-logo">
                 <Image src={logo.src} alt="" widths={[64, 128]} sizes="52px" class={`partner-img ${logo.fit}`} loading="lazy" />
               </span>
@@ -198,7 +204,7 @@ const logos = {
     background: #fe5d1c;
     border-color: #fe5d1c;
     color: #0a0b0e;
-    transform: rotate(45deg);
+    transform: translate(2px, -2px);
   }
 
   @media (max-width: 860px) {
