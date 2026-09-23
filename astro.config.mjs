@@ -6,7 +6,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://www.boxtinglabs.com',
   i18n: {
-    defaultLocale: 'en',
+    // Spanish is served at /, English at /en/.
+    defaultLocale: 'es',
     locales: ['en', 'es'],
     routing: {
       prefixDefaultLocale: false,
@@ -19,10 +20,10 @@ export default defineConfig({
     }),
     sitemap({
       i18n: {
-        defaultLocale: 'en',
+        defaultLocale: 'es',
         locales: {
-          en: 'en-US',
-          es: 'es-PE',
+          es: 'es',
+          en: 'en',
         },
       },
     }),
