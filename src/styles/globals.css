@@ -317,8 +317,6 @@
     mix-blend-mode: overlay;
   }
 
-  .marquee:hover .marquee-track { animation-play-state: paused; }
-
   /* Iso cube pattern background (for project cards). Recolor via --pattern-color. */
   .iso-pattern {
     background-color: transparent;
@@ -361,21 +359,4 @@
     opacity: 0.8;
   }
 
-  .carousel-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 999px;
-    border: 1px solid rgba(248, 243, 235, 0.14);
-    background: rgba(255, 255, 255, 0.03);
-    color: rgba(248, 243, 235, 0.75);
-    transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
-  }
-  .carousel-btn:hover {
-    border-color: rgba(254, 93, 28, 0.5);
-    color: #f8f3eb;
-    background: rgba(254, 93, 28, 0.08);
-  }
 }

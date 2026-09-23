@@ -9,7 +9,7 @@
  *   [data-hero-intro]      hero root — runs the intro timeline once per page load
  *   [data-split]           heading — words rise from a clipped line when scrolled into view
  *   [data-scramble]        short mono label — text decodes when scrolled into view
- *   [data-draw]            svg — every path/line inside is drawn, synced to scroll
+ *   [data-manifesto]       manifesto — pinned cube builds as the principles scroll in
  *   [data-rise]            group — direct children stagger up when scrolled into view
  *   [data-parallax-y="n"]  element — drifts n px against the scroll across its section
  */
@@ -65,41 +65,16 @@ function heroIntro(root: HTMLElement) {
   // Hide everything we are about to bring in before releasing the CSS guard.
   utils.set(words, { y: '110%' });
   utils.set(reveal, { opacity: 0, y: 18 });
-  utils.set(['.hx-body', '.hx-top', '.hx-left'].map((s) => q(s)).filter(Boolean) as Element[], { opacity: 0 });
   root.dataset.intro = 'running';
-
-  const outlinePath = q<SVGPathElement>('.hx-outline');
-  const outline = outlinePath ? svg.createDrawable(outlinePath) : [];
-  const eyebrow = q('[data-hero-eyebrow]');
 
   const tl = createTimeline({ defaults: { ease: 'outExpo', duration: 900 } });
 
-  tl.add(outline, { draw: ['0 0', '0 1'], duration: 1000, ease: 'inOutQuad' }, 0)
-    .add('.hx-body', { opacity: [0, 1], scale: [0.86, 1], duration: 700, ease: 'outBack(1.6)' }, 700)
-    .add('.hx-top', { opacity: [0, 1], y: [-22, 0], duration: 700, ease: 'outBack(2.2)' }, 900)
-    .add('.hx-left', { opacity: [0, 1], x: [-18, 0], y: [12, 0], duration: 700, ease: 'outBack(2.2)' }, 1020)
-    .add(outline, { opacity: [1, 0], duration: 400 }, 1200)
-    .add(reveal, { opacity: [0, 1], y: [18, 0], delay: stagger(90) }, 600)
-    .add(words, { y: ['110%', '0%'], duration: 1100, delay: stagger(55) }, 760);
-
-  if (eyebrow) {
-    tl.add(eyebrow, { innerHTML: scrambleText({ chars: 'uppercase', override: '' }), duration: 1100, ease: 'linear' }, 650);
-  }
+  tl.add(reveal, { opacity: [0, 1], y: [18, 0], delay: stagger(110) }, 100)
+    .add(words, { y: ['110%', '0%'], duration: 1100, delay: stagger(55) }, 300);
   tl.then(() => {
     root.dataset.intro = 'done';
   });
   track(tl);
-
-  // Idle: the emblem's lid bobs once in a while so the mark feels alive.
-  const idle = animate('.hx-top', {
-    y: [0, -4, 0],
-    duration: 1400,
-    delay: 2600,
-    loopDelay: 4200,
-    loop: true,
-    ease: 'inOutSine',
-  });
-  track(idle);
 }
 
 /* --------------------------------------------------------- scroll effects */
@@ -134,25 +109,6 @@ function scrambles() {
   });
 }
 
-function drawOnScroll() {
-  document.querySelectorAll<SVGElement>('[data-draw]').forEach((el) => {
-    const shapes = el.querySelectorAll<SVGGeometryElement>('path, line, polyline, circle, rect');
-    const drawables = svg.createDrawable(shapes);
-    const anim = animate(drawables, {
-      draw: ['0 0', '0 1'],
-      ease: 'inOutSine',
-      delay: stagger(80),
-      autoplay: onScroll({
-        target: el,
-        enter: 'bottom top',
-        leave: 'center center',
-        sync: 0.6,
-      }),
-    });
-    track(anim);
-  });
-}
-
 function rises() {
   document.querySelectorAll<HTMLElement>('[data-rise]').forEach((group) => {
     const items = Array.from(group.children) as HTMLElement[];
@@ -182,6 +138,64 @@ function parallax() {
   });
 }
 
+/* ------------------------------------------------------------- manifesto */
+
+/**
+ * Pinned manifesto: each principle slides in from the right, scrubbed to its own
+ * scroll position (motion), while the pinned cube builds in step (anime timeline
+ * synced to the list): outline → lid → side facet → filled mark.
+ */
+function manifestoScroll() {
+  const root = document.querySelector<HTMLElement>('[data-manifesto]');
+  if (!root) return;
+  const q = (sel: string) => root.querySelector<SVGElement>(sel);
+  const items = Array.from(root.querySelectorAll<HTMLElement>('[data-principle]'));
+  const steps = Array.from(root.querySelectorAll<HTMLElement>('[data-step]'));
+  const list = root.querySelector<HTMLElement>('.principles');
+
+  items.forEach((item, i) => {
+    track(
+      scroll(
+        motionAnimate(item, { opacity: [0.06, 1], x: [96, 0], filter: ['blur(8px)', 'blur(0px)'] }, { ease: 'linear' }),
+        { target: item, offset: ['start end', 'start 55%'] },
+      ),
+    );
+    const bar = item.querySelector<HTMLElement>('.principle-bar');
+    if (bar) {
+      track(scroll(motionAnimate(bar, { scaleX: [0, 1] }, { ease: 'linear' }), { target: item, offset: ['start 70%', 'start 35%'] }));
+    }
+    track(scroll((p: number) => steps[i]?.classList.toggle('is-on', p > 0.5), { target: item, offset: ['start 70%', 'start 35%'] }));
+  });
+
+  const outline = q('.mc-outline');
+  const lid = q('.mc-top');
+  const side = q('.mc-left');
+  if (!list || !outline || !lid || !side) return;
+
+  const tl = createTimeline({
+    defaults: { ease: 'inOutSine' },
+    autoplay: onScroll({ target: list, enter: 'bottom top', leave: 'center bottom', sync: 0.35 }),
+  });
+  tl.add(q('.mc-guides')!, { opacity: [0, 1], duration: 600 }, 0)
+    .add(svg.createDrawable(outline), { draw: ['0 0', '0 1'], duration: 1000 }, 0)
+    .add(svg.createDrawable(lid), { draw: ['0 0', '0 1'], duration: 600 }, 1000)
+    .add(lid, { y: [-36, 0], ease: 'outBack(1.4)', duration: 800 }, 1000)
+    .add(svg.createDrawable(side), { draw: ['0 0', '0 1'], duration: 600 }, 2000)
+    .add(side, { x: [-30, 0], y: [16, 0], ease: 'outBack(1.4)', duration: 800 }, 2000)
+    .add(q('.mc-fill')!, { opacity: [0, 1], duration: 500 }, 3000)
+    .add([q('.mc-top-fill')!, q('.mc-left-fill')!], { opacity: [0, 1], duration: 500 }, 3200)
+    .add([outline, lid, side], { opacity: [1, 0], duration: 400 }, 3300)
+    .add(q('.mc-guides')!, { opacity: [1, 0.35], duration: 400 }, 3300);
+  track(tl);
+}
+
+/** Reduced motion: show the finished mark instead of the build-up. */
+function manifestoStatic() {
+  document
+    .querySelectorAll<SVGElement>('[data-manifesto] .mc-fill, [data-manifesto] .mc-top-fill, [data-manifesto] .mc-left-fill')
+    .forEach((el) => el.setAttribute('opacity', '1'));
+}
+
 /* --------------------------------------------------------------- lifecycle */
 
 export function initFx() {
@@ -197,12 +211,15 @@ export function initFx() {
     }
   }
 
-  if (prefersReduced()) return;
+  if (prefersReduced()) {
+    manifestoStatic();
+    return;
+  }
   splitHeadings();
   scrambles();
-  drawOnScroll();
   rises();
   parallax();
+  manifestoScroll();
 }
 
 export function destroyFx() {

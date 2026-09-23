@@ -29,39 +29,12 @@ const mailto = `mailto:${t.email}`;
       <HeroCarousel
         client:load
         frames={t.frames}
-        labels={{ region: t.carouselLabel, prev: t.prev, next: t.next, pause: t.pause, play: t.play }}
+        label={t.carouselLabel}
       />
     </div>
 
     <!-- Statement -->
     <div class="hero-copy">
-      <div class="hero-emblem" aria-hidden="true">
-        <svg viewBox="-6 -6 156 171" fill="none">
-          <path
-            class="hx-outline"
-            d="M67 .06C72.5-.24 77.8.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13.5 110.06C-.17 89.06-.17 68.06.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 .06Z"
-            stroke="#FE5D1C"
-            stroke-width="4"></path>
-          <path
-            class="hx-body"
-            d="M67 .06C72.5-.24 77.8.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13.5 110.06C-.17 89.06-.17 68.06.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 .06Z"
-            fill="#FE5D1C"></path>
-          <path
-            class="hx-top"
-            d="M66 26.06C70 25.89 74 26.06 78 26.56C89.7 32.72 101 39.39 112 46.56C100.1 54.02 87.7 60.68 75 66.56C72.7 67.22 70.3 67.22 68 66.56C55.8 59.98 43.8 53.14 32 46.06C43.4 39.36 54.7 32.7 66 26.06Z"
-            fill="#F8F3EB"></path>
-          <path
-            class="hx-left"
-            d="M22 66.06C32.3 71.88 42.6 77.71 53 83.56C56.2 85.39 58.7 87.89 60.5 91.06C62.1 104.32 62.4 117.66 61.5 131.06C51.2 124.84 40.7 119.01 30 113.56C27.3 111.96 25.1 109.8 23.5 107.06C22.1 93.46 21.6 79.8 22 66.06Z"
-            fill="#F8F3EB"></path>
-        </svg>
-      </div>
-
-      <p class="hero-eyebrow mono" data-hero-in>
-        <span class="hero-dot" aria-hidden="true"></span>
-        <span data-hero-eyebrow>{t.eyebrow}</span>
-      </p>
-
       <h1 class="hero-title serif" data-hero-title>
         {t.titleLead}<br />
         <em>{t.titleAccent}</em>
@@ -93,7 +66,7 @@ const mailto = `mailto:${t.email}`;
 
 <noscript>
   <style>
-    .hero [data-hero-in], .hero [data-hero-title], .hero .hx-body, .hero .hx-top, .hero .hx-left { opacity: 1 !important; }
+    .hero [data-hero-in], .hero [data-hero-title] { opacity: 1 !important; }
   </style>
 </noscript>
 
@@ -111,10 +84,7 @@ const mailto = `mailto:${t.email}`;
 
   /* Hidden until the anime.js intro takes over (see src/scripts/fx.ts). */
   .hero[data-intro='pending'] [data-hero-in],
-  .hero[data-intro='pending'] [data-hero-title],
-  .hero[data-intro='pending'] .hx-body,
-  .hero[data-intro='pending'] .hx-top,
-  .hero[data-intro='pending'] .hx-left {
+  .hero[data-intro='pending'] [data-hero-title] {
     opacity: 0;
   }
 
@@ -141,40 +111,6 @@ const mailto = `mailto:${t.email}`;
     align-items: center;
     text-align: center;
     padding: 0 24px;
-  }
-
-  .hero-emblem {
-    width: 40px;
-    height: 44px;
-    margin-bottom: 14px;
-  }
-  .hero-emblem svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  .hero-emblem path {
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0 0 18px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(248, 243, 235, 0.5);
-    min-height: 16px;
-  }
-  .hero-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #fe5d1c;
   }
 
   .hero-title {
@@ -272,8 +208,6 @@ const mailto = `mailto:${t.email}`;
       padding-top: 104px;
     }
     .hero-copy { order: -1; }
-    .hero-eyebrow { max-width: 30ch; line-height: 1.8; }
-    .hero-dot { display: none; }
     .hero-scroll { display: none; }
   }
 

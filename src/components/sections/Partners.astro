@@ -11,14 +11,11 @@ interface Props {
 
 const { t } = Astro.props;
 
-const partners = [
-  { name: 'Ava Cash', src: ava, fit: 'cover' },
-  { name: 'Jalhuca', src: jalhuca, fit: 'cover' },
-  { name: 'New Transport', src: newtransport, fit: 'contain' },
-];
-
-// Each half of the track must be wider than the viewport for a seamless loop.
-const half = [...partners, ...partners, ...partners];
+const logos = {
+  ava: { src: ava, fit: 'cover' },
+  jalhuca: { src: jalhuca, fit: 'cover' },
+  newtransport: { src: newtransport, fit: 'contain' },
+} as const;
 ---
 
 <section id="partners" class="partners" aria-labelledby="partners-eyebrow" data-track-section="partners">
@@ -27,21 +24,33 @@ const half = [...partners, ...partners, ...partners];
       <p id="partners-eyebrow" class="eyebrow" data-scramble>{t.eyebrow}</p>
       <p class="mono partners-note reveal">{t.note}</p>
     </div>
-  </div>
 
-  <div class="marquee fade-x">
-    <ul class="marquee-track partners-track">
-      {[...half, ...half].map((p, i) => (
-        <li class="partner" aria-hidden={i >= partners.length ? 'true' : undefined}>
-          <span class="partner-logo">
-            <Image src={p.src} alt="" widths={[64, 128]} sizes="44px" class={`partner-img ${p.fit}`} loading="lazy" />
-          </span>
-          <span class="partner-name">{p.name}</span>
-          <svg class="partner-sep" viewBox="0 0 144 159" aria-hidden="true">
-            <path d="M67 .06C72.5-.24 77.8.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13.5 110.06C-.17 89.06-.17 68.06.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 .06Z" fill="rgba(248,243,235,0.14)"></path>
-          </svg>
-        </li>
-      ))}
+    <ul class="partners-row" data-rise="120">
+      {t.items.map((p) => {
+        const logo = logos[p.id as keyof typeof logos];
+        return (
+          <li>
+            <a href={`#case-${p.id}`} class="partner" data-track-cta={`partner-${p.id}`}>
+              <span class="partner-logo">
+                <Image src={logo.src} alt="" widths={[64, 128]} sizes="52px" class={`partner-img ${logo.fit}`} loading="lazy" />
+              </span>
+              <span class="partner-text">
+                <span class="partner-name">{p.name}</span>
+                <span class="partner-built">{p.built}</span>
+                <span class="partner-meta mono">
+                  {p.industry}<span class="partner-dot" aria-hidden="true">·</span>{p.year}
+                </span>
+              </span>
+              <span class="partner-go" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3.5 10.5 L10.5 3.5 M10.5 3.5 H4.5 M10.5 3.5 V9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              <span class="sr-only">{t.cta}</span>
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </div>
 </section>
@@ -49,7 +58,6 @@ const half = [...partners, ...partners, ...partners];
 <style>
   .partners {
     position: relative;
-    overflow: hidden;
     padding: clamp(56px, 8vh, 88px) 0;
     border-top: 1px solid rgba(248, 243, 235, 0.08);
     border-bottom: 1px solid rgba(248, 243, 235, 0.08);
@@ -61,7 +69,7 @@ const half = [...partners, ...partners, ...partners];
     align-items: baseline;
     justify-content: space-between;
     gap: 8px 24px;
-    margin-bottom: 36px;
+    margin-bottom: 28px;
   }
   .partners-note {
     margin: 0;
@@ -70,50 +78,135 @@ const half = [...partners, ...partners, ...partners];
     color: rgba(248, 243, 235, 0.35);
   }
 
-  .partners-track {
-    display: flex;
-    width: max-content;
+  .partners-row {
     list-style: none;
     margin: 0;
     padding: 0;
-    animation-duration: 38s;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid rgba(248, 243, 235, 0.1);
+    border-bottom: 1px solid rgba(248, 243, 235, 0.1);
   }
+  .partners-row > li + li {
+    border-left: 1px solid rgba(248, 243, 235, 0.1);
+  }
+
   .partner {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding-right: 56px;
+    gap: 18px;
+    height: 100%;
+    padding: 32px clamp(20px, 2.4vw, 36px);
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    transition: background 260ms ease;
   }
+  /* Orange wash that rises from the bottom edge on hover */
+  .partner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 50% 120%, rgba(254, 93, 28, 0.14), transparent 70%);
+    opacity: 0;
+    transition: opacity 320ms ease;
+    pointer-events: none;
+  }
+  .partner::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 1px;
+    background: #fe5d1c;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .partner:hover::before,
+  .partner:focus-visible::before { opacity: 1; }
+  .partner:hover::after,
+  .partner:focus-visible::after { transform: scaleX(1); }
+
   .partner-logo {
+    position: relative;
     display: inline-flex;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 14px;
     overflow: hidden;
     background: #fffdf9;
-    box-shadow: 0 0 0 1px rgba(248, 243, 235, 0.1);
-    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(248, 243, 235, 0.1), 0 12px 30px -12px rgba(0, 0, 0, 0.7);
+    transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .partner-img {
-    width: 100%;
-    height: 100%;
-  }
+  .partner:hover .partner-logo { transform: translateY(-3px) rotate(-4deg); }
+  .partner-img { width: 100%; height: 100%; }
   .partner-img.cover { object-fit: cover; }
-  .partner-img.contain { object-fit: contain; padding: 4px; }
+  .partner-img.contain { object-fit: contain; padding: 5px; }
+
+  .partner-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
   .partner-name {
     font-weight: 700;
-    font-size: clamp(22px, 2.4vw, 30px);
+    font-size: clamp(20px, 1.9vw, 26px);
     letter-spacing: -0.025em;
-    color: rgba(248, 243, 235, 0.72);
-    white-space: nowrap;
+    color: rgba(248, 243, 235, 0.82);
     transition: color 200ms ease;
   }
-  .partner:hover .partner-name {
-    color: #f8f3eb;
+  .partner:hover .partner-name { color: #f8f3eb; }
+  .partner-built {
+    font-size: 14px;
+    color: rgba(248, 243, 235, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .partner-sep {
-    width: 14px;
-    height: 16px;
-    margin-left: 40px;
+  .partner-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(248, 243, 235, 0.42);
+  }
+  .partner-dot { color: rgba(254, 93, 28, 0.7); }
+
+  .partner-go {
+    position: relative;
+    margin-left: auto;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(248, 243, 235, 0.14);
+    color: rgba(248, 243, 235, 0.5);
+    transition: background 220ms ease, border-color 220ms ease, color 220ms ease, transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .partner:hover .partner-go {
+    background: #fe5d1c;
+    border-color: #fe5d1c;
+    color: #0a0b0e;
+    transform: rotate(45deg);
+  }
+
+  @media (max-width: 860px) {
+    .partners-row { grid-template-columns: minmax(0, 1fr); }
+    .partners-row > li + li {
+      border-left: 0;
+      border-top: 1px solid rgba(248, 243, 235, 0.1);
+    }
+    .partner { padding: 24px 4px; }
   }
 </style>

@@ -14,7 +14,6 @@ export const ui = {
             contact: 'Contacto',
         },
         hero: {
-            eyebrow: 'Ingeniería de software & IA · desde 2018',
             titleLead: 'El software se adapta a tu proceso.',
             titleAccent: 'No al revés.',
             lede: 'Nada de plantillas ni procesos genéricos que tu equipo tiene que aprender. Diseñamos software, IA aplicada e infraestructura a la medida de cómo tu operación ya funciona.',
@@ -23,10 +22,6 @@ export const ui = {
             email: 'hello@boxtinglabs.com',
             status: 'Tomando proyectos · Q4 2026',
             carouselLabel: 'Lo que construimos',
-            prev: 'Anterior',
-            next: 'Siguiente',
-            pause: 'Pausar carrusel',
-            play: 'Reanudar carrusel',
             frames: [
                 { id: 'server', label: 'Servidor', meta: 'AWS · GCP', tone: 'mint' },
                 { id: 'web', label: 'Web', meta: 'Apps y plataformas', tone: 'sky' },
@@ -41,6 +36,12 @@ export const ui = {
         partners: {
             eyebrow: 'Compañías que confiaron en nosotros',
             note: 'Trabajamos en mediano y largo plazo · clientes activos',
+            cta: 'Ver caso',
+            items: [
+                { id: 'ava', name: 'Ava Cash', built: 'App iOS y Android', industry: 'Fintech', year: '2025' },
+                { id: 'jalhuca', name: 'Jalhuca', built: 'Operación on-demand', industry: 'Logística', year: '2025' },
+                { id: 'newtransport', name: 'New Transport', built: 'Consola web', industry: 'Flotas', year: '2026' },
+            ],
         },
         manifesto: {
             eyebrow: 'El estudio',
@@ -157,7 +158,6 @@ export const ui = {
             contact: 'Contact',
         },
         hero: {
-            eyebrow: 'Software & AI engineering · est. 2018',
             titleLead: 'Software that bends to your process.',
             titleAccent: 'Not the other way around.',
             lede: 'No templates, no generic workflows your team has to learn. We design software, applied AI and infrastructure around the way your operation already works.',
@@ -166,10 +166,6 @@ export const ui = {
             email: 'hello@boxtinglabs.com',
             status: 'Taking projects · Q4 2026',
             carouselLabel: 'What we build',
-            prev: 'Previous',
-            next: 'Next',
-            pause: 'Pause carousel',
-            play: 'Resume carousel',
             frames: [
                 { id: 'server', label: 'Server', meta: 'AWS · GCP', tone: 'mint' },
                 { id: 'web', label: 'Web', meta: 'Apps and platforms', tone: 'sky' },
@@ -184,6 +180,12 @@ export const ui = {
         partners: {
             eyebrow: 'Companies that have trusted us with their product',
             note: 'Long-term engagements · active clients',
+            cta: 'See the case',
+            items: [
+                { id: 'ava', name: 'Ava Cash', built: 'iOS and Android app', industry: 'Fintech', year: '2025' },
+                { id: 'jalhuca', name: 'Jalhuca', built: 'On-demand operations', industry: 'Logistics', year: '2025' },
+                { id: 'newtransport', name: 'New Transport', built: 'Web console', industry: 'Fleets', year: '2026' },
+            ],
         },
         manifesto: {
             eyebrow: 'The studio',
