@@ -5,12 +5,18 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import astroPlugin from 'eslint-plugin-astro';
 
+import globals from 'globals';
+
 export default [
   eslint.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsparser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -41,6 +47,6 @@ export default [
   },
   ...astroPlugin.configs.recommended,
   {
-    ignores: ['dist/**', 'node_modules/**', '.astro/**', 'storybook-static/**'],
+    ignores: ['dist/**', 'node_modules/**', '.astro/**', 'storybook-static/**', '.yarn/**'],
   },
 ];
