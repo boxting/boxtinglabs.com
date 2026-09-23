@@ -2,6 +2,7 @@
 import '@/styles/globals.css';
 import { ClientRouter } from 'astro:transitions';
 import ConsentBanner from '@/components/ConsentBanner.astro';
+import SmoothScroll from '@/components/SmoothScroll.astro';
 
 interface Props {
   title?: string;
@@ -29,7 +30,7 @@ const spanishKeywords =
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-smooth">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -106,6 +107,7 @@ const spanishKeywords =
     <ClientRouter fallback="animate" />
   </head>
   <body class="min-h-screen bg-paper font-sans text-ink antialiased" transition:animate="fade">
+    <SmoothScroll />
     <slot />
     <ConsentBanner lang={lang === 'en' ? 'en' : 'es'} />
 

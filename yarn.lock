@@ -3480,6 +3480,7 @@ __metadata:
     eslint-plugin-storybook: "npm:^10.1.11"
     framer-motion: "npm:^11.15.0"
     globals: "npm:^17.12.0"
+    lenis: "npm:^1.3.26"
     lucide-react: "npm:^0.468.0"
     mixpanel-browser: "npm:^2.79.0"
     postcss: "npm:^8.4.49"
@@ -6137,6 +6138,24 @@ __metadata:
   version: 4.1.5
   resolution: "kleur@npm:4.1.5"
   checksum: 10c0/e9de6cb49657b6fa70ba2d1448fd3d691a5c4370d8f7bbf1c2f64c24d461270f2117e1b0afe8cb3114f13bbd8e51de158c2a224953960331904e636a5e4c0f2a
+  languageName: node
+  linkType: hard
+
+"lenis@npm:^1.3.26":
+  version: 1.3.26
+  resolution: "lenis@npm:1.3.26"
+  peerDependencies:
+    "@nuxt/kit": ">=3.0.0"
+    react: ">=17.0.0"
+    vue: ">=3.0.0"
+  peerDependenciesMeta:
+    "@nuxt/kit":
+      optional: true
+    react:
+      optional: true
+    vue:
+      optional: true
+  checksum: 10c0/0d523ecd7bbbaac64b86de8e7c6641e4a2299065743def53eade177f42c280d1447d36b0fd7a525b7d69b0a889c1af91e85e48bfeec3851975c4858c0823204e
   languageName: node
   linkType: hard
 
