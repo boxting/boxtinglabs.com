@@ -47,6 +47,12 @@ export default [
   },
   ...astroPlugin.configs.recommended,
   {
+    files: ['tools/**/*.mjs'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
     ignores: ['dist/**', 'node_modules/**', '.astro/**', 'storybook-static/**', '.yarn/**'],
   },
 ];
