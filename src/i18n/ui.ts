@@ -25,10 +25,6 @@ export const ui = {
             aboutHeading: 'Software de producto, IA aplicada y operación cuidada.',
             aboutBody: 'Un equipo pequeño y consistente que acompaña tu producto desde la idea hasta la operación en producción.',
             scrollHint: 'Desplazar',
-            proof: {
-                label: 'En producción',
-                headline: 'Ava Cash, Jalhuca y New Transport — en producción activa.',
-            },
             frames: {
                 web: { label: 'Web', badge: 'AWS · Producción' },
                 ai: { label: 'Agentes e IA', badge: 'Agentes · 24/7' },
@@ -169,10 +165,6 @@ export const ui = {
             aboutHeading: 'Product software, applied AI, and operations done with care.',
             aboutBody: 'A small, consistent team that stays with your product from the first decision to running it in production.',
             scrollHint: 'Scroll',
-            proof: {
-                label: 'In production',
-                headline: 'Ava Cash, Jalhuca, and New Transport — live in production.',
-            },
             frames: {
                 web: { label: 'Web', badge: 'AWS · Production' },
                 ai: { label: 'AI agents', badge: 'Agents · 24/7' },

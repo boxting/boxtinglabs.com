@@ -68,7 +68,7 @@ export default function HeroProductFrames({ t }: HeroProductFramesProps) {
       initial={initial}
       animate="visible"
       variants={containerVariants}
-      style={{ position: 'relative', width: '100%', maxWidth: 620, aspectRatio: '620 / 600', margin: '0 auto' }}
+      style={{ position: 'relative', width: '100%', maxWidth: 860, aspectRatio: '860 / 720', margin: '0 auto' }}
     >
       {/* Web — browser window, back layer */}
       <motion.div
