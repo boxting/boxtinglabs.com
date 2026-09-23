@@ -1,7 +1,7 @@
 ---
 import type { ui } from '@/i18n/ui';
 import HeroScrollScene from '@/components/ui/HeroScrollScene';
-import SpringCard from '@/components/ui/SpringCard';
+import HeroProductFrames from '@/components/ui/HeroProductFrames';
 
 interface Props {
   t: typeof ui.es.hero;
@@ -23,15 +23,6 @@ const { t } = Astro.props;
   <div class="pattern-layer" aria-hidden="true" data-parallax="0.4"></div>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- Shared SVG defs: the Boxting cube as a reusable symbol -->
-  <svg class="hero-svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
-    <defs>
-      <symbol id="bx-cube" viewBox="0 0 144 159">
-        <path d="M67 0.06C72.5-0.24 77.8 0.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13 0.5 110.06C-0.17 89.06 -0.17 68.06 0.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 0.06Z" />
-      </symbol>
-    </defs>
-  </svg>
-
   <HeroScrollScene client:load>
   <!-- ===== Top metadata ===== -->
   <div class="hero-coords">
@@ -46,119 +37,29 @@ const { t } = Astro.props;
 
   <!-- ===== Main content grid ===== -->
   <div class="hero-content">
-    <!-- Left: pillar words -->
-    <div class="pillars-col">
-      <div class="pillar pillar-0">
-        <span class="pillar-icon" aria-hidden="true">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <use href="#bx-cube" x="4.8" y="2" width="54.4" height="60" fill="#0F1B2D" />
-            <!-- Inner diamond — design / geometry -->
-            <path d="M32 22 L42 32 L32 42 L22 32 Z" fill="#FFFDF9" opacity="0.95" />
-            <circle cx="32" cy="32" r="2.5" fill="#FE5D1C" />
+    <!-- Left: single message, single action -->
+    <div class="hero-message">
+      <h1 class="hero-headline">{t.aboutHeading}</h1>
+      <p class="hero-subhead">{t.aboutBody}</p>
+
+      <div class="hero-actions">
+        <a href={`mailto:${t.email}`} class="hero-cta" data-track-cta="hero-primary-cta">
+          {t.primaryCta}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7 H12 M12 7 L7.5 2.5 M12 7 L7.5 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-        </span>
-        <span class="pillar-word">{t.pillars[0]}</span>
+        </a>
       </div>
 
-      <div class="pillar pillar-1">
-        <span class="pillar-icon" aria-hidden="true">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <use href="#bx-cube" x="4.8" y="2" width="54.4" height="60" fill="#0F1B2D" />
-            <!-- Stacked construction layers -->
-            <rect x="20" y="22" width="24" height="4" rx="1" fill="#FE5D1C" />
-            <rect x="20" y="30" width="24" height="4" rx="1" fill="#FFFDF9" opacity="0.9" />
-            <rect x="20" y="38" width="24" height="4" rx="1" fill="#FFFDF9" opacity="0.6" />
-          </svg>
-        </span>
-        <span class="pillar-word">{t.pillars[1]}</span>
-      </div>
-
-      <div class="pillar pillar-2">
-        <span class="pillar-icon" aria-hidden="true">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <use href="#bx-cube" x="4.8" y="2" width="54.4" height="60" fill="#0F1B2D" />
-            <!-- Live pulse dot -->
-            <circle cx="32" cy="32" r="9" fill="none" stroke="#FE5D1C" stroke-width="1.5" opacity="0.5" />
-            <circle cx="32" cy="32" r="5" fill="#FE5D1C" class="op-pulse" />
-          </svg>
-        </span>
-        <span class="pillar-word">{t.pillars[2]}</span>
+      <div class="hero-proof">
+        <span class="hero-proof-label mono">{t.proof.label}</span>
+        <p class="hero-proof-headline">{t.proof.headline}</p>
       </div>
     </div>
 
-    <!-- Right: about + services -->
-    <div class="about-col">
-      <h2 class="about-heading">{t.aboutHeading}</h2>
-      <p class="about-body">{t.aboutBody}</p>
-
-      <div class="service-grid">
-        <!-- Mobile -->
-        <div class="service-card service-0">
-          <SpringCard client:visible className="service-card-inner glass-soft">
-            <span class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <use href="#bx-cube" x="3.6" y="1.5" width="40.8" height="45" fill="#FE5D1C" />
-                <rect x="18" y="14" width="12" height="20" rx="2.5" fill="none" stroke="#FFFDF9" stroke-width="1.6" />
-                <line x1="21" y1="30" x2="27" y2="30" stroke="#FFFDF9" stroke-width="1.4" stroke-linecap="round" />
-              </svg>
-            </span>
-            <p class="service-label">{t.services[0].label}</p>
-            <p class="service-body">{t.services[0].body}</p>
-          </SpringCard>
-        </div>
-
-        <!-- Web -->
-        <div class="service-card service-1">
-          <SpringCard client:visible className="service-card-inner glass-soft">
-            <span class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <use href="#bx-cube" x="3.6" y="1.5" width="40.8" height="45" fill="#FE5D1C" />
-                <rect x="14" y="16" width="20" height="14" rx="2" fill="none" stroke="#FFFDF9" stroke-width="1.5" />
-                <line x1="14" y1="20" x2="34" y2="20" stroke="#FFFDF9" stroke-width="1.5" />
-                <circle cx="17" cy="18" r="0.9" fill="#0F1B2D" />
-                <circle cx="19.5" cy="18" r="0.9" fill="#FFFDF9" opacity="0.85" />
-                <circle cx="22" cy="18" r="0.9" fill="#FFFDF9" opacity="0.55" />
-              </svg>
-            </span>
-            <p class="service-label">{t.services[1].label}</p>
-            <p class="service-body">{t.services[1].body}</p>
-          </SpringCard>
-        </div>
-
-        <!-- Automatización -->
-        <div class="service-card service-2">
-          <SpringCard client:visible className="service-card-inner glass-soft">
-            <span class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <use href="#bx-cube" x="3.6" y="1.5" width="40.8" height="45" fill="#FE5D1C" />
-                <!-- Sparkle / agent dot cluster -->
-                <path d="M24 14 L26 22 L34 24 L26 26 L24 34 L22 26 L14 24 L22 22 Z" fill="#FFFDF9" />
-                <circle cx="32" cy="16" r="1.6" fill="#FFFDF9" opacity="0.85" />
-                <circle cx="16" cy="32" r="1.2" fill="#FFFDF9" opacity="0.65" />
-              </svg>
-            </span>
-            <p class="service-label">{t.services[2].label}</p>
-            <p class="service-body">{t.services[2].body}</p>
-          </SpringCard>
-        </div>
-
-        <!-- Consultoría -->
-        <div class="service-card service-3">
-          <SpringCard client:visible className="service-card-inner glass-soft">
-            <span class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <use href="#bx-cube" x="3.6" y="1.5" width="40.8" height="45" fill="#FE5D1C" />
-                <path d="M14 18 H30 a3 3 0 0 1 3 3 v6 a3 3 0 0 1 -3 3 H22 L17 33 V30 H14 a0 0 0 0 1 0 0 V18 a0 0 0 0 1 0 0 Z" fill="none" stroke="#FFFDF9" stroke-width="1.5" stroke-linejoin="round" />
-                <circle cx="20" cy="24" r="1.1" fill="#0F1B2D" />
-                <circle cx="24" cy="24" r="1.1" fill="#FFFDF9" />
-                <circle cx="28" cy="24" r="1.1" fill="#FFFDF9" opacity="0.75" />
-              </svg>
-            </span>
-            <p class="service-label">{t.services[3].label}</p>
-            <p class="service-body">{t.services[3].body}</p>
-          </SpringCard>
-        </div>
-      </div>
+    <!-- Right: three layered product frames — mobile, web, AI agents -->
+    <div class="hero-visual" aria-hidden="true">
+      <HeroProductFrames client:load t={t.frames} />
     </div>
   </div>
 
@@ -199,14 +100,6 @@ const { t } = Astro.props;
     position: absolute;
     inset: 0;
     z-index: 8;
-  }
-
-  /* Hidden but reachable: shared svg defs */
-  .hero-svg-defs {
-    position: absolute;
-    width: 0;
-    height: 0;
-    pointer-events: none;
   }
 
   /* Layer 1: tint */
@@ -329,168 +222,96 @@ const { t } = Astro.props;
     }
   }
 
-  /* On narrow screens the eyebrow pill wraps to 2 lines — give the pillar
-     words extra headroom so they don't collide with it. */
+  /* On narrow screens the eyebrow pill wraps to 2 lines — give the headline
+     extra headroom so it doesn't collide with it. */
   @media (max-width: 480px) {
     .hero-content {
       padding-top: clamp(168px, 26vh, 210px);
     }
   }
 
-  /* ===== Pillars (left column) ===== */
-  .pillars-col {
+  /* ===== Message (left column) ===== */
+  .hero-message {
     display: flex;
     flex-direction: column;
-    gap: clamp(14px, 2.4vh, 28px);
     min-width: 0;
-  }
-  .pillar {
-    display: flex;
-    align-items: center;
-    gap: clamp(16px, 2.2vw, 28px);
+    max-width: 640px;
     opacity: 0;
-    transform: translateY(18px);
-    animation: pillar-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    transform: translateY(16px);
+    animation: content-in 0.7s 0.15s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
   }
-  .pillar-0 { animation-delay: 0.18s; }
-  .pillar-1 { animation-delay: 0.36s; }
-  .pillar-2 { animation-delay: 0.54s; }
 
-  @keyframes pillar-in {
-    from { opacity: 0; transform: translateY(18px); }
+  @keyframes content-in {
+    from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .pillar-icon {
-    flex-shrink: 0;
-    width: clamp(48px, 5vw, 72px);
-    height: clamp(48px, 5vw, 72px);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    filter: drop-shadow(0 8px 20px rgba(15, 27, 45, 0.18));
-  }
-  .pillar-icon svg { width: 100%; height: 100%; display: block; }
-
-  .pillar-word {
+  .hero-headline {
     font-family: 'DM Sans', system-ui, sans-serif;
     font-weight: 700;
     color: #0F1B2D;
-    font-size: clamp(34px, 7vw, 92px);
-    line-height: 1;
-    letter-spacing: -0.045em;
-    text-wrap: balance;
-    min-width: 0;
-  }
-  @media (max-width: 480px) {
-    .pillar { gap: 14px; }
-    .pillar-word { font-size: clamp(30px, 9vw, 44px); }
-  }
-
-  /* Live pulse for "Operamos" cube */
-  .op-pulse {
-    transform-origin: center;
-    transform-box: fill-box;
-    animation: op-pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes op-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.55; transform: scale(0.86); }
-  }
-
-  /* ===== About + services (right column) ===== */
-  .about-col {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    min-width: 0;
-    max-width: 520px;
-    opacity: 0;
-    transform: translateY(14px);
-    animation: pillar-in 0.7s 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-  }
-  @media (max-width: 960px) {
-    .about-col {
-      max-width: none;
-      width: 100%;
-    }
-  }
-
-  .about-heading {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: clamp(18px, 1.5vw, 22px);
-    line-height: 1.3;
-    letter-spacing: -0.015em;
-    font-weight: 600;
-    color: #0F1B2D;
+    font-size: clamp(32px, 4.2vw, 52px);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
     margin: 0;
     text-wrap: balance;
   }
-  .about-body {
-    font-size: clamp(14px, 1.05vw, 15.5px);
-    line-height: 1.55;
+  .hero-subhead {
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.6;
     color: rgba(15, 27, 45, 0.62);
-    margin: 0;
-    max-width: 44ch;
+    margin: 24px 0 0;
+    max-width: 42ch;
   }
 
-  .service-grid {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-  /* Entrance shell — owns the reveal keyframe/opacity/transform so it never
-     fights with the SpringCard's own hover transform underneath. */
-  .service-card {
-    opacity: 0;
-    transform: translateY(14px);
-    animation: pillar-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-  }
-  /* Box styling + non-transform hover feedback lives on the SpringCard root. */
-  .service-card-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    padding: 16px 16px 14px;
-    border-radius: 18px;
-    height: 100%;
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-  .service-card-inner:hover {
-    border-color: rgba(15, 27, 45, 0.14) !important;
-    box-shadow: 0 16px 32px -18px rgba(15, 27, 45, 0.22);
-  }
-  .service-0 { animation-delay: 0.6s; }
-  .service-1 { animation-delay: 0.72s; }
-  .service-2 { animation-delay: 0.84s; }
-  .service-3 { animation-delay: 0.96s; }
-
-  .service-icon {
-    width: 40px;
-    height: 40px;
+  .hero-actions { margin-top: 36px; }
+  .hero-cta {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 4px;
-  }
-  .service-icon svg { width: 100%; height: 100%; display: block; }
-
-  .service-label {
+    gap: 10px;
+    background: #0F1B2D;
+    color: #FFFDF9;
     font-family: 'DM Sans', system-ui, sans-serif;
-    font-weight: 600;
     font-size: 15px;
-    letter-spacing: -0.01em;
-    color: #0F1B2D;
-    margin: 0;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 15px 24px;
+    border-radius: 999px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .service-body {
-    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
+  .hero-cta:hover { opacity: 0.86; }
+  .hero-cta:active { transform: scale(0.98); }
+
+  .hero-proof {
+    margin-top: 52px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(15, 27, 45, 0.1);
+    max-width: 46ch;
+  }
+  .hero-proof-label {
     font-size: 11px;
-    letter-spacing: 0.04em;
-    color: rgba(15, 27, 45, 0.55);
-    margin: 0;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8A92A1;
+  }
+  .hero-proof-headline {
+    margin: 8px 0 0;
+    font-size: 15px;
+    line-height: 1.5;
+    font-weight: 600;
+    color: #0F1B2D;
+  }
+
+  /* ===== Product frames (right column) ===== */
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+  }
+  @media (max-width: 960px) {
+    .hero-visual { display: none; }
   }
 
   /* ===== Scroll indicator ===== */
@@ -545,12 +366,9 @@ const { t } = Astro.props;
     .hero-coords .pulse,
     .hero-eyebrow .eyebrow-dot,
     .hero-eyebrow,
-    .pillar,
-    .about-col,
-    .service-card,
+    .hero-message,
     .scroll-indicator,
-    .scroll-circle,
-    .op-pulse {
+    .scroll-circle {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;

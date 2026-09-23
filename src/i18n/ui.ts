@@ -21,16 +21,18 @@ export const ui = {
             secondaryCta: 'Ver el trabajo',
             email: 'hello@boxtinglabs.com',
             footnote: '// 001 · El cubo plegado — una marca construida en 3 dimensiones',
-            pillars: ['Diseñamos.', 'Construimos.', 'Desplegamos.'],
             aboutHeading: 'Software de producto, IA aplicada y operación cuidada.',
             aboutBody: 'Un equipo pequeño y consistente que acompaña tu producto desde la idea hasta la operación en producción.',
-            services: [
-                { label: 'Mobile', body: 'iOS y Android' },
-                { label: 'Web', body: 'Apps y plataformas' },
-                { label: 'Automatización', body: 'Agentes e IA' },
-                { label: 'Consultoría', body: 'Equipos y arquitectura' },
-            ],
             scrollHint: 'Desplazar',
+            proof: {
+                label: 'En producción',
+                headline: 'Ava Cash, Jalhuca y New Transport — en producción activa.',
+            },
+            frames: {
+                web: { label: 'Web', badge: 'AWS · Producción' },
+                ai: { label: 'Agentes e IA', badge: 'Agentes · 24/7' },
+                mobile: { label: 'Mobile', appStore: 'App Store', googlePlay: 'Google Play' },
+            },
             meta: [
                 { label: 'Estudio', value: 'Lima, PE' },
                 { label: 'Fundado', value: '2018' },
@@ -162,16 +164,18 @@ export const ui = {
             secondaryCta: 'See selected work',
             email: 'hello@boxtinglabs.com',
             footnote: '// 001 · The folded cube — a brand built in three dimensions',
-            pillars: ['We design.', 'We build.', 'We ship.'],
             aboutHeading: 'Product software, applied AI, and operations done with care.',
             aboutBody: 'A small, consistent team that stays with your product from the first decision to running it in production.',
-            services: [
-                { label: 'Mobile', body: 'iOS and Android' },
-                { label: 'Web', body: 'Apps and platforms' },
-                { label: 'Automation', body: 'AI and agents' },
-                { label: 'Consulting', body: 'Teams and architecture' },
-            ],
             scrollHint: 'Scroll',
+            proof: {
+                label: 'In production',
+                headline: 'Ava Cash, Jalhuca, and New Transport — live in production.',
+            },
+            frames: {
+                web: { label: 'Web', badge: 'AWS · Production' },
+                ai: { label: 'AI agents', badge: 'Agents · 24/7' },
+                mobile: { label: 'Mobile', appStore: 'App Store', googlePlay: 'Google Play' },
+            },
             meta: [
                 { label: 'Studio', value: 'Lima, PE' },
                 { label: 'Founded', value: '2018' },
