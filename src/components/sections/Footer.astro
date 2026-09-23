@@ -52,7 +52,7 @@ const year = new Date().getFullYear();
 
       <div>
         <p class="footer-label mono">{t.columns.contact}</p>
-        <a href="mailto:hello@boxtinglabs.com" class="footer-link mono footer-email" data-track-cta="footer-email">hello@boxtinglabs.com</a>
+        <a href="mailto:hello@boxtinglabs.com" class="footer-link mono footer-email" data-track-cta="footer-email">hello@<wbr />boxtinglabs.com</a>
       </div>
     </div>
 
@@ -134,7 +134,7 @@ const year = new Date().getFullYear();
   .footer-link:hover { color: #f8f3eb; }
   .footer-email {
     font-size: 13px;
-    word-break: break-all;
+    overflow-wrap: anywhere;
   }
 
   .footer-bottom {
