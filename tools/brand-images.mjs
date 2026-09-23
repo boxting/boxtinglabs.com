@@ -362,7 +362,7 @@ const logo = (size) =>
   <g transform="translate(${(size - 144 * (size / 200)) / 2} ${(size - 159 * (size / 200)) / 2})">${mark(size / 200)}
   </g>`);
 
-/** app-icon variant (DESIGN.md §2.1): white cube, ink facets, orange field. iOS rounds it. */
+/** app-icon variant (DESIGN.md §2.1): white cube, ink facets, orange field. iOS/Android mask the corners. */
 const touchIcon = (size) =>
   doc(size, size, `Boxting Labs · apple-touch-icon · ${size}px.`, `
   <rect width="${size}" height="${size}" fill="#FE5D1C"/>
@@ -417,6 +417,10 @@ for (const lang of ['es', 'en']) {
 }
 await render(logo(512), { svgOut: 'assets/brand/logo.svg', rasterOut: 'public/logo.png', w: 512, h: 512, transparent: true });
 await render(touchIcon(180), { rasterOut: 'public/apple-touch-icon.png', w: 180, h: 180 });
+// Web app manifest icons; the cube sits well inside the 80% maskable safe zone.
+for (const size of [192, 512]) {
+  await render(touchIcon(size), { rasterOut: `public/icon-${size}.png`, w: size, h: size });
+}
 await render(upworkBanner(), {
   svgOut: 'assets/upwork/upwork-banner.svg',
   rasterOut: 'assets/upwork/upwork-banner.png',
