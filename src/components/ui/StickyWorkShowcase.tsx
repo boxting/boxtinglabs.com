@@ -17,6 +17,7 @@ export interface WorkProject {
   outcome: string;
   accent: 'plum' | 'sky' | 'orange';
   images?: string[];
+  techStack: string[];
 }
 
 interface MetaLabels {
@@ -99,6 +100,19 @@ function WorkFallbackList({ projects, metaLabels }: StickyWorkShowcaseProps) {
             <div className="flex items-baseline justify-between gap-5">
               <dt className="mono text-caption text-fog shrink-0">{metaLabels.role}</dt>
               <dd className="text-small text-ink text-right">{p.role}</dd>
+            </div>
+            <div className="flex items-baseline justify-between gap-5 mt-2">
+              <dt className="mono text-caption text-fog shrink-0">Stack</dt>
+              <dd className="flex gap-2 flex-wrap justify-end">
+                {p.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center rounded-full bg-cream/80 px-2 py-0.5 text-xs font-medium text-steel ring-1 ring-inset ring-fog/20"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </dd>
             </div>
           </dl>
         </article>
@@ -313,6 +327,19 @@ function ProjectDetail({
         <div className="flex items-baseline justify-between gap-5">
           <dt className="mono text-caption text-fog shrink-0">{metaLabels.role}</dt>
           <dd className="text-small text-ink text-right">{project.role}</dd>
+        </div>
+        <div className="flex items-baseline justify-between gap-5 mt-1">
+          <dt className="mono text-caption text-fog shrink-0">Stack</dt>
+          <dd className="flex gap-2 flex-wrap justify-end">
+            {project.techStack.map((tech) => (
+              <span
+                key={tech}
+                className="inline-flex items-center rounded-full bg-cream/80 px-2 py-0.5 text-xs font-medium text-steel ring-1 ring-inset ring-fog/20"
+              >
+                {tech}
+              </span>
+            ))}
+          </dd>
         </div>
       </dl>
     </motion.div>

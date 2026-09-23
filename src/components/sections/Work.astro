@@ -26,6 +26,7 @@ const projects = [
     outcome: t.featured.outcome,
     accent: 'orange' as const,
     images: avaOptimized.map((img) => img.src),
+    techStack: t.featured.techStack,
   },
   ...t.projects.map((p) => ({
     key: p.title,
@@ -36,6 +37,7 @@ const projects = [
     year: p.year,
     outcome: p.outcome,
     accent: p.accent as 'plum' | 'sky' | 'orange',
+    techStack: p.techStack,
   })),
 ];
 ---
