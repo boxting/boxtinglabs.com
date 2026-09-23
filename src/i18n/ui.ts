@@ -77,6 +77,7 @@ export const ui = {
                 role: 'Diseño y desarrollo de producto · iOS y Android',
                 year: '2025',
                 outcome: 'Llevamos Ava de prototipo a una aplicación pública en App Store y Google Play. Acompañamos al equipo en la definición de producto, el lanzamiento, los primeros ciclos de iteración con usuarios y la operación en producción.',
+                techStack: ['React Native', 'Node.js', 'AWS', 'PostgreSQL'],
             },
             projects: [
                 {
@@ -86,6 +87,7 @@ export const ui = {
                     role: 'Producto móvil · conductores y operaciones',
                     year: '2025',
                     outcome: 'Construimos la operación de entregas on-demand para ciudades peruanas, desde la primera versión para conductores hasta la consola interna de soporte. El servicio sostiene la operación diaria del cliente.',
+                    techStack: ['Flutter', 'Firebase', 'Google Cloud', 'Maps API'],
                     accent: 'plum',
                 },
                 {
@@ -95,6 +97,7 @@ export const ui = {
                     role: 'Plataforma web · control y telemetría',
                     year: '2026',
                     outcome: 'Diseñamos la consola que el equipo de operaciones usa para coordinar flotas, seguir vehículos y reportar a clientes corporativos. Reemplazó una mezcla de hojas de cálculo y herramientas dispersas.',
+                    techStack: ['React', 'Next.js', 'Tailwind', 'NestJS'],
                     accent: 'sky',
                 },
             ],
@@ -215,6 +218,7 @@ export const ui = {
                 role: 'Product design and engineering · iOS and Android',
                 year: '2025',
                 outcome: 'We took Ava from prototype to a live application on the App Store and Google Play. We supported the team through product definition, launch, the first iteration cycles with users, and ongoing production.',
+                techStack: ['React Native', 'Node.js', 'AWS', 'PostgreSQL'],
             },
             projects: [
                 {
@@ -224,6 +228,7 @@ export const ui = {
                     role: 'Mobile product · drivers and operations',
                     year: '2025',
                     outcome: 'We built the on-demand delivery operation for Peruvian cities — from the first driver-facing app to the internal support console. The service runs the client’s daily operation.',
+                    techStack: ['Flutter', 'Firebase', 'Google Cloud', 'Maps API'],
                     accent: 'plum',
                 },
                 {
@@ -233,6 +238,7 @@ export const ui = {
                     role: 'Web platform · control and telemetry',
                     year: '2026',
                     outcome: 'We designed the console the operations team uses to coordinate fleets, track vehicles, and report to corporate clients. It replaced a patchwork of spreadsheets and scattered tools.',
+                    techStack: ['React', 'Next.js', 'Tailwind', 'NestJS'],
                     accent: 'sky',
                 },
             ],

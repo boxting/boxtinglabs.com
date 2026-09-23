@@ -81,6 +81,16 @@ const accentMap = {
             <dt class="mono text-caption text-fog shrink-0">{t.metaLabels.role}</dt>
             <dd class="text-small text-ink text-right">{t.featured.role}</dd>
           </div>
+          <div class="flex items-baseline justify-between gap-5 mt-2">
+            <dt class="mono text-caption text-fog shrink-0">Stack</dt>
+            <dd class="flex gap-2 flex-wrap justify-end">
+              {t.featured.techStack.map(tech => (
+                <span class="inline-flex items-center rounded-full bg-cream/80 px-2 py-0.5 text-xs font-medium text-steel ring-1 ring-inset ring-fog/20">
+                  {tech}
+                </span>
+              ))}
+            </dd>
+          </div>
         </dl>
       </div>
     </article>
@@ -118,6 +128,16 @@ const accentMap = {
                   <div class="flex items-baseline justify-between gap-5">
                     <dt class="mono text-caption text-fog shrink-0">{t.metaLabels.role}</dt>
                     <dd class="text-small text-ink text-right">{p.role}</dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-5 mt-2">
+                    <dt class="mono text-caption text-fog shrink-0">Stack</dt>
+                    <dd class="flex gap-2 flex-wrap justify-end">
+                      {p.techStack.map(tech => (
+                        <span class="inline-flex items-center rounded-full bg-cream/80 px-2 py-0.5 text-xs font-medium text-steel ring-1 ring-inset ring-fog/20">
+                          {tech}
+                        </span>
+                      ))}
+                    </dd>
                   </div>
                 </dl>
               </div>
