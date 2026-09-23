@@ -1,30 +1,41 @@
 ---
 import { Image } from 'astro:assets';
-import ava1 from '@assets/images/ava/AVA_iPhone_Image_1.png';
-import ava2 from '@assets/images/ava/AVA_iPhone_Image_2.png';
-import ava3 from '@assets/images/ava/AVA_iPhone_Image_3.png';
-import ava4 from '@assets/images/ava/AVA_iPhone_Image_4.png';
+import type { ImageMetadata } from 'astro';
 import type { ui } from '@/i18n/ui';
-import SpotlightCard from '@/components/motion/SpotlightCard';
 
 interface Props {
   t: typeof ui.es.work;
 }
 
 const { t } = Astro.props;
-// Fanned phones: each drifts at its own rate for depth.
-const avaShots = [
-  { src: ava1, drift: 36, offset: 0 },
-  { src: ava2, drift: 70, offset: 40 },
-  { src: ava3, drift: 24, offset: 12 },
-  { src: ava4, drift: 56, offset: 52 },
-];
 
-const accentMap = {
-  plum: { rgb: '199,125,188', label: '#C77DBC', tint: 'rgba(110,47,102,0.10)' },
-  sky: { rgb: '125,163,255', label: '#7DA3FF', tint: 'rgba(43,92,230,0.09)' },
-  orange: { rgb: '254,93,28', label: '#FF8D5C', tint: 'rgba(254,93,28,0.08)' },
+/**
+ * Visual per project. With `shots`, the card shows the real screenshots in the given frame
+ * (`phone`: a fanned row with parallax, `browser`: the first shot in a browser window).
+ * With no shots it falls back to the illustrated scene at /svg/work/<id>.svg.
+ * To swap a scene for real app images, import them above and list them here —
+ * e.g. Ava's store screenshots live in src/assets/images/ava/AVA_iPhone_Image_{1..4}.png.
+ */
+const visuals: Record<string, { frame: 'phone' | 'browser'; shots: ImageMetadata[] }> = {
+  ava: { frame: 'phone', shots: [] },
+  jalhuca: { frame: 'phone', shots: [] },
+  newtransport: { frame: 'browser', shots: [] },
+};
+
+const tones = {
+  orange: { hex: '#FF8D5C', rgb: '254,93,28' },
+  mint: { hex: '#7CD6B4', rgb: '79,169,138' },
+  sky: { hex: '#7DA3FF', rgb: '43,92,230' },
 } as const;
+
+// Fanned phones: each drifts at its own rate for depth.
+const phoneRhythm = [
+  { drift: 36, offset: 0 },
+  { drift: 70, offset: 40 },
+  { drift: 24, offset: 12 },
+  { drift: 56, offset: 52 },
+];
+const total = String(t.items.length).padStart(2, '0');
 ---
 
 <section id="work" class="work" data-track-section="work">
@@ -37,92 +48,90 @@ const accentMap = {
       <p class="mono work-status reveal"><span class="work-live" aria-hidden="true"></span>{t.statusBadge}</p>
     </div>
 
-    <!-- Featured: Ava Cash -->
-    <article class="featured reveal">
-      <div class="featured-gallery">
-        <div class="ambient featured-glow" aria-hidden="true"></div>
-        <div class="featured-meta">
-          <span class="mono" style="color:#FF8D5C;">{t.featured.client}</span>
-          <span class="mono text-cream/35">{t.featured.year}</span>
-        </div>
-        <div class="phones">
-          {avaShots.map((shot, i) => (
-            <div class="phone" style={`margin-top:${shot.offset}px`} data-parallax-y={shot.drift}>
-              <Image
-                src={shot.src}
-                alt={`Ava Cash · ${i + 1}`}
-                widths={[220, 440]}
-                sizes="(max-width: 760px) 40vw, 200px"
-                class="phone-img"
-                loading={i === 0 ? 'eager' : 'lazy'}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div class="featured-copy">
-        <h3 class="featured-title">{t.featured.title}</h3>
-        <p class="featured-body">{t.featured.outcome}</p>
-        <dl class="meta">
-          <div>
-            <dt class="mono">{t.metaLabels.industry}</dt>
-            <dd>{t.featured.industry}</dd>
-          </div>
-          <div>
-            <dt class="mono">{t.metaLabels.role}</dt>
-            <dd>{t.featured.role}</dd>
-          </div>
-          <div class="meta-stack">
-            <dt class="mono">Stack</dt>
-            <dd>
-              {t.featured.techStack.map((tech, i) => (
-                <span class={i === 0 ? 'chip chip-accent' : 'chip'}>{tech}</span>
-              ))}
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </article>
-
-    <!-- Jalhuca + New Transport -->
-    <ul class="projects" data-rise="120">
-      {t.projects.map((p) => {
-        const accent = accentMap[p.accent as keyof typeof accentMap] ?? accentMap.orange;
+    <!-- Stacking cards: each case pins near the top and the next slides over it (fx.ts: workStack) -->
+    <ol class="stack" data-work-stack>
+      {t.items.map((p, i) => {
+        const tone = tones[p.accent as keyof typeof tones] ?? tones.orange;
+        const visual = visuals[p.id] ?? { frame: 'phone', shots: [] };
         return (
-          <li>
-            <SpotlightCard client:visible rgb={accent.rgb} tint={accent.tint} tilt={3}>
-              <article class="project">
-                <div class="project-meta">
-                  <span class="mono" style={`color:${accent.label}`}>{p.client}</span>
-                  <span class="mono text-cream/35">{p.year}</span>
-                </div>
-                <h3 class="project-title">{p.title}</h3>
-                <p class="project-body">{p.outcome}</p>
-                <dl class="meta">
-                  <div>
-                    <dt class="mono">{t.metaLabels.industry}</dt>
-                    <dd>{p.industry}</dd>
+          <li class="stack-item" data-stack-item style={`--i:${i}`}>
+            <article class="case" style={`--tone:${tone.hex};--tone-rgb:${tone.rgb}`}>
+              <div class="case-visual">
+                <div class="ambient case-glow" aria-hidden="true"></div>
+                {visual.shots.length > 0 && visual.frame === 'phone' && (
+                  <div class="phones">
+                    {visual.shots.map((shot, s) => (
+                      <div
+                        class="phone"
+                        style={`margin-top:${phoneRhythm[s % 4].offset}px`}
+                        data-parallax-y={phoneRhythm[s % 4].drift}
+                      >
+                        <Image
+                          src={shot}
+                          alt={`${p.title} · ${s + 1}`}
+                          widths={[220, 440]}
+                          sizes="(max-width: 760px) 40vw, 200px"
+                          class="phone-img"
+                          loading="lazy"
+                        />
+                      </div>
+                    ))}
                   </div>
+                )}
+                {visual.shots.length > 0 && visual.frame === 'browser' && (
+                  <div class="browser">
+                    <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+                    <Image src={visual.shots[0]} alt={p.title} widths={[640, 1280]} sizes="(max-width: 960px) 90vw, 640px" class="browser-img" loading="lazy" />
+                  </div>
+                )}
+                {visual.shots.length === 0 && (
+                  <img src={`/svg/work/${p.id}.svg`} alt="" width="640" height="480" class="case-scene" loading="lazy" />
+                )}
+              </div>
+
+              <div class="case-copy">
+                <div class="case-top mono">
+                  <span style="color: var(--tone)">{p.client}</span>
+                  <span>{String(i + 1).padStart(2, '0')} / {total} · {p.year}</span>
+                </div>
+                <p class="case-about mono">{p.about}</p>
+                <h3 class="case-title">{p.title}</h3>
+                <p class="case-body">{p.outcome}</p>
+
+                <ul class="case-highlights">
+                  {p.highlights.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+
+                <dl class="meta">
                   <div>
                     <dt class="mono">{t.metaLabels.role}</dt>
                     <dd>{p.role}</dd>
                   </div>
                   <div class="meta-stack">
-                    <dt class="mono">Stack</dt>
+                    <dt class="mono">{t.metaLabels.stack}</dt>
                     <dd>
-                      {p.techStack.map((tech) => (
-                        <span class="chip">{tech}</span>
+                      {p.techStack.map((tech, k) => (
+                        <span class={k === 0 ? 'chip chip-tone' : 'chip'}>{tech}</span>
                       ))}
                     </dd>
                   </div>
                 </dl>
-              </article>
-            </SpotlightCard>
+
+                <a href={p.url} target="_blank" rel="noopener noreferrer" class="case-link" data-track-cta={`work-${p.id}-site`}>
+                  {t.visit}
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M3.5 10.5 L10.5 3.5 M10.5 3.5 H4.5 M10.5 3.5 V9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                  <span class="sr-only">{t.newTab}</span>
+                </a>
+              </div>
+            </article>
           </li>
         );
       })}
-    </ul>
+    </ol>
   </div>
 </section>
 
@@ -159,37 +168,68 @@ const accentMap = {
     50% { opacity: 0.3; }
   }
 
-  .featured {
+  /* ---- stack ---- */
+  .stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .stack-item {
+    position: sticky;
+    /* each card pins a little lower than the one before, so the deck edges show */
+    top: calc(84px + var(--i) * 18px);
+  }
+  .stack-item + .stack-item {
+    margin-top: 14vh;
+  }
+
+  .case {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    /* equal heights keep the deck edges even; capped so a pinned card fits under the nav */
+    min-height: min(700px, calc(100vh - 150px));
     overflow: hidden;
-    border-radius: 22px;
+    border-radius: 24px;
     border: 1px solid rgba(248, 243, 235, 0.1);
-    background: rgba(255, 255, 255, 0.03);
+    /* opaque, so a card fully covers the one it slides over */
+    background:
+      radial-gradient(90% 70% at 0% 0%, rgba(var(--tone-rgb), 0.07), transparent 60%),
+      #0e0f12;
+    box-shadow: 0 -30px 60px -30px rgba(0, 0, 0, 0.9);
+    transform-origin: center top;
+    will-change: transform, filter;
+    transition: border-color 300ms ease;
   }
-  .featured-gallery {
+  .case:hover {
+    border-color: rgba(var(--tone-rgb), 0.4);
+  }
+
+  .case-visual {
     position: relative;
     overflow: hidden;
+    display: grid;
+    place-items: center;
     padding: 28px;
-    background: #0c0d10;
-    min-height: 460px;
+    background: #0b0c0f;
+    border-right: 1px solid rgba(248, 243, 235, 0.06);
   }
-  .featured-glow {
-    left: 10%;
+  .case-glow {
+    left: 15%;
     top: 20%;
-    width: 520px;
-    height: 420px;
-    background: radial-gradient(closest-side, rgba(254, 93, 28, 0.2), rgba(254, 93, 28, 0));
+    width: 70%;
+    height: 60%;
+    background: radial-gradient(closest-side, rgba(var(--tone-rgb), 0.22), rgba(var(--tone-rgb), 0));
   }
-  .featured-meta {
+  .case-scene {
     position: relative;
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    margin-bottom: 24px;
+    width: 100%;
+    max-width: 620px;
+    height: auto;
   }
+
   .phones {
     position: relative;
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(10px, 1.4vw, 18px);
@@ -210,34 +250,100 @@ const accentMap = {
     object-position: top;
   }
 
-  .featured-copy {
-    padding: clamp(28px, 3vw, 40px);
+  .browser {
+    position: relative;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(248, 243, 235, 0.14);
+    box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.8);
+  }
+  .browser-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+    background: #15161a;
+  }
+  .browser-bar span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(248, 243, 235, 0.2);
+  }
+  .browser-bar span:first-child { background: #fe5d1c; }
+  .browser-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .case-copy {
     display: flex;
     flex-direction: column;
+    padding: clamp(28px, 3vw, 44px);
   }
-  .featured-title {
-    margin: 0;
+  .case-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 11px;
+    color: rgba(248, 243, 235, 0.35);
+  }
+  .case-about {
+    margin: 22px 0 0;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(248, 243, 235, 0.45);
+  }
+  .case-title {
+    margin: 8px 0 0;
     font-weight: 700;
-    font-size: clamp(30px, 3vw, 40px);
+    font-size: clamp(30px, 3vw, 42px);
     letter-spacing: -0.03em;
     color: #f8f3eb;
   }
-  .featured-body {
-    margin: 16px 0 0;
+  .case-body {
+    margin: 14px 0 0;
     font-size: 15.5px;
-    line-height: 1.65;
-    color: rgba(248, 243, 235, 0.58);
+    line-height: 1.62;
+    color: rgba(248, 243, 235, 0.6);
+  }
+  .case-highlights {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .case-highlights li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(248, 243, 235, 0.75);
+  }
+  .case-highlights li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 7px;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--tone);
+    transform: rotate(45deg);
   }
 
   .meta {
     margin: auto 0 0;
-    padding-top: 24px;
-    border-top: 1px solid rgba(248, 243, 235, 0.1);
+    padding-top: 22px;
     display: grid;
     gap: 10px;
   }
-  .featured-copy .meta {
-    margin-top: 32px;
+  .case-highlights + .meta {
+    margin-top: 26px;
+    border-top: 1px solid rgba(248, 243, 235, 0.1);
   }
   .meta > div {
     display: flex;
@@ -256,55 +362,64 @@ const accentMap = {
     text-align: right;
     color: #f8f3eb;
   }
-  .meta-stack {
-    margin-top: 6px;
-  }
+  .meta-stack { margin-top: 4px; }
   .meta-stack dd {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 6px;
   }
+  .chip-tone {
+    background: rgba(var(--tone-rgb), 0.16);
+    color: var(--tone);
+  }
 
-  .projects {
-    list-style: none;
-    margin: 24px 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-  }
-  .project {
-    padding: clamp(24px, 2.6vw, 32px);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .project-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-  }
-  .project-title {
-    margin: 16px 0 0;
-    font-weight: 600;
-    font-size: clamp(24px, 2.2vw, 30px);
-    letter-spacing: -0.025em;
+  .case-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    margin-top: 18px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(248, 243, 235, 0.16);
     color: #f8f3eb;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
   }
-  .project-body {
-    margin: 14px 0 28px;
-    font-size: 15px;
-    line-height: 1.6;
-    color: rgba(248, 243, 235, 0.52);
+  .case-link svg { transition: transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .case-link:hover {
+    background: var(--tone);
+    border-color: var(--tone);
+    color: #0a0b0e;
   }
+  .case-link:hover svg { transform: translate(2px, -2px); }
 
   @media (max-width: 960px) {
-    .featured { grid-template-columns: minmax(0, 1fr); }
-    .featured-gallery { min-height: 0; }
+    .case { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .case-visual { border-right: 0; border-bottom: 1px solid rgba(248, 243, 235, 0.06); }
+  }
+  /* Laptop-height windows: tighter copy so a pinned card still fits under the nav */
+  @media (max-height: 900px) {
+    .case-copy { padding: 26px 32px; }
+    .case-about { margin-top: 16px; }
+    .case-body { font-size: 14.5px; line-height: 1.55; }
+    .case-highlights { margin-top: 14px; gap: 6px; }
+    .case-highlights li { font-size: 13.5px; }
+    .case-highlights + .meta { margin-top: 18px; padding-top: 16px; }
+    .case-link { margin-top: 14px; }
+  }
+
+  /* Phones and short windows: cards scroll normally instead of pinning */
+  @media (max-width: 860px), (max-height: 780px) {
+    .stack-item { position: static; }
+    .stack-item + .stack-item { margin-top: 24px; }
+    .case { min-height: 0; }
   }
   @media (max-width: 760px) {
-    .projects { grid-template-columns: minmax(0, 1fr); }
     .phones { grid-template-columns: repeat(4, minmax(120px, 1fr)); overflow-x: auto; padding-bottom: 8px; }
     .phone { margin-top: 0 !important; }
   }

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <!-- New Transport: the quoting panel (rates table + versioned PDF quote) next to the
+       client tracking map (truck moving down the coast with a live ETA). Loops every 9s.
+       Placeholder until real app screenshots are added (see Work.astro). -->
+  <defs>
+    <clipPath id="win"><rect x="20" y="28" width="600" height="424" rx="16"/></clipPath>
+    <clipPath id="map"><rect x="366" y="96" width="238" height="340" rx="12"/></clipPath>
+    <path id="route" d="M430 130 C 424 170, 452 200, 462 240 S 488 300, 506 332 S 540 380, 552 402"/>
+  </defs>
+  <style>
+    .row { opacity: 0; animation: row 9s cubic-bezier(.16,1,.3,1) infinite; }
+    .r2 { animation-delay: .15s; } .r3 { animation-delay: .3s; } .r4 { animation-delay: .45s; } .r5 { animation-delay: .6s; }
+    @keyframes row { 0% { opacity: 0; transform: translateX(-10px); } 6%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+    .hl { opacity: 0; animation: hl 9s ease infinite; }
+    @keyframes hl { 0%, 14% { opacity: 0; } 18%, 44% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    .pdf { opacity: 0; animation: pdf 9s cubic-bezier(.34,1.56,.64,1) infinite; }
+    @keyframes pdf { 0%, 22% { opacity: 0; transform: translateY(24px) scale(.94); } 30%, 88% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(-8px); } }
+    .ver { opacity: 0; animation: ver 9s steps(1) infinite; }
+    @keyframes ver { 0%, 38% { opacity: 0; } 39%, 88% { opacity: 1; } 89%, 100% { opacity: 0; } }
+    .routeline { stroke-dasharray: 320; stroke-dashoffset: 320; animation: route 9s linear infinite; }
+    @keyframes route { 0% { stroke-dashoffset: 320; } 80%, 100% { stroke-dashoffset: 0; } }
+    .ping { transform-box: fill-box; transform-origin: center; animation: ping 1.6s ease-out infinite; }
+    @keyframes ping { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
+    .eta { animation: eta 9s ease-in-out infinite; }
+    @keyframes eta { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .etabar { transform-box: fill-box; transform-origin: left center; animation: etabar 9s linear infinite; }
+    @keyframes etabar { 0% { transform: scaleX(.05); } 80%, 100% { transform: scaleX(1); } }
+    .cold { animation: cold 2.4s ease-in-out infinite; }
+    @keyframes cold { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+      .row, .pdf, .ver { opacity: 1; } .routeline { stroke-dashoffset: 0; } .hl { opacity: 0; }
+    }
+  </style>
+
+  <!-- window -->
+  <rect x="20" y="28" width="600" height="424" rx="16" fill="#0D0F13" stroke="#F8F3EB" stroke-opacity=".14"/>
+  <g clip-path="url(#win)">
+    <rect x="20" y="28" width="600" height="36" fill="#F8F3EB" fill-opacity=".03"/>
+    <circle cx="40" cy="46" r="4" fill="#FE5D1C"/><circle cx="54" cy="46" r="4" fill="#F8F3EB" fill-opacity=".2"/><circle cx="68" cy="46" r="4" fill="#F8F3EB" fill-opacity=".2"/>
+    <rect x="220" y="39" width="200" height="14" rx="7" fill="#F8F3EB" fill-opacity=".06"/>
+    <circle cx="232" cy="46" r="2.5" fill="#7CD6B4"/>
+    <rect x="240" y="44.5" width="90" height="3" rx="1.5" fill="#F8F3EB" fill-opacity=".25"/>
+
+    <!-- sidebar -->
+    <rect x="20" y="64" width="84" height="388" fill="#F8F3EB" fill-opacity=".02"/>
+    <path d="M104 64 V 452" stroke="#F8F3EB" stroke-opacity=".08"/>
+    <rect x="34" y="80" width="40" height="6" rx="3" fill="#7DA3FF"/>
+    <g fill="#F8F3EB" fill-opacity=".22">
+      <rect x="34" y="108" width="52" height="5" rx="2.5"/><rect x="34" y="128" width="44" height="5" rx="2.5"/>
+      <rect x="34" y="148" width="56" height="5" rx="2.5"/><rect x="34" y="168" width="40" height="5" rx="2.5"/>
+      <rect x="34" y="188" width="50" height="5" rx="2.5"/><rect x="34" y="208" width="46" height="5" rx="2.5"/>
+    </g>
+    <rect x="28" y="120" width="68" height="21" rx="6" fill="#2B5CE6" fill-opacity=".22"/>
+    <rect x="34" y="128" width="44" height="5" rx="2.5" fill="#7DA3FF"/>
+
+    <!-- rates table -->
+    <rect x="118" y="80" width="96" height="7" rx="3.5" fill="#F8F3EB" fill-opacity=".85"/>
+    <rect x="118" y="92" width="64" height="4" rx="2" fill="#F8F3EB" fill-opacity=".3"/>
+    <rect x="290" y="78" width="62" height="20" rx="10" fill="#FE5D1C"/>
+    <rect x="304" y="86" width="34" height="4" rx="2" fill="#0A0B0E" fill-opacity=".7"/>
+
+    <rect x="118" y="110" width="234" height="22" rx="6" fill="#F8F3EB" fill-opacity=".04"/>
+    <g fill="#F8F3EB" fill-opacity=".35"><rect x="128" y="119" width="40" height="4" rx="2"/><rect x="200" y="119" width="30" height="4" rx="2"/><rect x="260" y="119" width="30" height="4" rx="2"/></g>
+
+    <rect class="hl" x="118" y="164" width="234" height="28" rx="6" fill="#2B5CE6" fill-opacity=".14" stroke="#7DA3FF" stroke-opacity=".5"/>
+    <g class="row"><rect x="128" y="146" width="56" height="4" rx="2" fill="#F8F3EB" fill-opacity=".7"/><rect x="200" y="146" width="36" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4"/><rect x="304" y="141" width="38" height="14" rx="7" fill="#4FA98A" fill-opacity=".22"/></g>
+    <g class="row r2"><rect x="128" y="176" width="64" height="4" rx="2" fill="#F8F3EB" fill-opacity=".7"/><rect x="200" y="176" width="28" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4"/><rect x="304" y="171" width="38" height="14" rx="7" fill="#7DA3FF" fill-opacity=".25"/></g>
+    <g class="row r3"><rect x="128" y="206" width="48" height="4" rx="2" fill="#F8F3EB" fill-opacity=".7"/><rect x="200" y="206" width="40" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4"/><rect x="304" y="201" width="38" height="14" rx="7" fill="#FE5D1C" fill-opacity=".2"/></g>
+    <g class="row r4"><rect x="128" y="236" width="60" height="4" rx="2" fill="#F8F3EB" fill-opacity=".7"/><rect x="200" y="236" width="32" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4"/><rect x="304" y="231" width="38" height="14" rx="7" fill="#4FA98A" fill-opacity=".22"/></g>
+    <g class="row r5"><rect x="128" y="266" width="44" height="4" rx="2" fill="#F8F3EB" fill-opacity=".7"/><rect x="200" y="266" width="36" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4"/><rect x="304" y="261" width="38" height="14" rx="7" fill="#7DA3FF" fill-opacity=".25"/></g>
+    <path d="M118 160 H 352 M118 190 H 352 M118 220 H 352 M118 250 H 352" stroke="#F8F3EB" stroke-opacity=".05"/>
+
+    <!-- generated PDF quote -->
+    <g class="pdf">
+      <rect x="140" y="296" width="190" height="136" rx="10" fill="#15171C" stroke="#F8F3EB" stroke-opacity=".16"/>
+      <rect x="140" y="296" width="190" height="30" rx="10" fill="#2B5CE6" fill-opacity=".2"/>
+      <rect x="154" y="306" width="30" height="10" rx="3" fill="#FE5D1C"/>
+      <rect x="192" y="309" width="60" height="4" rx="2" fill="#F8F3EB" fill-opacity=".7"/>
+      <g class="ver"><rect x="282" y="304" width="36" height="14" rx="7" fill="#4FA98A" fill-opacity=".25"/><rect x="290" y="309" width="20" height="4" rx="2" fill="#7CD6B4"/></g>
+      <g fill="#F8F3EB" fill-opacity=".3">
+        <rect x="154" y="340" width="120" height="4" rx="2"/><rect x="154" y="352" width="96" height="4" rx="2"/><rect x="154" y="364" width="110" height="4" rx="2"/>
+      </g>
+      <path d="M154 382 H 316" stroke="#F8F3EB" stroke-opacity=".1"/>
+      <rect x="154" y="394" width="44" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4"/>
+      <rect x="262" y="390" width="54" height="10" rx="3" fill="#F8F3EB" fill-opacity=".85"/>
+    </g>
+
+    <!-- tracking map -->
+    <g clip-path="url(#map)">
+      <rect x="366" y="96" width="238" height="340" fill="#0F1624"/>
+      <!-- coast: land to the east, ocean to the west -->
+      <path d="M430 96 C 420 150, 448 196, 458 240 S 484 300, 500 334 S 536 382, 548 436 H 604 V 96 Z" fill="#1A2233"/>
+      <path d="M430 96 C 420 150, 448 196, 458 240 S 484 300, 500 334 S 536 382, 548 436" stroke="#7DA3FF" stroke-opacity=".3"/>
+      <g stroke="#F8F3EB" stroke-opacity=".05"><path d="M366 150 H 604 M366 210 H 604 M366 270 H 604 M366 330 H 604 M366 390 H 604"/><path d="M420 96 V 436 M480 96 V 436 M540 96 V 436"/></g>
+      <path d="M430 130 C 424 170, 452 200, 462 240 S 488 300, 506 332 S 540 380, 552 402" stroke="#F8F3EB" stroke-opacity=".12" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>
+      <path class="routeline" d="M430 130 C 424 170, 452 200, 462 240 S 488 300, 506 332 S 540 380, 552 402" stroke="#7DA3FF" stroke-width="3" stroke-linecap="round"/>
+      <!-- offices along the coast -->
+      <g fill="#F8F3EB" fill-opacity=".5"><circle cx="430" cy="130" r="4"/><circle cx="462" cy="240" r="3.5"/><circle cx="506" cy="332" r="3.5"/><circle cx="552" cy="402" r="4"/></g>
+      <!-- truck -->
+      <g>
+        <circle r="10" fill="#7DA3FF" class="ping" opacity=".6"/>
+        <circle r="7" fill="#2B5CE6" stroke="#F8F3EB" stroke-width="2"/>
+        <animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.8;1" calcMode="linear"><mpath href="#route"/></animateMotion>
+      </g>
+      <!-- ETA chip -->
+      <g class="eta">
+        <rect x="378" y="364" width="104" height="58" rx="10" fill="#0D0F13" fill-opacity=".92" stroke="#F8F3EB" stroke-opacity=".16"/>
+        <rect x="390" y="376" width="30" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4"/>
+        <rect x="390" y="386" width="54" height="7" rx="3.5" fill="#F8F3EB" fill-opacity=".9"/>
+        <rect x="390" y="404" width="80" height="4" rx="2" fill="#F8F3EB" fill-opacity=".1"/>
+        <rect class="etabar" x="390" y="404" width="80" height="4" rx="2" fill="#7DA3FF"/>
+        <g class="cold"><circle cx="464" cy="380" r="7" fill="#7DA3FF" fill-opacity=".18"/><path d="M464 375 v10 M459.5 377.5 l9 5 M468.5 377.5 l-9 5" stroke="#7DA3FF" stroke-width="1.3" stroke-linecap="round"/></g>
+      </g>
+    </g>
+    <rect x="366" y="96" width="238" height="340" rx="12" stroke="#F8F3EB" stroke-opacity=".12"/>
+    <rect x="378" y="108" width="62" height="18" rx="9" fill="#0D0F13" fill-opacity=".85"/>
+    <circle cx="390" cy="117" r="3" fill="#7CD6B4" class="cold"/>
+    <rect x="398" y="115" width="32" height="4" rx="2" fill="#F8F3EB" fill-opacity=".6"/>
+  </g>
+</svg>

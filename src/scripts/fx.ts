@@ -10,6 +10,7 @@
  *   [data-split]           heading — words rise from a clipped line when scrolled into view
  *   [data-scramble]        short mono label — text decodes when scrolled into view
  *   [data-manifesto]       manifesto — pinned cube builds as the principles scroll in
+ *   [data-work-stack]      work — sticky cases scale down and dim as the next one covers them
  *   [data-rise]            group — direct children stagger up when scrolled into view
  *   [data-parallax-y="n"]  element — drifts n px against the scroll across its section
  */
@@ -196,6 +197,34 @@ function manifestoStatic() {
     .forEach((el) => el.setAttribute('opacity', '1'));
 }
 
+/* ------------------------------------------------------------------ work */
+
+/**
+ * Stacking cases: every card is sticky (CSS). While the next card slides up over it,
+ * the one underneath scales down and dims, scrubbed to that card's approach.
+ */
+function workStack() {
+  // Mirrors the CSS: phones and short windows don't pin, so there is no deck to shrink.
+  if (!window.matchMedia('(min-width: 861px) and (min-height: 781px)').matches) return;
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-work-stack] [data-stack-item]'));
+  items.forEach((item, i) => {
+    const next = items[i + 1];
+    const card = item.querySelector<HTMLElement>('.case');
+    if (!next || !card) return;
+    const depth = items.length - 1 - i; // cards deeper in the deck end up smaller
+    track(
+      scroll(
+        motionAnimate(
+          card,
+          { scale: [1, 1 - 0.035 * depth], filter: ['brightness(1)', 'brightness(0.55)'] },
+          { ease: 'linear' },
+        ),
+        { target: next, offset: ['start end', 'start start'] },
+      ),
+    );
+  });
+}
+
 /* --------------------------------------------------------------- lifecycle */
 
 export function initFx() {
@@ -220,6 +249,7 @@ export function initFx() {
   rises();
   parallax();
   manifestoScroll();
+  workStack();
 }
 
 export function destroyFx() {
