@@ -70,6 +70,8 @@ const LEFT =
 <style>
   .manifesto {
     position: relative;
+    /* clip, not hidden: keeps the sticky column working while hiding the slide-in offset */
+    overflow: clip;
     padding: clamp(96px, 14vh, 160px) 0 clamp(64px, 10vh, 120px);
     background: #08090b;
   }

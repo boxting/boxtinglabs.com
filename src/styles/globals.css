@@ -360,3 +360,216 @@
   }
 
 }
+
+/* ---- Practice: scrolling cards + pinned stage (PracticeScroll.tsx) ---- */
+@layer components {
+  .practice-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .practice-list {
+    list-style: none;
+    margin: 0;
+    /* first and last cards can reach the focus line in the middle of the screen */
+    padding: 22vh 0 22vh;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 6vh, 56px);
+  }
+
+  .practice-card {
+    padding: clamp(24px, 2.6vw, 36px);
+  }
+  .practice-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .practice-card-icon {
+    display: none;
+    width: 64px;
+    height: 64px;
+    margin: -6px 0 0 -6px;
+  }
+  .practice-card-n {
+    font-size: 13px;
+  }
+  .practice-card-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: #f8f3eb;
+  }
+  .practice-card-body {
+    margin: 12px 0 0;
+    max-width: 52ch;
+    font-size: 15.5px;
+    line-height: 1.62;
+    color: rgba(248, 243, 235, 0.55);
+  }
+
+  .practice-stage-wrap {
+    position: relative;
+  }
+  /* Pinned heading + stage, centred in the viewport area under the 68px nav */
+  .practice-aside {
+    position: sticky;
+    top: 68px;
+    height: calc(100vh - 68px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(20px, 3.4vh, 36px);
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .practice-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 520px;
+    min-height: 340px;
+    border-radius: 22px;
+    border: 1px solid rgba(var(--tone-rgb), 0.28);
+    background:
+      radial-gradient(80% 60% at 50% 45%, rgba(var(--tone-rgb), 0.10), transparent 70%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+    box-shadow: 0 40px 100px -40px rgba(var(--tone-rgb), 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    transition: border-color 600ms ease, box-shadow 600ms ease, background 600ms ease;
+  }
+  .practice-stage-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(248, 243, 235, 0.08);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(248, 243, 235, 0.4);
+  }
+  .practice-stage-label {
+    text-transform: uppercase;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .practice-stage-art {
+    position: relative;
+    flex: 1;
+    display: grid;
+    place-items: center;
+    background-image:
+      linear-gradient(rgba(248, 243, 235, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(248, 243, 235, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: center;
+  }
+  .practice-stage-glow {
+    position: absolute;
+    width: 60%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(var(--tone-rgb), 0.28), transparent);
+    filter: blur(20px);
+    transition: background 600ms ease;
+  }
+  .practice-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(248, 243, 235, 0.12);
+    animation: practice-spin 40s linear infinite;
+  }
+  .practice-ring-1 { width: 46%; aspect-ratio: 1; border-style: solid; border-color: rgba(var(--tone-rgb), 0.35); transition: border-color 600ms ease; }
+  .practice-ring-2 { width: 66%; aspect-ratio: 1; animation-direction: reverse; animation-duration: 60s; }
+  .practice-ring-3 { width: 88%; aspect-ratio: 1; border-color: rgba(248, 243, 235, 0.07); }
+  .practice-ring-1::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border-radius: 50%;
+    background: var(--tone);
+    box-shadow: 0 0 12px var(--tone);
+  }
+  @keyframes practice-spin { to { transform: rotate(360deg); } }
+
+  .practice-stage-icon {
+    position: relative;
+    width: clamp(150px, 16vw, 210px);
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .practice-tag {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(248, 243, 235, 0.12);
+    background: rgba(12, 13, 16, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 11px;
+    color: rgba(248, 243, 235, 0.8);
+    white-space: nowrap;
+  }
+  .practice-tag-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--tone);
+  }
+
+  .practice-rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    padding: 18px 22px 20px;
+  }
+  .practice-rail-seg {
+    position: relative;
+    height: 16px;
+    cursor: pointer;
+  }
+  .practice-rail-seg::before,
+  .practice-rail-fill {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 7px;
+    height: 2px;
+    border-radius: 2px;
+  }
+  .practice-rail-seg::before { background: rgba(248, 243, 235, 0.12); }
+  .practice-rail-fill {
+    display: block;
+    background: var(--tone);
+    transform-origin: left;
+  }
+
+  @media (max-width: 959px) {
+    .practice-grid { grid-template-columns: minmax(0, 1fr); }
+    .practice-stage-wrap { order: -1; }
+    .practice-aside { position: static; height: auto; padding: 0 0 8px; }
+    .practice-stage { display: none; }
+    .practice-list { padding: 0; gap: 20px; }
+    .practice-card-icon { display: block; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .practice-ring { animation: none; }
+  }
+}

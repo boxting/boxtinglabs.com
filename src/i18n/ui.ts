@@ -111,21 +111,25 @@ export const ui = {
                 {
                     n: '01',
                     title: 'Ingeniería de software a medida',
+                    tags: ['Arquitectura', 'Diseño de producto', 'Web y móvil', 'Puesta en producción'],
                     body: 'Desarrollamos aplicaciones web y móviles end-to-end: arquitectura, diseño de producto, implementación y puesta en producción. Construimos software pensado para durar.',
                 },
                 {
                     n: '02',
                     title: 'Automatización con inteligencia artificial',
+                    tags: ['Agentes', 'Asistentes internos', 'Búsqueda inteligente', 'Flujos medibles'],
                     body: 'Integramos modelos de lenguaje y agentes a tus procesos de negocio: automatización de operaciones, asistentes internos, búsqueda inteligente y flujos de trabajo medibles.',
                 },
                 {
                     n: '03',
                     title: 'Infraestructura cloud para producto',
+                    tags: ['AWS · GCP', 'Despliegue continuo', 'Observabilidad', 'Costos bajo control'],
                     body: 'Diseñamos y operamos la infraestructura que sostiene tu software: arquitectura en AWS o GCP, despliegue continuo, observabilidad y costos bajo control.',
                 },
                 {
                     n: '04',
                     title: 'Consultoría y capacitación técnica',
+                    tags: ['Revisión de arquitectura', 'Prácticas de ingeniería', 'Capacitación a medida'],
                     body: 'Acompañamos a equipos internos con revisión de arquitectura, definición de prácticas de ingeniería y capacitaciones a medida en desarrollo de software moderno.',
                 },
             ],
@@ -255,21 +259,25 @@ export const ui = {
                 {
                     n: '01',
                     title: 'Custom software engineering',
+                    tags: ['Architecture', 'Product design', 'Web and mobile', 'Production launch'],
                     body: 'We build web and mobile applications end-to-end: architecture, product design, implementation, and production launch. Software built to last.',
                 },
                 {
                     n: '02',
                     title: 'AI-powered automation',
+                    tags: ['Agents', 'Internal assistants', 'Intelligent search', 'Measurable workflows'],
                     body: 'We integrate language models and agents into your business processes — operations automation, internal assistants, intelligent search, and measurable workflows.',
                 },
                 {
                     n: '03',
                     title: 'Cloud infrastructure for product',
+                    tags: ['AWS · GCP', 'Continuous deployment', 'Observability', 'Cost under control'],
                     body: 'We design and operate the infrastructure that runs your software: AWS or GCP architecture, continuous deployment, observability, and cost under control.',
                 },
                 {
                     n: '04',
                     title: 'Consulting and technical training',
+                    tags: ['Architecture review', 'Engineering practice', 'Tailored training'],
                     body: 'We work with internal teams on architecture review, engineering practice, and tailored training in modern software development.',
                 },
             ],
