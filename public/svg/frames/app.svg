@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none">
+  <defs>
+    <linearGradient id="scr" x1="0" y1="0" x2=".4" y2="1">
+      <stop offset="0" stop-color="#FE5D1C" stop-opacity=".85"/>
+      <stop offset=".55" stop-color="#FE5D1C" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#0F1013"/>
+    </linearGradient>
+    <clipPath id="screen"><rect x="124" y="24" width="72" height="192" rx="12"/></clipPath>
+  </defs>
+  <style>
+    .feed { animation: feed 6s cubic-bezier(.65,0,.35,1) infinite; }
+    @keyframes feed {
+      0%, 18%  { transform: translateY(0); }
+      28%, 48% { transform: translateY(-46px); }
+      58%, 80% { transform: translateY(-92px); }
+      92%, 100% { transform: translateY(0); }
+    }
+    .toast { animation: toast 6s cubic-bezier(.16,1,.3,1) infinite; }
+    @keyframes toast { 0%, 30% { transform: translateY(-40px); opacity: 0; } 38%, 62% { transform: translateY(0); opacity: 1; } 70%, 100% { transform: translateY(-40px); opacity: 0; } }
+    .chip { animation: float 4.8s ease-in-out infinite; }
+    .chip2 { animation-delay: -2.4s; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    .ring { transform-box: fill-box; transform-origin: center; animation: ring 2.2s ease-out infinite; }
+    @keyframes ring { 0% { transform: scale(.7); opacity: .8; } 100% { transform: scale(1.9); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+
+  <!-- floating chips -->
+  <g class="chip">
+    <rect x="30" y="64" width="78" height="36" rx="10" fill="#F8F3EB" fill-opacity=".05" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <circle cx="46" cy="82" r="7" fill="#4FA98A" fill-opacity=".25"/>
+    <path d="M42.5 82l2.5 2.5 5-5" stroke="#7CD6B4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="58" y="76" width="38" height="4" rx="2" fill="#F8F3EB" fill-opacity=".6"/>
+    <rect x="58" y="84" width="26" height="4" rx="2" fill="#F8F3EB" fill-opacity=".25"/>
+  </g>
+  <g class="chip chip2">
+    <rect x="212" y="138" width="80" height="44" rx="10" fill="#F8F3EB" fill-opacity=".05" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <path d="M222 170 L236 160 L248 165 L262 150 L282 154" stroke="#FF9E68" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="222" y="146" width="30" height="4" rx="2" fill="#F8F3EB" fill-opacity=".5"/>
+  </g>
+
+  <!-- phone -->
+  <rect x="118" y="18" width="84" height="204" rx="18" fill="#0F1013" stroke="#F8F3EB" stroke-opacity=".18"/>
+  <g clip-path="url(#screen)">
+    <rect x="124" y="24" width="72" height="192" fill="url(#scr)"/>
+    <rect x="148" y="28" width="24" height="6" rx="3" fill="#08090B"/>
+    <rect x="132" y="44" width="26" height="4" rx="2" fill="#F8F3EB" fill-opacity=".9"/>
+    <rect x="132" y="52" width="40" height="7" rx="3.5" fill="#F8F3EB"/>
+    <g class="feed">
+      <rect x="132" y="70" width="56" height="38" rx="7" fill="#F8F3EB" fill-opacity=".14"/>
+      <rect x="138" y="78" width="22" height="4" rx="2" fill="#F8F3EB" fill-opacity=".7"/>
+      <rect x="138" y="94" width="36" height="6" rx="3" fill="#F8F3EB"/>
+      <rect x="132" y="116" width="56" height="38" rx="7" fill="#F8F3EB" fill-opacity=".08"/>
+      <circle cx="144" cy="135" r="6" fill="#FE5D1C"/>
+      <rect x="154" y="131" width="26" height="4" rx="2" fill="#F8F3EB" fill-opacity=".5"/>
+      <rect x="154" y="138" width="18" height="3" rx="1.5" fill="#F8F3EB" fill-opacity=".25"/>
+      <rect x="132" y="162" width="56" height="38" rx="7" fill="#F8F3EB" fill-opacity=".08"/>
+      <circle cx="144" cy="181" r="6" fill="#2B5CE6"/>
+      <rect x="154" y="177" width="26" height="4" rx="2" fill="#F8F3EB" fill-opacity=".5"/>
+      <rect x="154" y="184" width="18" height="3" rx="1.5" fill="#F8F3EB" fill-opacity=".25"/>
+      <rect x="132" y="208" width="56" height="38" rx="7" fill="#F8F3EB" fill-opacity=".08"/>
+      <circle cx="144" cy="227" r="6" fill="#4FA98A"/>
+      <rect x="154" y="223" width="26" height="4" rx="2" fill="#F8F3EB" fill-opacity=".5"/>
+      <rect x="132" y="254" width="56" height="38" rx="7" fill="#F8F3EB" fill-opacity=".08"/>
+    </g>
+    <rect x="124" y="196" width="72" height="20" fill="#0F1013" fill-opacity=".9"/>
+    <circle cx="140" cy="206" r="2.5" fill="#FE5D1C"/>
+    <circle cx="160" cy="206" r="2.5" fill="#F8F3EB" fill-opacity=".3"/>
+    <circle cx="180" cy="206" r="2.5" fill="#F8F3EB" fill-opacity=".3"/>
+  </g>
+
+  <!-- push notification -->
+  <g class="toast">
+    <rect x="108" y="30" width="104" height="26" rx="9" fill="#1A1B20" stroke="#F8F3EB" stroke-opacity=".16"/>
+    <circle class="ring" cx="122" cy="43" r="5" stroke="#FE5D1C"/>
+    <circle cx="122" cy="43" r="4" fill="#FE5D1C"/>
+    <rect x="132" y="38" width="48" height="4" rx="2" fill="#F8F3EB" fill-opacity=".85"/>
+    <rect x="132" y="45" width="66" height="3" rx="1.5" fill="#F8F3EB" fill-opacity=".3"/>
+  </g>
+</svg>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none">
+  <style>
+    .wire { stroke-dasharray: 2 6; animation: flow 1.2s linear infinite; }
+    @keyframes flow { to { stroke-dashoffset: -16; } }
+    .node { transform-box: fill-box; transform-origin: center; animation: hit 4s ease-in-out infinite; }
+    .n1 { animation-delay: 0s; } .n2 { animation-delay: .9s; } .n3 { animation-delay: .9s; } .n4 { animation-delay: 1.9s; } .n5 { animation-delay: 2.8s; }
+    @keyframes hit { 0%, 12%, 100% { transform: scale(1); } 6% { transform: scale(1.12); } }
+    .done { transform-box: fill-box; transform-origin: center; animation: done 4s cubic-bezier(.16,1,.3,1) infinite; }
+    @keyframes done { 0%, 66% { transform: scale(.4); opacity: 0; } 74%, 94% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+    .halo { transform-box: fill-box; transform-origin: center; animation: halo 4s ease-out infinite; animation-delay: 2.8s; }
+    @keyframes halo { 0% { transform: scale(.8); opacity: .8; } 30%, 100% { transform: scale(1.9); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } .done { opacity: 1; transform: none; } }
+  </style>
+  <defs>
+    <path id="p1" d="M58 120 C 90 120, 94 70, 128 70"/>
+    <path id="p2" d="M58 120 C 90 120, 94 170, 128 170"/>
+    <path id="p3" d="M152 70 C 186 70, 190 120, 222 120"/>
+    <path id="p4" d="M152 170 C 186 170, 190 120, 222 120"/>
+    <path id="p5" d="M246 120 H 272"/>
+  </defs>
+
+  <use href="#p1" class="wire" stroke="#C77DBC" stroke-opacity=".55" stroke-width="1.4"/>
+  <use href="#p2" class="wire" stroke="#C77DBC" stroke-opacity=".55" stroke-width="1.4"/>
+  <use href="#p3" class="wire" stroke="#C77DBC" stroke-opacity=".55" stroke-width="1.4"/>
+  <use href="#p4" class="wire" stroke="#C77DBC" stroke-opacity=".55" stroke-width="1.4"/>
+  <use href="#p5" class="wire" stroke="#C77DBC" stroke-opacity=".55" stroke-width="1.4"/>
+
+  <!-- trigger -->
+  <g class="node n1">
+    <rect x="22" y="102" width="36" height="36" rx="10" fill="#1B1420" stroke="#C77DBC" stroke-opacity=".6"/>
+    <path d="M42 110 L34 122 H40 L38 131 L47 118 H41 Z" fill="#FF9E68"/>
+  </g>
+  <!-- steps -->
+  <g class="node n2">
+    <rect x="128" y="52" width="24" height="36" rx="8" fill="#F8F3EB" fill-opacity=".06" stroke="#F8F3EB" stroke-opacity=".2"/>
+    <path d="M134 64 h12 M134 70 h12 M134 76 h8" stroke="#F8F3EB" stroke-opacity=".55" stroke-linecap="round"/>
+  </g>
+  <g class="node n3">
+    <rect x="128" y="152" width="24" height="36" rx="8" fill="#F8F3EB" fill-opacity=".06" stroke="#F8F3EB" stroke-opacity=".2"/>
+    <circle cx="140" cy="170" r="6" stroke="#F8F3EB" stroke-opacity=".55"/>
+    <path d="M140 166 v4 l3 2" stroke="#F8F3EB" stroke-opacity=".55" stroke-linecap="round"/>
+  </g>
+  <g class="node n4">
+    <rect x="222" y="102" width="24" height="36" rx="8" fill="#F8F3EB" fill-opacity=".06" stroke="#F8F3EB" stroke-opacity=".2"/>
+    <path d="M234 110 L 242 120 L 234 130 L 226 120 Z" stroke="#C77DBC" stroke-width="1.2"/>
+  </g>
+  <!-- result -->
+  <circle class="halo" cx="286" cy="120" r="14" stroke="#C77DBC"/>
+  <circle cx="286" cy="120" r="14" fill="#6E2F66"/>
+  <path class="done" d="M279 120 L284 125 L293 115" stroke="#F8F3EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- travelling packets -->
+  <circle r="3.5" fill="#FF9E68">
+    <animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.22;1" calcMode="spline" keySplines=".65 0 .35 1;0 0 1 1"><mpath href="#p1"/></animateMotion>
+  </circle>
+  <circle r="3.5" fill="#FF9E68">
+    <animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.22;1" calcMode="spline" keySplines=".65 0 .35 1;0 0 1 1"><mpath href="#p2"/></animateMotion>
+  </circle>
+  <circle r="3.5" fill="#FF9E68" opacity="0">
+    <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.24;.25;.46;.47;1"/>
+    <animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.24;.46;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#p3"/></animateMotion>
+  </circle>
+  <circle r="3.5" fill="#FF9E68" opacity="0">
+    <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.24;.25;.46;.47;1"/>
+    <animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.24;.46;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#p4"/></animateMotion>
+  </circle>
+  <circle r="3.5" fill="#FF9E68" opacity="0">
+    <animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.48;.49;.68;.69;1"/>
+    <animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.48;.68;1" calcMode="linear"><mpath href="#p5"/></animateMotion>
+  </circle>
+</svg>

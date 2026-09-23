@@ -29,9 +29,23 @@ export default {
         plum: '#6E2F66',
         // §3.5 semantic
         danger: '#C03030',
+        // Dark surfaces — direction B "Ambient glow"
+        night: {
+          DEFAULT: '#08090B',
+          900: '#08090B',
+          800: '#0C0D10',
+          700: '#0F1013',
+          600: '#15161A',
+        },
+        // Accent tints legible on night
+        'mint-300': '#7CD6B4',
+        'sky-300': '#7DA3FF',
+        'plum-300': '#C77DBC',
+        'orange-200': '#FF9E68',
       },
       fontFamily: {
         sans: ['"DM Sans"', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
         mono: ['"DM Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
       },
       // §4.3 type scale

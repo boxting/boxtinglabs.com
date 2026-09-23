@@ -34,7 +34,8 @@ const spanishKeywords =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#FFFDF9" />
+    <meta name="theme-color" content="#08090B" />
+    <meta name="color-scheme" content="dark" />
 
     <title>{title}</title>
     <meta name="title" content={title} />
@@ -75,7 +76,7 @@ const spanishKeywords =
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -105,7 +106,7 @@ const spanishKeywords =
 
     <ClientRouter fallback="animate" />
   </head>
-  <body class="min-h-screen bg-paper font-sans text-ink antialiased" transition:animate="fade">
+  <body class="min-h-screen bg-night font-sans text-cream antialiased" transition:animate="fade">
     <slot />
     <ConsentBanner lang={lang === 'en' ? 'en' : 'es'} />
 
@@ -415,6 +416,8 @@ const spanishKeywords =
     </script>
 
     <script>
+      import { initFx, destroyFx } from '@/scripts/fx';
+
       function bindReveals() {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const els = document.querySelectorAll('.reveal:not(.is-in)');
@@ -472,6 +475,8 @@ const spanishKeywords =
       }
 
       document.addEventListener('astro:page-load', bindReveals);
+      document.addEventListener('astro:page-load', initFx);
+      document.addEventListener('astro:before-swap', destroyFx);
       if (document.readyState !== 'loading') bindReveals();
       else document.addEventListener('DOMContentLoaded', bindReveals);
     </script>

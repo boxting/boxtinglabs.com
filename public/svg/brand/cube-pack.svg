@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 260" fill="none">
+  <!-- "Pack big ideas into small boxes." Ideas fall into the cube's open top, the cube settles. Loops every 4.8s. -->
+  <style>
+    .idea { transform-box: fill-box; transform-origin: center; animation: drop 4.8s cubic-bezier(.55,0,.75,.2) infinite; opacity: 0; }
+    .i2 { animation-delay: 1.2s; } .i3 { animation-delay: 2.4s; } .i4 { animation-delay: 3.6s; }
+    @keyframes drop {
+      0%   { opacity: 0; transform: translateY(-70px) rotate(0deg) scale(1); }
+      6%   { opacity: 1; }
+      22%  { opacity: 1; transform: translateY(0) rotate(160deg) scale(.9); }
+      27%  { opacity: 0; transform: translateY(12px) rotate(200deg) scale(.1); }
+      100% { opacity: 0; transform: translateY(12px) scale(.1); }
+    }
+    .cube { transform-box: fill-box; transform-origin: center bottom; animation: settle 1.2s cubic-bezier(.34,1.56,.64,1) infinite; animation-delay: .3s; }
+    @keyframes settle { 0%, 12% { transform: scale(1, 1); } 22% { transform: scale(1.03, .96); } 45%, 100% { transform: scale(1, 1); } }
+    .lid { transform-box: fill-box; transform-origin: center; animation: glint 1.2s ease-out infinite; animation-delay: .3s; }
+    @keyframes glint { 0%, 12% { fill: #F8F3EB; } 20% { fill: #FFDCC8; } 60%, 100% { fill: #F8F3EB; } }
+    .shadow { transform-box: fill-box; transform-origin: center; animation: shadow 1.2s ease-out infinite; animation-delay: .3s; }
+    @keyframes shadow { 0%, 12% { transform: scaleX(1); opacity: .5; } 22% { transform: scaleX(1.08); opacity: .7; } 60%, 100% { transform: scaleX(1); opacity: .5; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+
+  <ellipse class="shadow" cx="120" cy="240" rx="54" ry="7" fill="#FE5D1C" fill-opacity=".25"/>
+
+  <g transform="translate(60 100) scale(.8333)">
+    <g class="cube">
+      <path d="M67 .06C72.5-.24 77.8.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13.5 110.06C-.17 89.06-.17 68.06.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 .06Z" fill="#FE5D1C"/>
+      <path class="lid" d="M66 26.06C70 25.89 74 26.06 78 26.56C89.7 32.72 101 39.39 112 46.56C100.1 54.02 87.7 60.68 75 66.56C72.7 67.22 70.3 67.22 68 66.56C55.8 59.98 43.8 53.14 32 46.06C43.4 39.36 54.7 32.7 66 26.06Z" fill="#F8F3EB"/>
+      <path d="M22 66.06C32.3 71.88 42.6 77.71 53 83.56C56.2 85.39 58.7 87.89 60.5 91.06C62.1 104.32 62.4 117.66 61.5 131.06C51.2 124.84 40.7 119.01 30 113.56C27.3 111.96 25.1 109.8 23.5 107.06C22.1 93.46 21.6 79.8 22 66.06Z" fill="#F8F3EB"/>
+    </g>
+  </g>
+
+  <!-- ideas: centred on the lid at (120, 138) -->
+  <g class="idea"><circle cx="120" cy="130" r="9" fill="#7DA3FF"/></g>
+  <g class="idea i2"><rect x="111" y="121" width="18" height="18" rx="4" fill="#7CD6B4"/></g>
+  <g class="idea i3"><path d="M120 119 L130 137 H110 Z" fill="#C77DBC"/></g>
+  <g class="idea i4"><path d="M120 118 L122.8 127.2 L132 130 L122.8 132.8 L120 142 L117.2 132.8 L108 130 L117.2 127.2 Z" fill="#FF9E68"/></g>
+</svg>

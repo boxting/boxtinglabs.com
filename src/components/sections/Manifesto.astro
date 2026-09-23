@@ -2,50 +2,125 @@
 import type { ui } from '@/i18n/ui';
 
 interface Props {
-  t: typeof ui.en.manifesto;
+  t: typeof ui.es.manifesto;
 }
 
 const { t } = Astro.props;
 ---
 
-<section id="studio" class="relative border-t hairline border-t bg-cream py-10 md:py-10 overflow-hidden" data-track-section="manifesto">
-  <!-- Faint pattern wash -->
-  <div aria-hidden="true" class="iso-pattern pointer-events-none absolute inset-0 opacity-40"></div>
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-b from-cream via-cream/85 to-cream"></div>
+<section id="studio" class="manifesto" data-track-section="manifesto">
+  <div class="ambient manifesto-glow" aria-hidden="true"></div>
 
-  <div class="page relative" data-stagger="100">
+  <div class="page relative">
     <div class="grid grid-cols-12 gap-y-6 md:gap-x-6">
-      <!-- Left -->
-      <div class="col-span-12 lg:col-span-5">
-        <p class="eyebrow reveal">{t.eyebrow}</p>
-        <h2
-          class="reveal mt-4 text-ink"
-          style="font-size: clamp(36px, 5vw, 56px); line-height: 1.04; letter-spacing: -0.04em; font-weight: 700;"
-        >
-          {t.heading}
-        </h2>
+      <div class="col-span-12 md:col-span-5">
+        <p class="eyebrow" data-scramble>{t.eyebrow}</p>
+        <h2 class="section-title mt-4" data-split>{t.heading}</h2>
+        <!-- Exploded wireframe of the cube, drawn as the section scrolls in -->
+        <svg class="manifesto-wire" viewBox="-20 -40 190 240" fill="none" aria-hidden="true" data-draw>
+          <path d="M72 -30 V 20" stroke="rgba(248,243,235,0.12)" stroke-dasharray="3 5"></path>
+          <path d="M-10 46 L 32 46 M112 46 L 160 46" stroke="rgba(248,243,235,0.12)" stroke-dasharray="3 5"></path>
+          <path d="M67 .06C72.5-.24 77.8.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13.5 110.06C-.17 89.06-.17 68.06.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 .06Z" stroke="rgba(248,243,235,0.28)" stroke-width="0.8"></path>
+          <path d="M66 6.06C70 5.89 74 6.06 78 6.56C89.7 12.72 101 19.39 112 26.56C100.1 34.02 87.7 40.68 75 46.56C72.7 47.22 70.3 47.22 68 46.56C55.8 39.98 43.8 33.14 32 26.06C43.4 19.36 54.7 12.7 66 6.06Z" stroke="#FE5D1C" stroke-width="1"></path>
+          <path d="M8 76.06C18.3 81.88 28.6 87.71 39 93.56C42.2 95.39 44.7 97.89 46.5 101.06C48.1 114.32 48.4 127.66 47.5 141.06C37.2 134.84 26.7 129.01 16 123.56C13.3 121.96 11.1 119.8 9.5 117.06C8.1 103.46 7.6 89.8 8 76.06Z" stroke="#FE5D1C" stroke-width="1"></path>
+          <path d="M72 80 V 158 M72 80 L 143 46 M72 80 L 1 46" stroke="rgba(248,243,235,0.14)" stroke-width="0.8"></path>
+          <circle cx="72" cy="80" r="2.5" stroke="#FE5D1C"></circle>
+        </svg>
       </div>
-
-      <!-- Right -->
-      <div class="col-span-12 lg:col-span-7 lg:pl-7">
-        <p class="reveal text-steel max-w-prose" style="font-size: 19px; line-height: 30px;">
-          {t.body}
-        </p>
+      <div class="col-span-12 md:col-span-7 md:pt-7">
+        <p class="manifesto-body reveal">{t.body}</p>
       </div>
     </div>
 
-    <!-- Principles -->
-    <ul class="mt-9 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-7" data-stagger="120">
+    <ol class="principles" data-rise="110">
       {t.principles.map((p) => (
-        <li class="reveal group border-t hairline border-t pt-5 transition-colors duration-base ease-brand">
-          <div class="flex items-baseline gap-3">
-            <span class="mono text-caption text-orange transition-transform duration-base ease-brand group-hover:-translate-y-0.5">{p.n}</span>
-            <span aria-hidden="true" class="h-px flex-1 bg-ink/10 transition-colors duration-base ease-brand group-hover:bg-orange/40"></span>
-          </div>
-          <h3 class="mt-4 text-h3 text-ink font-semibold">{p.title}</h3>
-          <p class="mt-2 text-body text-steel">{p.body}</p>
+        <li class="principle">
+          <span class="principle-n mono">{p.n}</span>
+          <h3 class="principle-title">{p.title}</h3>
+          <p class="principle-body">{p.body}</p>
+          <span class="principle-bar" aria-hidden="true"></span>
         </li>
       ))}
-    </ul>
+    </ol>
   </div>
 </section>
+
+<style>
+  .manifesto {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(96px, 14vh, 160px) 0;
+    background: #08090b;
+  }
+  .manifesto-glow {
+    left: -220px;
+    top: -180px;
+    width: 680px;
+    height: 600px;
+    background: radial-gradient(closest-side, rgba(254, 93, 28, 0.12), rgba(254, 93, 28, 0));
+  }
+  .manifesto-wire {
+    display: block;
+    width: clamp(160px, 15vw, 220px);
+    margin-top: 40px;
+    pointer-events: none;
+  }
+  .manifesto-body {
+    margin: 0;
+    max-width: 58ch;
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.62;
+    color: rgba(248, 243, 235, 0.6);
+  }
+
+  .principles {
+    list-style: none;
+    margin: clamp(56px, 8vh, 96px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .principle {
+    position: relative;
+    padding-top: 24px;
+    border-top: 1px solid rgba(248, 243, 235, 0.12);
+  }
+  .principle-bar {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    height: 1px;
+    width: 100%;
+    background: #fe5d1c;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .principle:hover .principle-bar {
+    transform: scaleX(1);
+  }
+  .principle-n {
+    font-size: 13px;
+    color: #fe5d1c;
+  }
+  .principle-title {
+    margin: 16px 0 0;
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: #f8f3eb;
+  }
+  .principle-body {
+    margin: 10px 0 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(248, 243, 235, 0.52);
+    max-width: 38ch;
+  }
+
+  @media (max-width: 860px) {
+    .principles { grid-template-columns: minmax(0, 1fr); }
+    .manifesto-wire { display: none; }
+  }
+</style>
