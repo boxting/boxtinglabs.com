@@ -1,7 +1,8 @@
-import mixpanel, { type Dict } from 'mixpanel-browser';
+import posthog, { type Properties } from 'posthog-js';
 
 const CONSENT_KEY = 'bx_analytics_consent';
-const TOKEN = import.meta.env.PUBLIC_MIXPANEL_TOKEN as string | undefined;
+const KEY = import.meta.env.PUBLIC_POSTHOG_KEY as string | undefined;
+const HOST = (import.meta.env.PUBLIC_POSTHOG_HOST as string | undefined) || 'https://us.i.posthog.com';
 const IS_PROD = import.meta.env.PROD;
 
 export type ConsentState = 'granted' | 'denied' | 'unset';
@@ -22,7 +23,7 @@ function writeConsent(state: Exclude<ConsentState, 'unset'>) {
   }
 }
 
-function deriveSuperProps(): Dict {
+function deriveSuperProps(): Properties {
   const nav = typeof navigator !== 'undefined' ? navigator : undefined;
   const conn = nav && (nav as unknown as { connection?: { effectiveType?: string; saveData?: boolean } }).connection;
   const win = typeof window !== 'undefined' ? window : undefined;
@@ -42,51 +43,51 @@ function deriveSuperProps(): Dict {
   };
 }
 
-function parseUtm(): Dict {
-  if (typeof window === 'undefined') return {};
-  const params = new URLSearchParams(window.location.search);
-  const out: Dict = {};
-  for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']) {
-    const v = params.get(key);
-    if (v) out[key] = v;
-  }
-  const ref = document.referrer || null;
-  if (ref) {
-    out.referrer = ref;
+// PostHog captures utm_* and referrer on its own; this collapses them into a
+// single breakdown-friendly value: utm_source → referrer host → "direct".
+function deriveTrafficSource(): string {
+  const utm = new URLSearchParams(window.location.search).get('utm_source');
+  if (utm) return utm;
+  if (document.referrer) {
     try {
-      out.referrer_host = new URL(ref).host;
+      const host = new URL(document.referrer).host;
+      if (host !== window.location.host) return host;
     } catch {
       /* malformed referrer */
     }
   }
-  return out;
+  return 'direct';
 }
 
 export function initAnalytics(): boolean {
   if (initialized) return true;
   if (!IS_PROD) return false;
-  if (!TOKEN) {
-    console.warn('[analytics] PUBLIC_MIXPANEL_TOKEN not set; Mixpanel disabled.');
+  if (!KEY) {
+    console.warn('[analytics] PUBLIC_POSTHOG_KEY not set; PostHog disabled.');
     return false;
   }
 
-  mixpanel.init(TOKEN, {
-    debug: false,
-    track_pageview: false,
+  posthog.init(KEY, {
+    api_host: HOST,
+    defaults: '2026-05-30',
+    person_profiles: 'identified_only',
     persistence: 'localStorage',
-    ignore_dnt: false,
-    opt_out_tracking_by_default: true,
-    api_host: 'https://api.mixpanel.com',
+    capture_pageview: 'history_change',
+    capture_pageleave: true,
+    disable_session_recording: true,
+    // Unused features; skipping them keeps pre-consent network traffic minimal.
+    disable_surveys: true,
+    advanced_disable_flags: true,
+    opt_out_capturing_by_default: true,
   });
 
-  mixpanel.register(deriveSuperProps());
-  mixpanel.register_once(parseUtm());
+  posthog.register(deriveSuperProps());
+  posthog.register_once({ traffic_source: deriveTrafficSource() });
 
-  const consent = readConsent();
-  if (consent === 'granted') {
-    mixpanel.opt_in_tracking();
+  if (readConsent() === 'granted') {
+    posthog.opt_in_capturing({ captureEventName: null });
   } else {
-    mixpanel.opt_out_tracking();
+    posthog.opt_out_capturing();
   }
 
   initialized = true;
@@ -104,24 +105,25 @@ export function getConsent(): ConsentState {
 export function grantConsent() {
   writeConsent('granted');
   if (initialized) {
-    mixpanel.opt_in_tracking();
-    mixpanel.register(deriveSuperProps());
+    posthog.register(deriveSuperProps());
+    // Also sends the initial $pageview that was held back while opted out.
+    posthog.opt_in_capturing({ captureEventName: null });
   }
 }
 
 export function denyConsent() {
   writeConsent('denied');
   if (initialized) {
-    mixpanel.opt_out_tracking();
+    posthog.opt_out_capturing();
   }
 }
 
-export function track(event: string, props?: Dict) {
+export function track(event: string, props?: Properties) {
   if (!initialized || !hasConsent()) return;
-  mixpanel.track(event, props);
+  posthog.capture(event, props);
 }
 
-export function setSuperProps(props: Dict) {
+export function setSuperProps(props: Properties) {
   if (!initialized) return;
-  mixpanel.register(props);
+  posthog.register(props);
 }
