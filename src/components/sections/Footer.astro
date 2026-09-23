@@ -1,5 +1,6 @@
 ---
 import type { ui } from '@/i18n/ui';
+import { socialProfiles } from '@/lib/social';
 
 interface Props {
   lang: 'en' | 'es';
@@ -39,6 +40,17 @@ const year = new Date().getFullYear();
       </div>
 
       <div>
+        <p class="footer-label mono">{t.columns.social}</p>
+        <ul class="footer-list">
+          {socialProfiles.map((p) => (
+            <li>
+              <a href={p.url} class="footer-link" target="_blank" rel="me noopener">{p.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
         <p class="footer-label mono">{t.columns.contact}</p>
         <a href="mailto:hello@boxtinglabs.com" class="footer-link mono footer-email" data-track-cta="footer-email">hello@boxtinglabs.com</a>
       </div>
@@ -70,7 +82,7 @@ const year = new Date().getFullYear();
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 2fr) repeat(4, minmax(0, 1fr));
     gap: 40px;
     padding-bottom: 40px;
     border-bottom: 1px solid rgba(248, 243, 235, 0.08);

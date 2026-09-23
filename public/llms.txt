@@ -1,0 +1,37 @@
+# Boxting Labs
+
+> Boxting Labs is a boutique software and AI engineering studio based in Lima, Peru, founded in 2018. We design and build custom software, applied AI and cloud infrastructure around the way a client's operation already works — "software that bends to your process, not the other way around." We serve companies in Latin America and the United States, and deliberately take on only a few projects a year.
+
+The site is bilingual: Spanish at https://www.boxtinglabs.com/ and English at https://www.boxtinglabs.com/en/. All work is delivered directly by the studio.
+
+## Practice
+
+- Custom software engineering: web and mobile applications end-to-end — architecture, product design, implementation and production launch.
+- AI-powered automation: language models and agents integrated into business processes — operations automation, internal assistants, intelligent search and measurable workflows.
+- Cloud infrastructure for product: AWS or GCP architecture, continuous deployment, observability and cost control.
+- Consulting and technical training: architecture review, engineering practice and tailored training for internal teams.
+
+## Selected work
+
+- [Ava Cash](https://ava.pe/): savings app (iOS and Android) for Ava, a service station network in Peru. Flutter, Node.js, AWS, PostgreSQL. 2025.
+- [Jalhuca](https://jalhuca.com/es/): offline-first field app for an organic fruit producer and exporter in Spain and Peru. Flutter. 2024.
+- [New Transport](https://www.newtransport.net/): quoting panel and real-time cargo tracking platform for a perishable cargo logistics operator in Peru. Next.js, Express, PostgreSQL. 2025.
+
+## How we work
+
+- Few clients, deep care: we stay involved in decisions, detail and what happens after launch.
+- Direct, written communication — one page, not a deck.
+- Long-term engagements with active clients.
+
+## Contact
+
+- Email: hello@boxtinglabs.com (we reply within two business days)
+- Location: Lima, Peru · serving LATAM and the United States
+
+## Profiles
+
+- [LinkedIn](https://www.linkedin.com/company/boxtinglabs)
+- [GitHub](https://github.com/boxting)
+- [Upwork](https://www.upwork.com/agencies/2102821297729782723/)
+- [Instagram](https://www.instagram.com/boxtinglabs/)
+- [X](https://x.com/boxtinglabs)
