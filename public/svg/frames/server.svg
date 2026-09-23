@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none">
+  <style>
+    .led { animation: blink 1.6s steps(1) infinite; }
+    .d1 { animation-delay: .35s; } .d2 { animation-delay: .8s; } .d3 { animation-delay: 1.15s; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .2; } }
+    .bar { transform-box: fill-box; transform-origin: left center; animation: load 2.8s cubic-bezier(.65,0,.35,1) infinite; }
+    .b2 { animation-delay: .5s; } .b3 { animation-delay: 1s; }
+    @keyframes load { 0%, 100% { transform: scaleX(.18); } 50% { transform: scaleX(1); } }
+    .flow { stroke-dasharray: 3 7; animation: flow .9s linear infinite; }
+    @keyframes flow { to { stroke-dashoffset: -20; } }
+    .hub { transform-box: fill-box; transform-origin: center; animation: hub 2.4s ease-in-out infinite; }
+    @keyframes hub { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.12); opacity: 1; } }
+    .ring { transform-box: fill-box; transform-origin: center; animation: ring 2.4s ease-out infinite; }
+    @keyframes ring { 0% { transform: scale(.6); opacity: .7; } 100% { transform: scale(1.8); opacity: 0; } }
+    .spark { stroke-dasharray: 260; stroke-dashoffset: 260; animation: draw 5s cubic-bezier(.16,1,.3,1) infinite; }
+    @keyframes draw { 0% { stroke-dashoffset: 260; } 55%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -260; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } .spark { stroke-dashoffset: 0; } }
+  </style>
+
+  <!-- rack -->
+  <g>
+    <rect x="28" y="36" width="170" height="40" rx="9" fill="#F8F3EB" fill-opacity=".04" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <circle class="led" cx="46" cy="56" r="3.5" fill="#7CD6B4"/>
+    <rect x="60" y="53" width="96" height="6" rx="3" fill="#F8F3EB" fill-opacity=".08"/>
+    <rect class="bar" x="60" y="53" width="96" height="6" rx="3" fill="#4FA98A"/>
+    <path d="M168 49v14M174 49v14M180 49v14" stroke="#F8F3EB" stroke-opacity=".18" stroke-linecap="round"/>
+
+    <rect x="28" y="88" width="170" height="40" rx="9" fill="#F8F3EB" fill-opacity=".04" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <circle class="led d1" cx="46" cy="108" r="3.5" fill="#7CD6B4"/>
+    <rect x="60" y="105" width="96" height="6" rx="3" fill="#F8F3EB" fill-opacity=".08"/>
+    <rect class="bar b2" x="60" y="105" width="96" height="6" rx="3" fill="#4FA98A"/>
+    <path d="M168 101v14M174 101v14M180 101v14" stroke="#F8F3EB" stroke-opacity=".18" stroke-linecap="round"/>
+
+    <rect x="28" y="140" width="170" height="40" rx="9" fill="#F8F3EB" fill-opacity=".04" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <circle class="led d2" cx="46" cy="160" r="3.5" fill="#FE5D1C"/>
+    <rect x="60" y="157" width="96" height="6" rx="3" fill="#F8F3EB" fill-opacity=".08"/>
+    <rect class="bar b3" x="60" y="157" width="96" height="6" rx="3" fill="#4FA98A" fill-opacity=".7"/>
+    <path d="M168 153v14M174 153v14M180 153v14" stroke="#F8F3EB" stroke-opacity=".18" stroke-linecap="round"/>
+  </g>
+
+  <!-- links to hub -->
+  <path class="flow" d="M198 56 C 232 56, 236 108, 262 108" stroke="#7CD6B4" stroke-opacity=".7" stroke-width="1.4"/>
+  <path class="flow" d="M198 108 H 262" stroke="#7CD6B4" stroke-opacity=".7" stroke-width="1.4"/>
+  <path class="flow" d="M198 160 C 232 160, 236 108, 262 108" stroke="#7CD6B4" stroke-opacity=".7" stroke-width="1.4"/>
+
+  <circle class="ring" cx="276" cy="108" r="16" stroke="#7CD6B4" stroke-width="1.2"/>
+  <circle class="hub" cx="276" cy="108" r="14" fill="#10251E" stroke="#4FA98A" stroke-width="1.4"/>
+  <path d="M270 108l4 4 8-8" stroke="#7CD6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- uptime sparkline -->
+  <path d="M28 214 H 292" stroke="#F8F3EB" stroke-opacity=".08"/>
+  <path class="spark" d="M28 210 L 60 206 L 84 208 L 110 199 L 134 203 L 160 194 L 186 198 L 212 190 L 240 193 L 266 186 L 292 188" stroke="#4FA98A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

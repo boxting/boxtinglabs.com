@@ -10,139 +10,202 @@ const { lang, t } = Astro.props;
 const otherLangHref = lang === 'es' ? '/en/' : '/';
 const otherLangLabel = lang === 'es' ? 'EN' : 'ES';
 const otherLangAria = lang === 'es' ? 'Switch to English' : 'Cambiar a Español';
+const homeHref = lang === 'es' ? '/' : '/en/';
 ---
 
-<!--
-  Floating glass pill nav. Always visible, top-center.
-  On wide screens: icon + text. On narrow screens: icon-only.
--->
-<div id="floating-nav" class="floating-nav" data-floating-nav>
-  <div class="floating-nav-inner glass-strong">
-    <a href="#studio" data-nav title={t.manifesto} data-track-cta="nav-manifesto">
-      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M8 2.5 L13 5.5 L13 10.5 L8 13.5 L3 10.5 L3 5.5 Z" />
-        <path d="M8 2.5 L8 8 M8 8 L13 5.5 M8 8 L3 5.5" />
+<header id="site-nav" class="site-nav" data-site-nav>
+  <div class="nav-inner">
+    <a href={homeHref} class="nav-brand" aria-label="Boxting Labs" data-track-cta="nav-home">
+      <svg class="nav-cube" viewBox="0 0 144 159" aria-hidden="true">
+        <path class="nav-cube-body" d="M67 .06C72.5-.24 77.8.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13.5 110.06C-.17 89.06-.17 68.06.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 .06Z" fill="#FE5D1C"></path>
+        <path class="nav-cube-top" d="M66 26.06C70 25.89 74 26.06 78 26.56C89.7 32.72 101 39.39 112 46.56C100.1 54.02 87.7 60.68 75 66.56C72.7 67.22 70.3 67.22 68 66.56C55.8 59.98 43.8 53.14 32 46.06C43.4 39.36 54.7 32.7 66 26.06Z" fill="#F8F3EB"></path>
+        <path d="M22 66.06C32.3 71.88 42.6 77.71 53 83.56C56.2 85.39 58.7 87.89 60.5 91.06C62.1 104.32 62.4 117.66 61.5 131.06C51.2 124.84 40.7 119.01 30 113.56C27.3 111.96 25.1 109.8 23.5 107.06C22.1 93.46 21.6 79.8 22 66.06Z" fill="#F8F3EB"></path>
       </svg>
-      <span class="nav-label">{t.manifesto}</span>
+      <span class="nav-word">boxting <span>labs</span></span>
     </a>
-    <a href="#work" data-nav title={t.work} data-track-cta="nav-work">
-      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="3.5" width="12" height="9" rx="1.5" />
-        <path d="M2 6.5 H14" />
-      </svg>
-      <span class="nav-label">{t.work}</span>
-    </a>
-    <a href="#capabilities" data-nav title={t.capabilities} data-track-cta="nav-capabilities">
-      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="2" width="5" height="5" rx="0.75" />
-        <rect x="9" y="2" width="5" height="5" rx="0.75" />
-        <rect x="2" y="9" width="5" height="5" rx="0.75" />
-        <rect x="9" y="9" width="5" height="5" rx="0.75" />
-      </svg>
-      <span class="nav-label">{t.capabilities}</span>
-    </a>
-    <a href={otherLangHref} class="lang" aria-label={otherLangAria} title={otherLangLabel} data-track-cta="language-switch">
-      <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="8" cy="8" r="6" />
-        <path d="M2 8 H14 M8 2 C 10 4 10 12 8 14 C 6 12 6 4 8 2" />
-      </svg>
-      <span class="nav-label lang-label">{otherLangLabel}</span>
-    </a>
-    <a href="#contact" class="cta" data-track-cta="nav-contact">
-      <span class="nav-label">{t.contact}</span>
-      <svg class="nav-icon cta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M2 7 H12 M12 7 L7.5 2.5 M12 7 L7.5 11.5" />
-      </svg>
-    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#studio" data-track-cta="nav-manifesto">{t.manifesto}</a>
+      <a href="#capabilities" data-track-cta="nav-capabilities">{t.capabilities}</a>
+      <a href="#work" data-track-cta="nav-work">{t.work}</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href={otherLangHref} class="nav-lang mono" aria-label={otherLangAria} data-track-cta="language-switch">
+        {otherLangLabel}
+      </a>
+      <a href="#contact" class="nav-cta" data-track-cta="nav-contact">
+        {t.contact}
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7 H12 M12 7 L7.5 2.5 M12 7 L7.5 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
   </div>
-</div>
+</header>
 
 <style>
-  .floating-nav {
+  .site-nav {
     position: fixed;
-    top: 14px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-12px);
+    inset: 0 0 auto 0;
     z-index: 50;
-    opacity: 0;
-    transition:
-      opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1), background 300ms ease, border-color 300ms ease;
+    border-bottom: 1px solid transparent;
+    animation: nav-in 700ms 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .floating-nav.is-visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+  @keyframes nav-in {
+    from { opacity: 0; transform: translateY(-14px); }
+    to { opacity: 1; transform: none; }
+  }
+  .site-nav.is-scrolled {
+    background: rgba(8, 9, 11, 0.72);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border-bottom-color: rgba(248, 243, 235, 0.08);
+  }
+  .site-nav.is-hidden {
+    transform: translateY(-100%);
   }
 
-  .floating-nav-inner {
-    display: flex; align-items: center; gap: 2px;
-    padding: 4px;
-    border-radius: 999px;
+  .nav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    height: 68px;
+    padding: 0 clamp(16px, 4vw, 56px);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
   }
-  .floating-nav-inner a {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 13.5px; font-weight: 500;
-    letter-spacing: -0.005em; color: #0F1B2D;
-    padding: 8px 14px;
-    border-radius: 999px;
-    transition: background 0.18s, color 0.18s;
+
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
-    white-space: nowrap;
+    color: #f8f3eb;
+    justify-self: start;
   }
-  .floating-nav-inner a:hover { background: rgba(15,27,45,0.06); }
-  .floating-nav-inner .nav-icon { flex-shrink: 0; }
-  .floating-nav-inner .lang {
-    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
-    font-size: 11px; letter-spacing: 0.1em;
-    color: #8A92A1;
+  .nav-cube {
+    width: 24px;
+    height: 26px;
+    overflow: visible;
   }
-  .floating-nav-inner .lang:hover { color: #0F1B2D; background: transparent; }
-  .floating-nav-inner .cta {
-    background: #0F1B2D; color: #FFFDF9;
+  .nav-cube-top {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .floating-nav-inner .cta:hover { background: #FE5D1C; color: white; }
-  .floating-nav-inner .cta-icon { transition: transform 0.2s ease; }
-  .floating-nav-inner .cta:hover .cta-icon { transform: translateX(2px); }
-
-  /* Tablet: drop text labels on the 3 nav items + drop lang text — icons only */
-  @media (max-width: 880px) {
-    .floating-nav-inner a[data-nav] .nav-label { display: none; }
-    .floating-nav-inner a[data-nav] { padding: 9px 11px; }
-    .floating-nav-inner .lang-label { display: none; }
-    .floating-nav-inner .lang { padding: 9px 10px; }
+  .nav-brand:hover .nav-cube-top {
+    transform: translateY(-9px);
   }
-
-  /* Mobile: even CTA collapses label to icon */
-  @media (max-width: 480px) {
-    .floating-nav-inner .cta .nav-label { display: none; }
-    .floating-nav-inner .cta { padding: 9px 11px; }
-    .floating-nav-inner { gap: 0; }
+  .nav-word {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+  }
+  .nav-word span {
+    color: #fe5d1c;
   }
 
-  /* Very small phones: trim padding further */
-  @media (max-width: 360px) {
-    .floating-nav { top: 10px; }
-    .floating-nav-inner { padding: 3px; }
-    .floating-nav-inner a[data-nav], .floating-nav-inner .lang, .floating-nav-inner .cta {
-      padding: 8px 10px;
-    }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-links a {
+    position: relative;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: rgba(248, 243, 235, 0.68);
+    text-decoration: none;
+    border-radius: 999px;
+    transition: color 160ms ease, background 160ms ease;
+  }
+  .nav-links a:hover {
+    color: #f8f3eb;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-actions {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-lang {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(248, 243, 235, 0.55);
+    text-decoration: none;
+    border-radius: 999px;
+    transition: color 160ms ease, background 160ms ease;
+  }
+  .nav-lang:hover {
+    color: #f8f3eb;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(248, 243, 235, 0.16);
+    color: #f8f3eb;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+  }
+  .nav-cta:hover {
+    background: #fe5d1c;
+    border-color: #fe5d1c;
+    color: #0a0b0e;
+  }
+
+  @media (max-width: 860px) {
+    .nav-inner { grid-template-columns: 1fr auto; }
+    .nav-links { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav { animation: none; }
   }
 </style>
 
-<script is:inline>
-  // Re-run on every navigation (including Astro view-transition swaps).
-  // Without this, switching language hides the floating nav until full refresh,
-  // because the inline IIFE only ran on initial page load.
-  (function () {
-    function showFloatingNav() {
-      const nav = document.getElementById('floating-nav');
-      if (!nav) return;
-      nav.classList.remove('is-visible');
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => nav.classList.add('is-visible'))
-      );
-    }
-    showFloatingNav();
-    document.addEventListener('astro:page-load', showFloatingNav);
-  })();
+<script>
+  function bindNav() {
+    const nav = document.querySelector<HTMLElement>('[data-site-nav]');
+    if (!nav) return;
+    let lastY = window.scrollY;
+    let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      nav.classList.toggle('is-scrolled', y > 24);
+      // Hide while reading down, reveal on any scroll up.
+      if (y > 480 && y > lastY + 4) nav.classList.add('is-hidden');
+      else if (y < lastY - 4 || y <= 480) nav.classList.remove('is-hidden');
+      lastY = y;
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('scroll', onScroll), { once: true });
+  }
+  document.addEventListener('astro:page-load', bindNav);
 </script>

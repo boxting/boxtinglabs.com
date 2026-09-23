@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <!-- Jalhuca field app: an inspection sheet filled offline — fields tick, photos attach,
+       a signature is drawn, then the sheet syncs. Loops every 8s. Placeholder until real
+       app screenshots are added (see Work.astro). -->
+  <defs>
+    <linearGradient id="scr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12201B"/>
+      <stop offset="1" stop-color="#0C0F0E"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4FA98A" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#4FA98A" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="screen"><rect x="238" y="44" width="164" height="352" rx="22"/></clipPath>
+  </defs>
+  <style>
+    .tick { stroke-dasharray: 14; stroke-dashoffset: 14; animation: tick 8s ease infinite; }
+    .t2 { animation-delay: .5s; } .t3 { animation-delay: 1s; } .t4 { animation-delay: 1.5s; }
+    @keyframes tick { 0%, 4% { stroke-dashoffset: 14; } 10%, 90% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+    .fill { transform-box: fill-box; transform-origin: left center; animation: fill 8s cubic-bezier(.65,0,.35,1) infinite; }
+    .f2 { animation-delay: .5s; } .f3 { animation-delay: 1s; } .f4 { animation-delay: 1.5s; }
+    @keyframes fill { 0%, 2% { transform: scaleX(0); } 9%, 90% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
+    .photo { opacity: 0; transform-box: fill-box; transform-origin: center; animation: photo 8s cubic-bezier(.34,1.56,.64,1) infinite; }
+    .p2 { animation-delay: .25s; } .p3 { animation-delay: .5s; }
+    @keyframes photo { 0%, 26% { opacity: 0; transform: scale(.6); } 32%, 90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+    .sign { stroke-dasharray: 260; stroke-dashoffset: 260; animation: sign 8s ease-in-out infinite; }
+    @keyframes sign { 0%, 40% { stroke-dashoffset: 260; } 58%, 90% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+    .offline { animation: offline 8s steps(1) infinite; }
+    @keyframes offline { 0%, 64% { opacity: 1; } 65%, 100% { opacity: 0; } }
+    .syncing { opacity: 0; animation: syncing 8s steps(1) infinite; }
+    @keyframes syncing { 0%, 64% { opacity: 0; } 65%, 77% { opacity: 1; } 78%, 100% { opacity: 0; } }
+    .spin { transform-box: fill-box; transform-origin: center; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .synced { opacity: 0; animation: synced 8s steps(1) infinite; }
+    @keyframes synced { 0%, 77% { opacity: 0; } 78%, 96% { opacity: 1; } 97%, 100% { opacity: 0; } }
+    .cloud { animation: cloud 8s ease infinite; }
+    @keyframes cloud { 0%, 64% { opacity: .25; } 70%, 92% { opacity: 1; } 100% { opacity: .25; } }
+    .pulse { stroke-dasharray: 4 8; animation: flow 1s linear infinite, pulseop 8s steps(1) infinite; }
+    @keyframes flow { to { stroke-dashoffset: -24; } }
+    @keyframes pulseop { 0%, 64% { opacity: 0; } 65%, 92% { opacity: 1; } 93%, 100% { opacity: 0; } }
+    .float { animation: float 6s ease-in-out infinite; }
+    .float2 { animation-delay: -3s; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .leaf { transform-box: fill-box; transform-origin: bottom center; animation: sway 5s ease-in-out infinite; }
+    .l2 { animation-delay: -1.6s; } .l3 { animation-delay: -3.1s; }
+    @keyframes sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+      .tick, .sign { stroke-dashoffset: 0; } .photo, .synced { opacity: 1; } .offline, .syncing { opacity: 0; }
+    }
+  </style>
+
+  <!-- field: crop rows fading into the distance -->
+  <rect x="0" y="300" width="640" height="180" fill="url(#ground)"/>
+  <g stroke="#4FA98A" stroke-opacity=".22">
+    <path d="M320 300 L 40 480"/><path d="M320 300 L 150 480"/><path d="M320 300 L 260 480"/>
+    <path d="M320 300 L 380 480"/><path d="M320 300 L 490 480"/><path d="M320 300 L 600 480"/>
+  </g>
+  <!-- avocado trees -->
+  <g class="leaf"><circle cx="86" cy="286" r="26" fill="#2F6B55"/><circle cx="72" cy="276" r="14" fill="#3E8A6E"/><rect x="84" y="306" width="4" height="22" rx="2" fill="#5B4636"/></g>
+  <g class="leaf l2"><circle cx="560" cy="276" r="30" fill="#2F6B55"/><circle cx="574" cy="264" r="15" fill="#3E8A6E"/><path d="M552 290 q 6 -10 12 0 q -6 12 -12 0Z" fill="#7CD6B4"/><rect x="558" y="300" width="4" height="26" rx="2" fill="#5B4636"/></g>
+  <g class="leaf l3"><circle cx="150" cy="258" r="16" fill="#2F6B55" fill-opacity=".7"/><rect x="149" y="272" width="3" height="14" rx="1.5" fill="#5B4636" fill-opacity=".7"/></g>
+
+  <!-- floating: photo evidence card -->
+  <g class="float">
+    <rect x="44" y="104" width="148" height="112" rx="14" fill="#101412" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <rect x="56" y="116" width="124" height="64" rx="8" fill="#1E3A2F"/>
+    <path d="M56 170 L 92 138 L 116 158 L 136 144 L 180 176 L 180 180 L 56 180 Z" fill="#3E8A6E"/>
+    <circle cx="160" cy="132" r="8" fill="#FF9E68"/>
+    <rect x="56" y="190" width="70" height="5" rx="2.5" fill="#F8F3EB" fill-opacity=".6"/>
+    <rect x="56" y="200" width="44" height="4" rx="2" fill="#F8F3EB" fill-opacity=".25"/>
+  </g>
+  <!-- floating: sync to cloud -->
+  <g class="float float2">
+    <rect x="452" y="96" width="148" height="92" rx="14" fill="#101412" stroke="#F8F3EB" stroke-opacity=".14"/>
+    <path class="cloud" d="M496 150 a 16 16 0 0 1 30 -8 a 12 12 0 0 1 14 18 H 498 a 9 9 0 0 1 -2 -10 Z" stroke="#7CD6B4" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="552" y="126" width="36" height="5" rx="2.5" fill="#F8F3EB" fill-opacity=".5"/>
+    <rect x="552" y="136" width="24" height="4" rx="2" fill="#F8F3EB" fill-opacity=".25"/>
+    <rect x="464" y="170" width="124" height="4" rx="2" fill="#F8F3EB" fill-opacity=".08"/>
+  </g>
+  <path class="pulse" d="M402 180 C 430 170, 440 150, 470 146" stroke="#7CD6B4" stroke-width="1.6"/>
+
+  <!-- phone -->
+  <rect x="228" y="34" width="184" height="372" rx="30" fill="#0A0C0B" stroke="#F8F3EB" stroke-opacity=".2"/>
+  <g clip-path="url(#screen)">
+    <rect x="238" y="44" width="164" height="352" fill="url(#scr)"/>
+    <rect x="300" y="50" width="40" height="8" rx="4" fill="#000"/>
+
+    <!-- header + connection status -->
+    <rect x="252" y="72" width="70" height="7" rx="3.5" fill="#F8F3EB" fill-opacity=".9"/>
+    <rect x="252" y="84" width="46" height="4" rx="2" fill="#F8F3EB" fill-opacity=".35"/>
+    <g class="offline">
+      <rect x="344" y="70" width="46" height="18" rx="9" fill="#FE5D1C" fill-opacity=".16"/>
+      <circle cx="354" cy="79" r="3" fill="#FF8D5C"/>
+      <rect x="361" y="77" width="22" height="4" rx="2" fill="#FF8D5C"/>
+    </g>
+    <g class="syncing">
+      <rect x="344" y="70" width="46" height="18" rx="9" fill="#7DA3FF" fill-opacity=".16"/>
+      <circle class="spin" cx="354" cy="79" r="4" stroke="#7DA3FF" stroke-width="1.6" stroke-dasharray="14 6"/>
+      <rect x="361" y="77" width="22" height="4" rx="2" fill="#7DA3FF"/>
+    </g>
+    <g class="synced">
+      <rect x="344" y="70" width="46" height="18" rx="9" fill="#4FA98A" fill-opacity=".2"/>
+      <path d="M350 79 l3 3 l5 -6" stroke="#7CD6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="361" y="77" width="22" height="4" rx="2" fill="#7CD6B4"/>
+    </g>
+
+    <!-- sheet fields -->
+    <g>
+      <rect x="252" y="104" width="136" height="26" rx="7" fill="#F8F3EB" fill-opacity=".05"/>
+      <rect class="fill" x="260" y="115" width="84" height="4" rx="2" fill="#F8F3EB" fill-opacity=".6"/>
+      <path class="tick" d="M366 117 l4 4 l7 -8" stroke="#7CD6B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g>
+      <rect x="252" y="136" width="136" height="26" rx="7" fill="#F8F3EB" fill-opacity=".05"/>
+      <rect class="fill f2" x="260" y="147" width="64" height="4" rx="2" fill="#F8F3EB" fill-opacity=".6"/>
+      <path class="tick t2" d="M366 149 l4 4 l7 -8" stroke="#7CD6B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g>
+      <rect x="252" y="168" width="136" height="26" rx="7" fill="#F8F3EB" fill-opacity=".05"/>
+      <rect class="fill f3" x="260" y="179" width="92" height="4" rx="2" fill="#F8F3EB" fill-opacity=".6"/>
+      <path class="tick t3" d="M366 181 l4 4 l7 -8" stroke="#7CD6B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g>
+      <rect x="252" y="200" width="136" height="26" rx="7" fill="#F8F3EB" fill-opacity=".05"/>
+      <rect class="fill f4" x="260" y="211" width="54" height="4" rx="2" fill="#F8F3EB" fill-opacity=".6"/>
+      <path class="tick t4" d="M366 213 l4 4 l7 -8" stroke="#7CD6B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- evidence -->
+    <rect x="252" y="238" width="50" height="4" rx="2" fill="#F8F3EB" fill-opacity=".35"/>
+    <g class="photo"><rect x="252" y="248" width="40" height="40" rx="7" fill="#1E3A2F"/><path d="M252 282 L 266 266 L 276 276 L 284 268 L 292 280 L 292 288 L 252 288Z" fill="#3E8A6E"/></g>
+    <g class="photo p2"><rect x="300" y="248" width="40" height="40" rx="7" fill="#2A2E22"/><ellipse cx="320" cy="270" rx="9" ry="12" fill="#4E7A3A"/><ellipse cx="320" cy="273" rx="4" ry="5" fill="#8A6A44"/></g>
+    <g class="photo p3"><rect x="348" y="248" width="40" height="40" rx="7" fill="#1A2530"/><circle cx="368" cy="266" r="8" fill="#FF9E68" fill-opacity=".8"/><path d="M348 284 h40" stroke="#4FA98A" stroke-width="6"/></g>
+
+    <!-- signature -->
+    <rect x="252" y="300" width="136" height="54" rx="8" fill="#F8F3EB" fill-opacity=".04" stroke="#F8F3EB" stroke-opacity=".12" stroke-dasharray="3 4"/>
+    <path class="sign" d="M262 336 C 272 312, 280 344, 290 326 S 306 314, 312 332 S 330 340, 336 322 C 342 310, 350 338, 362 330 L 378 326" stroke="#F8F3EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- submit -->
+    <rect x="252" y="364" width="136" height="22" rx="11" fill="#4FA98A"/>
+    <rect x="296" y="373" width="48" height="4" rx="2" fill="#0A0C0B" fill-opacity=".7"/>
+  </g>
+</svg>

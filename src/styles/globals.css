@@ -7,11 +7,13 @@
 
 @layer base {
   html {
-    background: #fffdf9;
-    color: #0f1b2d;
+    background: #08090b;
+    color: #f8f3eb;
+    color-scheme: dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
     font-feature-settings: 'ss01', 'cv11';
   }
 
@@ -20,8 +22,8 @@
     font-size: 17px;
     line-height: 26px;
     letter-spacing: -0.005em;
-    color: #0f1b2d;
-    background: #fffdf9;
+    color: #f8f3eb;
+    background: #08090b;
   }
 
   h1, h2, h3, h4 {
@@ -34,7 +36,7 @@
 
   ::selection {
     background: #fe5d1c;
-    color: #fffdf9;
+    color: #08090b;
   }
 
   :focus-visible {
@@ -93,9 +95,11 @@
     font-family: 'DM Mono', ui-monospace, Menlo, monospace;
     font-size: 13px;
     line-height: 18px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.16em;
+    font-size: 11px;
+    font-weight: 500;
     text-transform: uppercase;
-    color: #4a5468;
+    color: rgba(248, 243, 235, 0.5);
   }
 
   .mono {
@@ -104,13 +108,103 @@
 
   /* Hairline border per §3.3 */
   .hairline {
-    border-color: rgba(15, 27, 45, 0.10);
+    border-color: rgba(248, 243, 235, 0.10);
+  }
+
+  .serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+  }
+
+  /* Section heading — shared scale for every dark section */
+  .section-title {
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(34px, 4.4vw, 56px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    color: #f8f3eb;
+  }
+
+  /* Hairline card on night */
+  .night-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(248, 243, 235, 0.1);
+    border-radius: 18px;
+    transition: border-color 220ms cubic-bezier(0.4, 0, 0.2, 1), background 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .night-card:hover {
+    border-color: rgba(254, 93, 28, 0.35);
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-family: 'DM Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    background: rgba(248, 243, 235, 0.06);
+    color: rgba(248, 243, 235, 0.65);
+  }
+  .chip-accent {
+    background: rgba(254, 93, 28, 0.12);
+    color: #ff8d5c;
+  }
+
+  /* Pill buttons */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fe5d1c;
+    color: #0a0b0e;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px rgba(254, 93, 28, 0.4), 0 20px 50px -14px rgba(254, 93, 28, 0.55);
+    transition: box-shadow 220ms ease, background 220ms ease;
+  }
+  .btn-primary:hover {
+    background: #ff6f35;
+    box-shadow: 0 0 0 1px rgba(254, 93, 28, 0.6), 0 24px 60px -12px rgba(254, 93, 28, 0.7);
+  }
+  .btn-primary svg { transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .btn-primary:hover svg { transform: translateX(3px); }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(248, 243, 235, 0.22);
+    color: #f8f3eb;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 15px 24px;
+    border-radius: 999px;
+    transition: border-color 220ms ease, background 220ms ease;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(248, 243, 235, 0.4);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Ambient radial glow blob */
+  .ambient {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(24px);
   }
 
   /* Page gutter — consistent across all sections */
   .page {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1296px;
     margin: 0 auto;
     padding-left: 24px;
     padding-right: 24px;
@@ -206,10 +300,27 @@
     filter: blur(28px);
   }
 
+  /* Soft edge fade for marquees and carousels */
+  .fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* Film grain over night surfaces */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.035 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+  }
+
   /* Iso cube pattern background (for project cards). Recolor via --pattern-color. */
   .iso-pattern {
     background-color: transparent;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='64' viewBox='0 0 56 64'><g fill='none' stroke='%230F1B2D' stroke-opacity='0.10' stroke-width='1'><path d='M28 4 L52 18 L52 46 L28 60 L4 46 L4 18 Z' /><path d='M28 4 L28 32 M28 32 L52 18 M28 32 L4 18' /></g></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='64' viewBox='0 0 56 64'><g fill='none' stroke='%23F8F3EB' stroke-opacity='0.07' stroke-width='1'><path d='M28 4 L52 18 L52 46 L28 60 L4 46 L4 18 Z' /><path d='M28 4 L28 32 M28 32 L52 18 M28 32 L4 18' /></g></svg>");
     background-size: 56px 64px;
     background-position: 0 0;
     transition: background-position 600ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -229,5 +340,236 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
+  }
+}
+
+/* ---- Shared by React islands (scoped Astro styles don't reach them) ---- */
+@layer components {
+  /* Perspective grid that fades into the hero floor */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(248, 243, 235, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(248, 243, 235, 0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center top;
+    transform: perspective(700px) rotateX(58deg);
+    transform-origin: center top;
+    -webkit-mask-image: radial-gradient(60% 80% at 50% 0%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(60% 80% at 50% 0%, #000 20%, transparent 75%);
+    opacity: 0.8;
+  }
+
+}
+
+/* ---- Practice: scrolling cards + pinned stage (PracticeScroll.tsx) ---- */
+@layer components {
+  .practice-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .practice-list {
+    list-style: none;
+    margin: 0;
+    /* first and last cards can reach the focus line in the middle of the screen */
+    padding: 22vh 0 22vh;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 6vh, 56px);
+  }
+
+  .practice-card {
+    padding: clamp(24px, 2.6vw, 36px);
+  }
+  .practice-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .practice-card-icon {
+    display: none;
+    width: 64px;
+    height: 64px;
+    margin: -6px 0 0 -6px;
+  }
+  .practice-card-n {
+    font-size: 13px;
+  }
+  .practice-card-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: #f8f3eb;
+  }
+  .practice-card-body {
+    margin: 12px 0 0;
+    max-width: 52ch;
+    font-size: 15.5px;
+    line-height: 1.62;
+    color: rgba(248, 243, 235, 0.55);
+  }
+
+  .practice-stage-wrap {
+    position: relative;
+  }
+  /* Pinned heading + stage, centred in the viewport area under the 68px nav */
+  .practice-aside {
+    position: sticky;
+    top: 68px;
+    height: calc(100vh - 68px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(20px, 3.4vh, 36px);
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .practice-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 520px;
+    min-height: 340px;
+    border-radius: 22px;
+    border: 1px solid rgba(var(--tone-rgb), 0.28);
+    background:
+      radial-gradient(80% 60% at 50% 45%, rgba(var(--tone-rgb), 0.10), transparent 70%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+    box-shadow: 0 40px 100px -40px rgba(var(--tone-rgb), 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    transition: border-color 600ms ease, box-shadow 600ms ease, background 600ms ease;
+  }
+  .practice-stage-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(248, 243, 235, 0.08);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(248, 243, 235, 0.4);
+  }
+  .practice-stage-label {
+    text-transform: uppercase;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .practice-stage-art {
+    position: relative;
+    flex: 1;
+    display: grid;
+    place-items: center;
+    background-image:
+      linear-gradient(rgba(248, 243, 235, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(248, 243, 235, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: center;
+  }
+  .practice-stage-glow {
+    position: absolute;
+    width: 60%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(var(--tone-rgb), 0.28), transparent);
+    filter: blur(20px);
+    transition: background 600ms ease;
+  }
+  .practice-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(248, 243, 235, 0.12);
+    animation: practice-spin 40s linear infinite;
+  }
+  .practice-ring-1 { width: 46%; aspect-ratio: 1; border-style: solid; border-color: rgba(var(--tone-rgb), 0.35); transition: border-color 600ms ease; }
+  .practice-ring-2 { width: 66%; aspect-ratio: 1; animation-direction: reverse; animation-duration: 60s; }
+  .practice-ring-3 { width: 88%; aspect-ratio: 1; border-color: rgba(248, 243, 235, 0.07); }
+  .practice-ring-1::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border-radius: 50%;
+    background: var(--tone);
+    box-shadow: 0 0 12px var(--tone);
+  }
+  @keyframes practice-spin { to { transform: rotate(360deg); } }
+
+  .practice-stage-icon {
+    position: relative;
+    width: clamp(150px, 16vw, 210px);
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .practice-tag {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(248, 243, 235, 0.12);
+    background: rgba(12, 13, 16, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 11px;
+    color: rgba(248, 243, 235, 0.8);
+    white-space: nowrap;
+  }
+  .practice-tag-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--tone);
+  }
+
+  .practice-rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    padding: 18px 22px 20px;
+  }
+  .practice-rail-seg {
+    position: relative;
+    height: 16px;
+    cursor: pointer;
+  }
+  .practice-rail-seg::before,
+  .practice-rail-fill {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 7px;
+    height: 2px;
+    border-radius: 2px;
+  }
+  .practice-rail-seg::before { background: rgba(248, 243, 235, 0.12); }
+  .practice-rail-fill {
+    display: block;
+    background: var(--tone);
+    transform-origin: left;
+  }
+
+  @media (max-width: 959px) {
+    .practice-grid { grid-template-columns: minmax(0, 1fr); }
+    .practice-stage-wrap { order: -1; }
+    .practice-aside { position: static; height: auto; padding: 0 0 8px; }
+    .practice-stage { display: none; }
+    .practice-list { padding: 0; gap: 20px; }
+    .practice-card-icon { display: block; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .practice-ring { animation: none; }
   }
 }

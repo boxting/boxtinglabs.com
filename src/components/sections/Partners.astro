@@ -11,121 +11,208 @@ interface Props {
 
 const { t } = Astro.props;
 
-const partners = [
-  { name: 'Ava Cash', src: ava, href: '#work' },
-  { name: 'Jalhuca', src: jalhuca, href: '#work' },
-  { name: 'New Transport', src: newtransport, href: '#work' },
-];
-
-// Duplicate for seamless mobile marquee
-const mobileTrack = [...partners, ...partners, ...partners];
+const partners = {
+  ava: { src: ava, fit: 'cover', url: 'https://ava.pe/' },
+  jalhuca: { src: jalhuca, fit: 'cover', url: 'https://jalhuca.com/es/' },
+  newtransport: { src: newtransport, fit: 'contain', url: 'https://www.newtransport.net/' },
+} as const;
 ---
 
-<section
-  id="partners"
-  class="relative border-y hairline border-y bg-cream py-8 md:py-10 overflow-hidden"
-  aria-labelledby="partners-eyebrow"
-  data-track-section="partners"
->
-  <!-- Faint iso wash -->
-  <div aria-hidden="true" class="iso-pattern pointer-events-none absolute inset-0 opacity-25"></div>
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-r from-cream via-cream/70 to-cream"></div>
-
-  <div class="page relative">
-    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 mb-7 md:mb-8">
-      <p id="partners-eyebrow" class="eyebrow text-ink reveal">{t.eyebrow}</p>
-      <p class="mono text-caption text-fog reveal">{t.note}</p>
+<section id="partners" class="partners" aria-labelledby="partners-eyebrow" data-track-section="partners">
+  <div class="page">
+    <div class="partners-head">
+      <p id="partners-eyebrow" class="eyebrow" data-scramble>{t.eyebrow}</p>
+      <p class="mono partners-note reveal">{t.note}</p>
     </div>
-  </div>
 
-  <!-- DESKTOP / TABLET: static 3-column grid -->
-  <div class="hidden md:block page relative">
-    <ul
-      class="grid grid-cols-3 items-center"
-      data-partners-grid
-      data-stagger="140"
-    >
-      {partners.map((p, i) => (
-        <li
-          class={`reveal flex items-center justify-center py-3 md:py-5 ${i > 0 ? 'border-l hairline border-l' : ''}`}
-        >
-          <a
-            href={p.href}
-            class="group inline-flex items-center justify-center transition-transform duration-base ease-brand hover:-translate-y-0.5"
-            aria-label={p.name}
-          >
-            <Image
-              src={p.src}
-              alt={p.name}
-              widths={[160, 240, 320, 480]}
-              sizes="(min-width: 1024px) 320px, 240px"
-              class="h-12 md:h-14 lg:h-16 xl:h-20 w-auto select-none transition-[filter,opacity] duration-base ease-brand"
-              style="filter: grayscale(1) contrast(0.95); opacity: 0.55;"
-              loading="lazy"
-              draggable={false}
-              data-partner-logo
-            />
-          </a>
-        </li>
-      ))}
+    <ul class="partners-row" data-rise="120">
+      {t.items.map((p) => {
+        const logo = partners[p.id as keyof typeof partners];
+        return (
+          <li>
+            <a
+              href={logo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="partner"
+              data-track-cta={`partner-${p.id}`}
+            >
+              <span class="partner-logo">
+                <Image src={logo.src} alt="" widths={[64, 128]} sizes="52px" class={`partner-img ${logo.fit}`} loading="lazy" />
+              </span>
+              <span class="partner-text">
+                <span class="partner-name">{p.name}</span>
+                <span class="partner-built">{p.built}</span>
+                <span class="partner-meta mono">
+                  {p.industry}<span class="partner-dot" aria-hidden="true">·</span>{p.year}
+                </span>
+              </span>
+              <span class="partner-go" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3.5 10.5 L10.5 3.5 M10.5 3.5 H4.5 M10.5 3.5 V9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              <span class="sr-only">{t.cta}</span>
+            </a>
+          </li>
+        );
+      })}
     </ul>
-  </div>
-
-  <!-- MOBILE: very slow marquee so partners drift across center -->
-  <div class="md:hidden relative" data-marquee>
-    <!-- Edge fades -->
-    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-cream to-transparent z-10"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-cream to-transparent z-10"></div>
-
-    <div
-      class="marquee-track flex items-center gap-12 will-change-transform"
-      style="width: max-content;"
-    >
-      {mobileTrack.map((p, i) => (
-        <a
-          href={p.href}
-          class="shrink-0 inline-flex items-center justify-center h-14 px-2"
-          aria-label={p.name}
-          aria-hidden={i >= partners.length ? 'true' : 'false'}
-          tabindex={i >= partners.length ? -1 : 0}
-        >
-          <Image
-            src={p.src}
-            alt={i < partners.length ? p.name : ''}
-            widths={[160, 240]}
-            sizes="200px"
-            class="h-10 w-auto select-none"
-            style="filter: grayscale(1) contrast(0.95); opacity: 0.7;"
-            loading="lazy"
-            draggable={false}
-          />
-        </a>
-      ))}
-    </div>
   </div>
 </section>
 
 <style>
-  /* Desktop hover: full color */
-  [data-partners-grid] a:hover [data-partner-logo],
-  [data-partners-grid] a:focus-visible [data-partner-logo] {
-    filter: grayscale(0) contrast(1) !important;
-    opacity: 1 !important;
+  .partners {
+    position: relative;
+    padding: clamp(56px, 8vh, 88px) 0;
+    border-top: 1px solid rgba(248, 243, 235, 0.08);
+    border-bottom: 1px solid rgba(248, 243, 235, 0.08);
+    background: linear-gradient(180deg, #08090b, #0b0c0f 50%, #08090b);
+  }
+  .partners-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-bottom: 28px;
+  }
+  .partners-note {
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(248, 243, 235, 0.35);
   }
 
-  /* Mobile-only marquee, very slow */
-  @keyframes partners-drift {
-    from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(calc(-100% / 3), 0, 0); }
+  .partners-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid rgba(248, 243, 235, 0.1);
+    border-bottom: 1px solid rgba(248, 243, 235, 0.1);
   }
-  [data-marquee] .marquee-track {
-    animation: partners-drift 60s linear infinite;
+  .partners-row > li + li {
+    border-left: 1px solid rgba(248, 243, 235, 0.1);
   }
-  [data-marquee]:hover .marquee-track,
-  [data-marquee]:focus-within .marquee-track {
-    animation-play-state: paused;
+
+  .partner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    height: 100%;
+    padding: 32px clamp(20px, 2.4vw, 36px);
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    transition: background 260ms ease;
   }
-  @media (prefers-reduced-motion: reduce) {
-    [data-marquee] .marquee-track { animation: none; transform: none; }
+  /* Orange wash that rises from the bottom edge on hover */
+  .partner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 50% 120%, rgba(254, 93, 28, 0.14), transparent 70%);
+    opacity: 0;
+    transition: opacity 320ms ease;
+    pointer-events: none;
+  }
+  .partner::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 1px;
+    background: #fe5d1c;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .partner:hover::before,
+  .partner:focus-visible::before { opacity: 1; }
+  .partner:hover::after,
+  .partner:focus-visible::after { transform: scaleX(1); }
+
+  .partner-logo {
+    position: relative;
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fffdf9;
+    box-shadow: 0 0 0 1px rgba(248, 243, 235, 0.1), 0 12px 30px -12px rgba(0, 0, 0, 0.7);
+    transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .partner:hover .partner-logo { transform: translateY(-3px) rotate(-4deg); }
+  .partner-img { width: 100%; height: 100%; }
+  .partner-img.cover { object-fit: cover; }
+  .partner-img.contain { object-fit: contain; padding: 5px; }
+
+  .partner-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .partner-name {
+    font-weight: 700;
+    font-size: clamp(20px, 1.9vw, 26px);
+    letter-spacing: -0.025em;
+    color: rgba(248, 243, 235, 0.82);
+    transition: color 200ms ease;
+  }
+  .partner:hover .partner-name { color: #f8f3eb; }
+  .partner-built {
+    font-size: 14px;
+    color: rgba(248, 243, 235, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .partner-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(248, 243, 235, 0.42);
+  }
+  .partner-dot { color: rgba(254, 93, 28, 0.7); }
+
+  .partner-go {
+    position: relative;
+    margin-left: auto;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(248, 243, 235, 0.14);
+    color: rgba(248, 243, 235, 0.5);
+    transition: background 220ms ease, border-color 220ms ease, color 220ms ease, transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .partner:hover .partner-go {
+    background: #fe5d1c;
+    border-color: #fe5d1c;
+    color: #0a0b0e;
+    transform: translate(2px, -2px);
+  }
+
+  @media (max-width: 860px) {
+    .partners-row { grid-template-columns: minmax(0, 1fr); }
+    .partners-row > li + li {
+      border-left: 0;
+      border-top: 1px solid rgba(248, 243, 235, 0.1);
+    }
+    .partner { padding: 24px 4px; }
   }
 </style>

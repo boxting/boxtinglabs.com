@@ -29,7 +29,7 @@ export default defineConfig({
   ],
   vite: {
     ssr: {
-      noExternal: ['framer-motion'],
+      noExternal: ['motion', 'framer-motion'],
     },
   },
 });
