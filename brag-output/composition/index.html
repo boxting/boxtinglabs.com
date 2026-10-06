@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Boxting Labs — loop</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Instrument Serif'; font-style: normal; font-weight: 400; src: url(assets/fonts/serif.woff2) format('woff2'); }
+      @font-face { font-family: 'Instrument Serif'; font-style: italic; font-weight: 400; src: url(assets/fonts/serif-italic.woff2) format('woff2'); }
+      @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 500 700; src: url(assets/fonts/dmsans.woff2) format('woff2'); }
+      @font-face { font-family: 'DM Mono'; font-style: normal; font-weight: 400; src: url(assets/fonts/dmmono-400.woff2) format('woff2'); }
+      @font-face { font-family: 'DM Mono'; font-style: normal; font-weight: 500; src: url(assets/fonts/dmmono-500.woff2) format('woff2'); }
+
+      :root {
+        --ink: #08090b;
+        --cream: #f8f3eb;
+        --muted: #8a92a1;
+        --orange: #fe5d1c;
+        --mint: #7cd6b4;
+        --sky: #7da3ff;
+      }
+      body { margin: 0; background: var(--ink); color: var(--cream); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ink); }
+      .clip { position: absolute; inset: 0; }
+
+      /* ambient field */
+      .glow { position: absolute; border-radius: 50%; pointer-events: none; }
+      #glow-orange { width: 1500px; height: 1500px; left: 820px; top: -200px;
+        background: radial-gradient(closest-side, rgba(254,93,28,.24), rgba(254,93,28,.07) 45%, rgba(254,93,28,0)); }
+      #glow-sky { width: 1300px; height: 1300px; left: -420px; top: -820px;
+        background: radial-gradient(closest-side, rgba(43,92,230,.2), rgba(43,92,230,0)); }
+      #glow-plum { width: 900px; height: 900px; left: 420px; top: 620px;
+        background: radial-gradient(closest-side, rgba(110,47,102,.22), rgba(110,47,102,0)); }
+      #floor { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+
+      /* brand */
+      #brand { position: absolute; left: 120px; top: 92px; display: flex; align-items: center; gap: 18px; }
+      #brand svg { width: 62px; height: 68px; display: block; }
+      .wordmark { display: flex; flex-direction: column; line-height: 1; }
+      .wordmark b { font: 700 50px/1 'DM Sans', sans-serif; letter-spacing: -1px; }
+      .wordmark span { font: 500 15px/1 'DM Mono', monospace; letter-spacing: 7px; color: var(--orange); margin-top: 8px; margin-left: 2px; }
+
+      /* headline */
+      #headline { position: absolute; left: 112px; top: 280px; width: 1080px;
+        font-family: 'Instrument Serif', Georgia, serif; font-size: 150px; line-height: 1.1; letter-spacing: -2px; }
+      .line { display: block; height: 166px; white-space: nowrap; }
+      .ch { display: none; }
+      .caret { display: inline-block; width: 8px; height: 122px; margin-left: 8px; vertical-align: -14px;
+        background: var(--orange); border-radius: 3px; opacity: 0; }
+      #accent-wrap { display: block; overflow: hidden; height: 186px; }
+      #accent { display: block; font-style: italic; opacity: 0;
+        background: linear-gradient(90deg, #fe5d1c, #ff8d5c); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+      #foot { position: absolute; left: 120px; bottom: 92px; display: flex; align-items: center; gap: 16px;
+        font: 500 26px/1 'DM Mono', monospace; }
+      #foot .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 8px rgba(124,214,180,.15); }
+      #foot .muted { color: var(--muted); font-weight: 400; }
+
+      /* card deck */
+      #deck { position: absolute; left: 1210px; top: 340px; width: 620px; height: 500px; }
+      .card { position: absolute; left: 0; top: 0; width: 620px; height: 500px; box-sizing: border-box;
+        border-radius: 30px; border: 1px solid rgba(248,243,235,.12);
+        background: linear-gradient(180deg, #17181c, #0f1013); box-shadow: 0 40px 80px rgba(0,0,0,.45);
+        transform-origin: 50% 0%; }
+      .card-head { position: absolute; left: 36px; right: 36px; top: 34px; display: flex; align-items: center;
+        font: 500 23px/1 'DM Mono', monospace; letter-spacing: 3px; }
+      .card-head i { width: 11px; height: 11px; border-radius: 50%; margin-right: 16px; }
+      .card-head em { margin-left: auto; font-style: normal; letter-spacing: 0; font-weight: 400; color: var(--muted); }
+      .shade { position: absolute; inset: -1px; border-radius: 30px; background: #08090b; pointer-events: none; z-index: 2; }
+      .card svg.body { position: absolute; left: 32px; top: 76px; width: 556px; height: 417px; overflow: visible; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="5">
+      <section id="scene" class="clip" data-start="0" data-duration="5" data-track-index="0">
+        <div id="glow-sky" class="glow" data-layout-allow-overflow></div>
+        <div id="glow-plum" class="glow" data-layout-allow-overflow></div>
+        <div id="glow-orange" class="glow" data-layout-allow-overflow></div>
+
+        <!-- perspective floor, same construction as the OG image -->
+        <svg id="floor" data-layout-allow-overflow viewBox="0 0 1920 1080" fill="none">
+          <defs>
+            <linearGradient id="floor-fade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fff" stop-opacity="0" />
+              <stop offset=".5" stop-color="#fff" stop-opacity=".9" />
+              <stop offset="1" stop-color="#fff" stop-opacity=".4" />
+            </linearGradient>
+            <mask id="floor-mask"><rect y="820" width="1920" height="260" fill="url(#floor-fade)" /></mask>
+          </defs>
+          <g id="floor-lines" stroke="#F8F3EB" stroke-opacity=".07" mask="url(#floor-mask)"></g>
+        </svg>
+
+        <div id="brand">
+          <svg viewBox="0 0 144 159">
+            <path d="M67 .06C72.5-.24 77.8.6 83 2.56C98 10.89 113 19.22 128 27.56C135.7 31.6 140.9 37.77 143.5 46.06C144.2 68.06 144.2 90.06 143.5 112.06C141.3 119.63 136.8 125.46 130 129.56C113.1 139.16 96.1 148.49 79 157.56C72.4 158.64 66.1 157.97 60 155.56C43.5 146.48 27.2 137.14 11 127.56C5.4 122.97 1.9 117.13.5 110.06C-.17 89.06-.17 68.06.5 47.06C3.8 38.09 9.6 31.25 18 26.56C34.1 17.16 50.5 8.32 67 .06Z" fill="#FE5D1C" />
+            <path d="M66 26.06C70 25.89 74 26.06 78 26.56C89.7 32.72 101 39.39 112 46.56C100.1 54.02 87.7 60.68 75 66.56C72.7 67.22 70.3 67.22 68 66.56C55.8 59.98 43.8 53.14 32 46.06C43.4 39.36 54.7 32.7 66 26.06Z" fill="#F8F3EB" />
+            <path d="M22 66.06C32.3 71.88 42.6 77.71 53 83.56C56.2 85.39 58.7 87.89 60.5 91.06C62.1 104.32 62.4 117.66 61.5 131.06C51.2 124.84 40.7 119.01 30 113.56C27.3 111.96 25.1 109.8 23.5 107.06C22.1 93.46 21.6 79.8 22 66.06Z" fill="#F8F3EB" />
+          </svg>
+          <div class="wordmark"><b>boxting</b><span>LABS</span></div>
+        </div>
+
+        <div id="headline" aria-label="El software se adapta a tu proceso. No al revés.">
+          <span class="line" id="l1" data-text="El software se adapta"></span>
+          <span class="line" id="l2" data-text="a tu proceso."></span>
+          <span id="accent-wrap"><span id="accent">No al revés.</span></span>
+        </div>
+
+        <div id="foot">
+          <span class="dot"></span>
+          <span>boxtinglabs.com <span class="muted">· Software · IA aplicada · Infraestructura</span></span>
+        </div>
+
+        <div id="deck">
+          <!-- Agente IA -->
+          <div class="card" data-layout-allow-occlusion id="card-agent">
+            <div class="shade" data-layout-allow-occlusion></div>
+            <div class="card-head" data-layout-allow-occlusion><i style="background:#FE5D1C"></i>AGENTE IA<em data-layout-allow-occlusion>Disponible 24/7</em></div>
+            <svg class="body" viewBox="0 0 320 240" fill="none">
+              <circle cx="40" cy="26" r="13" fill="#FE5D1C" fill-opacity=".25" />
+              <path d="M40 16 L42.4 23.6 L50 26 L42.4 28.4 L40 36 L37.6 28.4 L30 26 L37.6 23.6 Z" fill="#FE5D1C" />
+              <rect x="60" y="20" width="58" height="5" rx="2.5" fill="#F8F3EB" fill-opacity=".85" />
+              <circle cx="64" cy="32" r="2.5" fill="#7CD6B4" />
+              <rect x="70" y="30.5" width="36" height="3" rx="1.5" fill="#F8F3EB" fill-opacity=".3" />
+              <path d="M16 50 H 304" stroke="#F8F3EB" stroke-opacity=".08" />
+              <g id="ag-b1"><rect x="16" y="64" width="150" height="26" rx="13" fill="#F8F3EB" fill-opacity=".09" />
+                <rect x="30" y="75" width="104" height="4" rx="2" fill="#F8F3EB" fill-opacity=".55" /></g>
+              <g id="ag-typing"><rect x="16" y="102" width="54" height="22" rx="11" fill="#F8F3EB" fill-opacity=".09" />
+                <circle class="ag-dot" cx="31" cy="113" r="3" fill="#F8F3EB" fill-opacity=".6" />
+                <circle class="ag-dot" cx="43" cy="113" r="3" fill="#F8F3EB" fill-opacity=".6" />
+                <circle class="ag-dot" cx="55" cy="113" r="3" fill="#F8F3EB" fill-opacity=".6" /></g>
+              <g id="ag-b2"><rect x="16" y="102" width="200" height="46" rx="13" fill="#F8F3EB" fill-opacity=".09" />
+                <rect x="30" y="113" width="150" height="4" rx="2" fill="#F8F3EB" fill-opacity=".6" />
+                <rect x="30" y="122" width="170" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4" />
+                <rect x="30" y="131" width="96" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4" /></g>
+              <g id="ag-b3"><rect x="176" y="160" width="128" height="26" rx="13" fill="#FE5D1C" />
+                <rect x="190" y="171" width="86" height="4" rx="2" fill="#08090B" fill-opacity=".7" /></g>
+              <g id="ag-chips"><rect x="16" y="200" width="72" height="18" rx="9" stroke="#FE5D1C" stroke-opacity=".6" />
+                <rect x="28" y="207" width="48" height="4" rx="2" fill="#FF9E68" />
+                <rect x="96" y="200" width="62" height="18" rx="9" stroke="#F8F3EB" stroke-opacity=".2" />
+                <rect x="108" y="207" width="38" height="4" rx="2" fill="#F8F3EB" fill-opacity=".4" /></g>
+            </svg>
+          </div>
+
+          <!-- Servidor -->
+          <div class="card" data-layout-allow-occlusion id="card-server">
+            <div class="shade" data-layout-allow-occlusion></div>
+            <div class="card-head" data-layout-allow-occlusion><i style="background:#7CD6B4"></i>SERVIDOR<em data-layout-allow-occlusion>AWS · GCP</em></div>
+            <svg class="body" viewBox="0 0 320 240" fill="none">
+              <g transform="translate(-12 -20)">
+                <rect x="28" y="36" width="170" height="40" rx="9" fill="#F8F3EB" fill-opacity=".04" stroke="#F8F3EB" stroke-opacity=".14" />
+                <circle cx="46" cy="56" r="3.5" fill="#7CD6B4" />
+                <rect x="60" y="53" width="96" height="6" rx="3" fill="#F8F3EB" fill-opacity=".08" />
+                <rect class="sv-bar" data-w="88" x="60" y="53" width="0" height="6" rx="3" fill="#4FA98A" />
+                <path d="M168 49v14M174 49v14M180 49v14" stroke="#F8F3EB" stroke-opacity=".18" stroke-linecap="round" />
+                <rect x="28" y="88" width="170" height="40" rx="9" fill="#F8F3EB" fill-opacity=".04" stroke="#F8F3EB" stroke-opacity=".14" />
+                <circle cx="46" cy="108" r="3.5" fill="#7CD6B4" />
+                <rect x="60" y="105" width="96" height="6" rx="3" fill="#F8F3EB" fill-opacity=".08" />
+                <rect class="sv-bar" data-w="64" x="60" y="105" width="0" height="6" rx="3" fill="#4FA98A" />
+                <path d="M168 101v14M174 101v14M180 101v14" stroke="#F8F3EB" stroke-opacity=".18" stroke-linecap="round" />
+                <rect x="28" y="140" width="170" height="40" rx="9" fill="#F8F3EB" fill-opacity=".04" stroke="#F8F3EB" stroke-opacity=".14" />
+                <circle id="sv-led3" cx="46" cy="160" r="3.5" fill="#FE5D1C" />
+                <rect x="60" y="157" width="96" height="6" rx="3" fill="#F8F3EB" fill-opacity=".08" />
+                <rect class="sv-bar" data-w="76" x="60" y="157" width="0" height="6" rx="3" fill="#4FA98A" />
+                <path d="M168 153v14M174 153v14M180 153v14" stroke="#F8F3EB" stroke-opacity=".18" stroke-linecap="round" />
+                <path class="sv-wire" d="M198 56 C 232 56, 236 108, 262 108" stroke="#7CD6B4" stroke-opacity=".7" stroke-width="1.4" stroke-dasharray="4 5" />
+                <path class="sv-wire" d="M198 108 H 262" stroke="#7CD6B4" stroke-opacity=".7" stroke-width="1.4" stroke-dasharray="4 5" />
+                <path class="sv-wire" d="M198 160 C 232 160, 236 108, 262 108" stroke="#7CD6B4" stroke-opacity=".7" stroke-width="1.4" stroke-dasharray="4 5" />
+                <g id="sv-check">
+                  <circle cx="276" cy="108" r="20" stroke="#7CD6B4" stroke-opacity=".3" stroke-width="1.2" />
+                  <circle cx="276" cy="108" r="14" fill="#10251E" stroke="#4FA98A" stroke-width="1.4" />
+                  <path d="M270 108l4 4 8-8" stroke="#7CD6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+                <path d="M28 236 H 304" stroke="#F8F3EB" stroke-opacity=".08" />
+                <path id="sv-spark" d="M28 232 L 60 228 L 84 230 L 110 221 L 134 225 L 160 216 L 186 220 L 212 212 L 240 215 L 266 208 L 304 206" stroke="#4FA98A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+            </svg>
+          </div>
+
+          <!-- Web -->
+          <div class="card" data-layout-allow-occlusion id="card-web">
+            <div class="shade" data-layout-allow-occlusion></div>
+            <div class="card-head" data-layout-allow-occlusion><i style="background:#7DA3FF"></i>WEB<em data-layout-allow-occlusion>Apps y plataformas</em></div>
+            <svg class="body" viewBox="0 0 320 240" fill="none">
+              <defs>
+                <linearGradient id="web-hero" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#2B5CE6" stop-opacity=".75" />
+                  <stop offset="1" stop-color="#2B5CE6" stop-opacity=".08" />
+                </linearGradient>
+                <clipPath id="web-win"><rect x="8" y="6" width="304" height="216" rx="12" /></clipPath>
+              </defs>
+              <rect x="8" y="6" width="304" height="216" rx="12" fill="#F8F3EB" fill-opacity=".035" stroke="#F8F3EB" stroke-opacity=".14" />
+              <g clip-path="url(#web-win)">
+                <path d="M8 30 H 312" stroke="#F8F3EB" stroke-opacity=".1" />
+                <circle cx="24" cy="18" r="3.5" fill="#FE5D1C" />
+                <circle cx="36" cy="18" r="3.5" fill="#F8F3EB" fill-opacity=".22" />
+                <circle cx="48" cy="18" r="3.5" fill="#F8F3EB" fill-opacity=".22" />
+                <rect x="96" y="12" width="128" height="12" rx="6" fill="#F8F3EB" fill-opacity=".06" />
+                <circle cx="106" cy="18" r="2.5" fill="#7CD6B4" />
+                <rect x="114" y="16.5" width="60" height="3" rx="1.5" fill="#F8F3EB" fill-opacity=".25" />
+                <rect x="24" y="44" width="272" height="68" rx="9" fill="url(#web-hero)" />
+                <rect x="38" y="62" width="120" height="8" rx="4" fill="#F8F3EB" fill-opacity=".9" />
+                <rect x="38" y="77" width="80" height="5" rx="2.5" fill="#F8F3EB" fill-opacity=".45" />
+                <rect id="web-btn" x="38" y="124" width="76" height="22" rx="11" fill="#FE5D1C" />
+                <rect x="122" y="124" width="62" height="22" rx="11" stroke="#F8F3EB" stroke-opacity=".22" />
+                <rect class="web-card" x="24" y="160" width="84" height="44" rx="8" fill="#F8F3EB" fill-opacity=".06" stroke="#7DA3FF" stroke-opacity=".4" />
+                <rect class="web-card" x="118" y="160" width="84" height="44" rx="8" fill="#F8F3EB" fill-opacity=".06" stroke="#7DA3FF" stroke-opacity=".4" />
+                <rect class="web-card" x="212" y="160" width="84" height="44" rx="8" fill="#F8F3EB" fill-opacity=".06" stroke="#7DA3FF" stroke-opacity=".4" />
+              </g>
+              <g id="web-cursor">
+                <path d="M0 0 L0 17 L4.6 12.8 L7.6 19.6 L10.4 18.4 L7.4 11.6 L13.4 11.6 Z" fill="#F8F3EB" stroke="#08090B" stroke-width="1.2" stroke-linejoin="round" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      // ---- build static pieces (deterministic) ----
+      const floor = document.getElementById('floor-lines');
+      let d = '';
+      const horizon = 820, base = 1080;
+      for (let i = -40; i <= 40; i++) d += `M${960 + i * 38} ${horizon}L${960 + i * 128} ${base}`;
+      [0, 6, 16, 30, 50, 76, 108, 146, 190, 260].forEach((o) => (d += `M0 ${horizon + o}H1920`));
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', d);
+      floor.appendChild(p);
+
+      const lines = ['l1', 'l2'].map((id) => {
+        const el = document.getElementById(id);
+        const chars = [...el.dataset.text].map((c) => {
+          const s = document.createElement('span');
+          s.className = 'ch';
+          s.textContent = c === ' ' ? ' ' : c;
+          el.appendChild(s);
+          return s;
+        });
+        const caret = document.createElement('span');
+        caret.className = 'caret';
+        el.appendChild(caret);
+        return { chars, caret };
+      });
+
+      const tl = gsap.timeline({ paused: true });
+      const D = 5;
+
+      // ---- ambient drift: there and back, so frame 0 == frame end ----
+      tl.to('#glow-orange', { x: -60, y: 30, duration: D / 2, ease: 'sine.inOut' }, 0)
+        .to('#glow-orange', { x: 0, y: 0, duration: D / 2, ease: 'sine.inOut' }, D / 2)
+        .to('#glow-sky', { x: 50, duration: D / 2, ease: 'sine.inOut' }, 0)
+        .to('#glow-sky', { x: 0, duration: D / 2, ease: 'sine.inOut' }, D / 2);
+
+      // ---- headline: typed, then the accent lands ----
+      const c1 = lines[0].caret, c2 = lines[1].caret;
+      // idle caret blink before typing
+      tl.set(c1, { opacity: 1 }, 0).set(c1, { opacity: 0 }, 0.18).set(c1, { opacity: 1 }, 0.3);
+      const typeStart = 0.34, step = 0.046;
+      let t = typeStart;
+      lines.forEach((ln, li) => {
+        if (li === 1) { tl.set(c1, { opacity: 0 }, t).set(c2, { opacity: 1 }, t); t += 0.08; }
+        ln.chars.forEach((ch) => { tl.set(ch, { display: 'inline' }, t); t += step; });
+      });
+      const typedEnd = t; // ~1.98s
+      tl.set(c2, { opacity: 0 }, typedEnd + 0.05);
+      tl.fromTo('#accent', { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }, typedEnd + 0.08);
+      // loop-out: fade the whole headline, chars reset at frame 0
+      tl.fromTo('#headline', { opacity: 1 }, { opacity: 0, duration: 0.4, ease: 'power2.in' }, 4.55);
+
+      // ---- card deck: front → back rotation, returns to start at t = 5 ----
+      // Back cards are dimmed by an opaque shade, never by card opacity, so nothing bleeds through.
+      const SLOTS = [
+        { y: 0, scale: 1, zIndex: 3, shade: 0 },
+        { y: -76, scale: 0.92, zIndex: 2, shade: 0.5 },
+        { y: -146, scale: 0.84, zIndex: 1, shade: 0.78 },
+      ];
+      const cards = ['#card-agent', '#card-server', '#card-web'];
+      const pose = ({ y, scale, zIndex }) => ({ y, scale, zIndex });
+      cards.forEach((c, i) => {
+        tl.set(c, { ...pose(SLOTS[i]), opacity: 1 }, 0).set(`${c} .shade`, { opacity: SLOTS[i].shade }, 0);
+      });
+      const switches = [1.45, 3.05, 4.6]; // each lasts 0.4s, the last ends exactly at 5.0
+      switches.forEach((s, k) => {
+        cards.forEach((c, i) => {
+          const from = (i - k + 3) % 3;
+          if (from === 0) {
+            // front card drops out, then settles at the back
+            tl.to(c, { y: 60, opacity: 0, scale: 1.02, duration: 0.2, ease: 'power2.in' }, s)
+              .set(c, { ...pose(SLOTS[2]), y: SLOTS[2].y - 20 }, s + 0.2)
+              .set(`${c} .shade`, { opacity: SLOTS[2].shade }, s + 0.2)
+              .to(c, { opacity: 1, y: SLOTS[2].y, duration: 0.2, ease: 'power2.out' }, s + 0.2);
+          } else {
+            const to = SLOTS[from - 1];
+            tl.set(c, { zIndex: to.zIndex }, s + 0.12)
+              .to(c, { y: to.y, scale: to.scale, duration: 0.4, ease: 'power3.inOut' }, s)
+              .to(`${c} .shade`, { opacity: to.shade, duration: 0.4, ease: 'power3.inOut' }, s);
+          }
+        });
+      });
+
+      // ---- Agente IA (front 0 → 1.45): question, typing dots, answer, CTA ----
+      const pop = (sel, at) => tl.fromTo(sel, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: 'back.out(2)' }, at);
+      tl.set(['#ag-b1', '#ag-typing', '#ag-b2', '#ag-b3', '#ag-chips'], { opacity: 0 }, 0);
+      pop('#ag-b1', 0.15);
+      tl.set('#ag-typing', { opacity: 1 }, 0.42);
+      tl.fromTo('.ag-dot', { y: 0 }, { y: -4, duration: 0.12, ease: 'sine.inOut', yoyo: true, repeat: 1, stagger: 0.07 }, 0.45);
+      tl.set('#ag-typing', { opacity: 0 }, 0.72);
+      pop('#ag-b2', 0.72);
+      pop('#ag-b3', 0.98);
+      pop('#ag-chips', 1.16);
+      // reset while the card sits at the back
+      tl.set(['#ag-b1', '#ag-b2', '#ag-b3', '#ag-chips'], { opacity: 0 }, 2.4);
+
+      // ---- Servidor (front 1.65 → 3.05): bars fill, last LED turns green, check ----
+      const bars = gsap.utils.toArray('.sv-bar');
+      tl.set(bars, { attr: { width: 0 } }, 0).set('#sv-check', { opacity: 0, scale: 0.6, transformOrigin: '50% 50%' }, 0)
+        .set('#sv-led3', { fill: '#FE5D1C' }, 0).set('.sv-wire', { strokeDashoffset: 0 }, 0);
+      bars.forEach((b, i) =>
+        tl.to(b, { attr: { width: +b.dataset.w }, duration: 0.6, ease: 'power2.out' }, 1.7 + i * 0.12));
+      tl.set('#sv-led3', { fill: '#7CD6B4' }, 2.2);
+      tl.to('.sv-wire', { strokeDashoffset: -27, duration: 0.8, ease: 'none' }, 2.0);
+      tl.to('#sv-check', { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2.4)' }, 2.35);
+      tl.to(bars, { attr: { width: 0 }, duration: 0.3, ease: 'power1.inOut' }, 3.9).to('#sv-check', { opacity: 0, scale: 0.6, duration: 0.3 }, 3.9).set('#sv-led3', { fill: '#FE5D1C' }, 4.05);
+
+      // ---- Web (front 3.25 → 4.6): cursor clicks the CTA, result cards rise ----
+      tl.set('#web-cursor', { x: 250, y: 200 }, 0).set('.web-card', { opacity: 0, y: 10 }, 0)
+        .set('#web-btn', { scale: 1, fill: '#FE5D1C', transformOrigin: '50% 50%' }, 0);
+      tl.to('#web-cursor', { x: 84, y: 136, duration: 0.5, ease: 'power3.inOut' }, 3.3)
+        .to('#web-btn', { scale: 0.92, duration: 0.08, ease: 'power1.in' }, 3.82)
+        .to('#web-cursor', { scale: 0.86, duration: 0.08, transformOrigin: '0 0' }, 3.82)
+        .to('#web-btn', { scale: 1, fill: '#FF8D5C', duration: 0.18, ease: 'back.out(3)' }, 3.9)
+        .to('#web-cursor', { scale: 1, duration: 0.12 }, 3.9)
+        .to('.web-card', { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out', stagger: 0.1 }, 3.98)
+        .to('#web-cursor', { x: 250, y: 200, duration: 0.45, ease: 'power2.inOut' }, 4.2)
+        // reset while the card is faded out mid-switch (4.6 → 4.8)
+        .set('.web-card', { opacity: 0, y: 10 }, 4.8)
+        .set('#web-btn', { fill: '#FE5D1C' }, 4.8);
+
+      tl.set({}, {}, D);
+      window.__timelines['main'] = tl;
+    </script>
+  </body>
+</html>
